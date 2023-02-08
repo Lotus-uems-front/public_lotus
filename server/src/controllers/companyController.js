@@ -1,6 +1,7 @@
 const ApiError = require('../error/ApiError');
 const allCompany = require('../model/company/allCompany');
 
+
 /**
  * Получение данных о предприятии
  */
@@ -15,20 +16,16 @@ class CompanyController {
      * @returns {Array} [{city: город, companyName: название компании, inn: ИНН}]
      */
     async getAllCompanies(req, res, next) {
+        const db = req.db;
         try {
-            const result = await allCompany(req.db);
-
+            const result = await allCompany(db);
+            res.json(result)
         } catch (err) {
             console.log('Ошибка получения массива компаний: ', err);
-            return next(ApiError.badRequest('Ошибка получения массива компаний'));
+            return next(ApiError.badRequest(`Ошибка получения массива компаний`));
         }
 
 
-        // if (!req.body) {
-        //     return next(ApiError.badRequest('Нет body'))
-        // }
-
-        res.json({ server: 'data' })
     }
 
     /**

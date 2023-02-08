@@ -13,11 +13,10 @@ const jsonParser = express.json();
 
 app.use(cors()); // отключает CORS
 app.use(jsonParser);
-app.use('/api', router);
 
 // подключение к базе MongoDB
-const dbName = process.env.DB_NAME; // название DB
-const url = process.env.DB_URL; // URL DB
+const dbName = process.env.DB_NAME || 'usersdb'; // название DB
+const url = process.env.DB_URL || 'mongodb://localhost:27017'; // URL DB
 const clientPromise = new MongoClient(url, { useUnifiedTopology: true, maxPoolSize: 10 });
 app.use(async (req, res, next) => {
     try {
@@ -30,7 +29,7 @@ app.use(async (req, res, next) => {
     }
 })
 
-
+app.use('/api', router);
 
 app.use(errorHandler) // обработка ошибок //* самый последний!!!
 
