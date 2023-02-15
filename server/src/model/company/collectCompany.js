@@ -1,3 +1,4 @@
+const foldCompanyArr = require("./foldCompanyArr")
 
 
 /**
@@ -14,7 +15,7 @@ module.exports = async (db, arr) => {
                     const main = await db.collection(inn)
                         .findOne({ _id: 'Main' })
 
-                    return { companyName: main.data[1].value, inn: main.data[6].value, city: main.data[15].value }
+                    return { companyName: main.data[1].value, inn: main.data[6].value, city: main.data[15].value, ownForm: main.data[100].value }
                 })()
             )
         })
@@ -24,7 +25,9 @@ module.exports = async (db, arr) => {
             return item.value
         })
 
-        return result
+        const companyResult = await foldCompanyArr(result);
+
+        return companyResult;
 
     } catch (err) {
         console.log(`Ошибка сбора компаний в массив: `, err)
