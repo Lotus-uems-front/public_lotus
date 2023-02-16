@@ -15,7 +15,18 @@ module.exports = async (db, arr) => {
                     const main = await db.collection(inn)
                         .findOne({ _id: 'Main' })
 
-                    return { companyName: main.data[1].value, inn: main.data[6].value, city: main.data[15].value, ownForm: main.data[100].value }
+                    let city = 'Не указан';
+                    let ownForm = 'Не указана';
+
+                    if (main.data[15].value) {
+                        city = main.data[15].value
+                    }
+
+                    if (main.data[100].value) {
+                        ownForm = main.data[100].value
+                    }
+
+                    return { companyName: main.data[1].value, inn: main.data[6].value, city: city, ownForm: ownForm }
                 })()
             )
         })
