@@ -31,7 +31,7 @@ module.exports = async (db, arr) => {
                         ownForm = main.data[100].value
                     }
 
-                    return { companyName: main.data[1].value, inn: main.data[6].value, city: city, ownForm: ownForm }
+                    return { companyName: name, inn: main.data[6].value, city: city, ownForm: ownForm }
                 })()
             )
         })
