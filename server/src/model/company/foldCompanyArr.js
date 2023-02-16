@@ -17,9 +17,10 @@ module.exports = async (arrObj) => {
         if (elem && elem.companyName) {
             notQuotes = quotes(elem.companyName); // убираем двойные ковычки
         }
+
         let own = '';
 
-        if (elem.ownForm) {
+        if (elem ?? elem.ownForm) {
             own = elem.ownForm
         }
 
