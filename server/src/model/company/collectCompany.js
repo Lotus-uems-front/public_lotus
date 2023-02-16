@@ -17,6 +17,11 @@ module.exports = async (db, arr) => {
 
                     let city = 'Не указан';
                     let ownForm = 'Не указана';
+                    let name = 'Не указано'
+
+                    if (main.data[1].value) {
+                        name = main.data[1].value
+                    }
 
                     if (main.data[15].value) {
                         city = main.data[15].value
