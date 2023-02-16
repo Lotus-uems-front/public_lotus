@@ -11,9 +11,12 @@ module.exports = async (arrObj) => {
     const result = []
 
     arrObj.forEach(elem => {
-
+        let notQuotes
         console.log(`RUN compare`); // test
-        const notQuotes = quotes(elem.companyName); // убираем двойные ковычки
+
+        if (elem && elem.companyName) {
+            notQuotes = quotes(elem.companyName); // убираем двойные ковычки
+        }
         let own = '';
 
         if (elem.ownForm) {
