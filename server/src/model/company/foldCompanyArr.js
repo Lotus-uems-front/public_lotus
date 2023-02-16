@@ -24,33 +24,39 @@ module.exports = async (arrObj) => {
             own = elem.ownForm
         }
 
-        if (result.find(item => Object.keys(item).includes(elem.city))) {
+        if (elem && elem.city && result.find(item => Object.keys(item).includes(elem.city))) {
             // console.log(`includes ${elem.city} --- `, result.filter(itm => itm[elem.city])[0][elem.city].companies); // test
 
             const resultFilter = result.filter(itm => itm[elem.city])[0][elem.city].companies
-            resultFilter.push(
-                {
-                    "inn": elem.inn,
-                    "name": `${own} '${notQuotes}'`,
-                }
-            )
+
+            if (elem && elem.inn) {
+                resultFilter.push(
+                    {
+                        "inn": elem.inn,
+                        "name": `${own} '${notQuotes}'`,
+                    }
+                )
+            }
 
         } else {
-            returnCityGeo(elem.city) // test
 
-            result.push(
-                {
-                    [elem.city]: {
-                        "geo": returnCityGeo(elem.city),
-                        "companies": [
-                            {
-                                "inn": elem.inn,
-                                "name": `${own} '${notQuotes}'`,
-                            }
-                        ],
+            if (elem && elem.city && elem.inn) {
+                returnCityGeo(elem.city) // test
+
+                result.push(
+                    {
+                        [elem.city]: {
+                            "geo": returnCityGeo(elem.city),
+                            "companies": [
+                                {
+                                    "inn": elem.inn,
+                                    "name": `${own} '${notQuotes}'`,
+                                }
+                            ],
+                        }
                     }
-                }
-            )
+                )
+            }
         }
 
     });
