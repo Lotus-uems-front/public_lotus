@@ -12,7 +12,7 @@ module.exports = async (arrObj) => {
 
     arrObj.forEach(elem => {
         let notQuotes
-        console.log(`RUN compare`); // test
+        // console.log(`RUN compare`); // test
 
         if (elem && elem.companyName) {
             notQuotes = quotes(elem.companyName); // убираем двойные ковычки
