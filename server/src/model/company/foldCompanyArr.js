@@ -20,7 +20,7 @@ module.exports = async (arrObj) => {
 
         let own = '';
 
-        if (elem ?? elem.ownForm) {
+        if (elem && elem.ownForm) {
             own = elem.ownForm
         }
 
