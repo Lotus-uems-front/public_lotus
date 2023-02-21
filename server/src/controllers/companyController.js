@@ -18,6 +18,7 @@ class CompanyController {
     async getAllCompanies(req, res, next) {
         const db = req.db;
         try {
+            console.log(`Формирование массива всех компаний`); // test
             const result = await allCompany(db);
             res.json(result)
         } catch (err) {
