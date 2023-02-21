@@ -26,7 +26,6 @@ class CompanyController {
             return next(ApiError.badRequest(`Ошибка получения массива компаний`));
         }
 
-
     }
 
     /**
@@ -36,6 +35,37 @@ class CompanyController {
      * @param {*} next 
      */
     async getDataCompany(req, res, next) {
+        const db = req.db;
+        const { inn, id } = req.body;
+        try {
+            console.log(`body:::: ${inn} --- ${id} === `); // test
+            const result = await db.collection(String(inn))
+                .findOne({ _id: id })
+
+            res.json(result)
+
+        } catch (err) {
+            console.log('Ошибка при получении данных компании: ', err);
+            return next(ApiError.badRequest(`Ошибка при получении данных компании`));
+        }
+
+    }
+
+
+    async getAllDataCompany(req, res, next) {
+        const db = req.db;
+        const { inn } = req.body;
+        try {
+            console.log(`INN::: `, inn); // test
+            const result = await db.collection(String(inn))
+                .find({}).toArray()
+
+            res.json(result)
+
+        } catch (err) {
+            console.log('Ошибка при получении данных компании: ', err);
+            return next(ApiError.badRequest(`Ошибка при получении данных компании`));
+        }
 
     }
 

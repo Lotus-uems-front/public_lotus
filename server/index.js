@@ -13,6 +13,7 @@ const jsonParser = express.json();
 
 app.use(cors()); // отключает CORS
 app.use(jsonParser);
+app.use(express.urlencoded());
 
 // подключение к базе MongoDB
 const dbName = process.env.DB_NAME || 'usersdb'; // название DB
