@@ -1,0 +1,23 @@
+.container{
+    overflow: hidden;
+
+    .accordion{
+        position: relative;
+            &_body{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    }
+
+    .card_title{
+        font-size: 60px;
+    }
+
+}
+
+
+.accordion_item{}
+.accordion_header{}
+
+
