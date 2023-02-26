@@ -39,34 +39,48 @@ class CompanyController {
         const { inn, id } = req.body;
         try {
             console.log(`body:::: ${inn} --- ${id} === `); // test
+
+            if (!inn || !id) {
+                return next(ApiError.badRequest(`Не указана коллекция или ID документа`));
+            }
+
             const result = await db.collection(String(inn))
                 .findOne({ _id: id })
 
             res.json(result)
 
         } catch (err) {
-            console.log('Ошибка при получении данных компании: ', err);
+            console.log('Ошибка при получении данных компании ONE: ', err);
             return next(ApiError.badRequest(`Ошибка при получении данных компании`));
         }
-
     }
 
-
+    /**
+     * Возвращает массив всех объектов из указанной колекции
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
     async getAllDataCompany(req, res, next) {
         const db = req.db;
         const { inn } = req.body;
         try {
             console.log(`INN::: `, inn); // test
+
+            if (!inn) {
+                return next(ApiError.badRequest(`Не указана коллекция`));
+            }
+
             const result = await db.collection(String(inn))
                 .find({}).toArray()
 
             res.json(result)
 
         } catch (err) {
-            console.log('Ошибка при получении данных компании: ', err);
-            return next(ApiError.badRequest(`Ошибка при получении данных компании`));
+            console.log('Ошибка при получении данных компании ALL: ', err);
+            return next(ApiError.badRequest(`Ошибка при получении данных компании ALL`));
         }
-
     }
 
 }

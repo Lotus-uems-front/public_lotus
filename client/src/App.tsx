@@ -4,7 +4,7 @@ import Questionary from './components/questionary/Questionary'
 
 function App() {
   return <div className='app'>
-    <Questionary/>
+    <Questionary />
   </div>
 }
 
