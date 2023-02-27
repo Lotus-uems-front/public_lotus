@@ -10,5 +10,6 @@ export enum StatusType  {
   
   export type InitialStateType = {
     companyData: CompanyDataType[],
+    filteredCompanyData: string[],
     status: StatusType
   }
