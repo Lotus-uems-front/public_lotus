@@ -1,4 +1,4 @@
-const getMainForm = require("./getMainForm");
+
 
 
 /**
@@ -11,15 +11,40 @@ const getMainForm = require("./getMainForm");
 module.exports = async (db, innArr, data) => {
     try {
 
-        const mainArr = await getMainForm(db, innArr)
-        const lowerData = data.toLowerCase();
+        const resultPromise = innArr.map(inn => {
+            return (async () => {
+                try {
+                    let regNameCompany = new RegExp(data, 'i');
 
-        const result = mainArr.filter(item => (item.data[1].value).toLowerCase().indexOf(lowerData))
+                    const result = await db.collection(String(inn))
+                        .find({
+                            $and: [
+                                { _id: 'Main' },
+                                { 'data.1.value': { $regex: regNameCompany } },
+                            ]
+                        })
+                        .toArray();
+                    return result;
+
+                } catch (err) {
+                    console.log(`Ошибка при фильтре компаний:  `, err);
+                    return ([])
+                }
+            })();
+        })
+
+        const resultCompanyName = await Promise.all(resultPromise)
+
+        let resultMainForm = []
+
+        resultCompanyName.forEach(item => {
+            if (item && item.length > 0) resultMainForm.push(item[0])
+        })
+
+        return resultMainForm
 
     } catch (err) {
         console.log(`Ошибка при формировании массива компаний, поиск по названию: `, err);
         return ([])
     }
-
-    return ({ server: 'тут будет результат' })
 }
