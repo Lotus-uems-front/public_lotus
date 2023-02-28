@@ -14,8 +14,10 @@ export const fetchPosts = createAsyncThunk(
 
 const initialState: InitialStateType = {
   companyData: [],
-  filteredCompanyData: [], 
-  status: StatusType.LOADING
+  filteredOccupationNames: [], 
+  filteredCompanyData: [],
+  status: StatusType.LOADING,
+  inn: ''
 }
 
 export const questionarySlice = createSlice({
@@ -26,8 +28,16 @@ export const questionarySlice = createSlice({
       state.companyData = action.payload    
     },
 
+    getFilteredOccupationNames: (state, action) => {
+      state.filteredOccupationNames = action.payload    
+    },
+
     getFilteredCompanyData: (state, action) => {
       state.filteredCompanyData = action.payload    
+    },
+
+    setInn: (state, action) => {
+      state.inn = action.payload    
     }
   },
 
@@ -50,6 +60,6 @@ export const questionarySlice = createSlice({
 
 })
 
-export const { getCompanyData, getFilteredCompanyData } = questionarySlice.actions
+export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn } = questionarySlice.actions
 
 export default questionarySlice.reducer

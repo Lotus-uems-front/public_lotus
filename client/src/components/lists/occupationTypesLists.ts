@@ -82,7 +82,8 @@ export const companyListExcludeDisabled = [
     'Услуги по термической обработке'//31
 ]
 
-export const t = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Zero', 'FormBendPipe', 'FormBottoms', 'FormLensCompensators', 'FormFlanges', 'FormForgings', 'FormBends', 'FormHardware', 'FormRolling', 'FormProductColoration', 'FormBendingCuttingMetal', 'FormHeatTreatment', 'FormWelding', 'FormRolled', 'FormPipesSupply', 'FormSheetMetalSupply']
+
+export const individualForms = [ 'Four', 'Ten',  'Fifteen', 'Sixteen', 'Seventeen', 'FormBendPipe', 'FormBottoms', 'FormLensCompensators', 'FormFlanges', 'FormForgings', 'FormBends', 'FormHardware', 'FormRolling', 'FormProductColoration', 'FormBendingCuttingMetal', 'FormHeatTreatment', 'FormWelding', 'FormRolled', 'FormPipesSupply', 'FormSheetMetalSupply']
 
 export const fullInfo = [{
     id: 0,
@@ -338,7 +339,7 @@ export const occupationTypes = [
 ];
 
 
-const chemicalEquipmentManufacturing = ['Zero', 'One', 'Two', 'Seven', 'Three', 'Five', 'Nine', 'Six', 'Eleven', 'Twelve', 'Thirteen', 'Eight', 'Fourteen'];
+export const chemicalEquipmentManufacturing = ['Zero', 'One', 'Two', 'Seven', 'Three', 'Five', 'Nine', 'Six', 'Eleven', 'Twelve', 'Thirteen', 'Eight', 'Fourteen'];
 const forgings = ['FormForgings'];
 const bottoms = ['FormBottoms'] //поставка днищ
 const lensCompensators = ['FormLensCompensators'] //линзовые компенсаторы
@@ -394,3 +395,5 @@ export const FORM_ = new Array(
     allFormsNames,
     FormHeatTreatment
 );
+
+

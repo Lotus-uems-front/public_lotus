@@ -1,23 +1,21 @@
 .container{
     overflow: hidden;
 
-    .accordion{
-        position: relative;
-            &_body{
-                display: flex;
-                justify-content: center;
-                align-items: center;
+    .accordion {
+        .accordion_item{
+            .accordion_header{
+                background-color: red;
             }
+        }
     }
+}
 
-    .card_title{
-        font-size: 60px;
-    }
-
+.accordion-button{
+    background-color: red;
 }
 
 
-.accordion_item{}
-.accordion_header{}
+
+
 
 

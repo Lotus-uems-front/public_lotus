@@ -1,80 +1,137 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, getCompanyData, getFilteredCompanyData } from '../../redux/questionary/slice'
+import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn } from '../../redux/questionary/slice'
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import s from './styles/Questionary.module.css'
-import { fullInfo } from '../lists/occupationTypesLists'
+import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../lists/occupationTypesLists'
 
 // CiMoneyCheck1
 
 export default function Questionary() {
   const dispatch = useDispatch()
-  const companyData = useSelector((state) => state.questionary.companyData)
-  const filteredOccupationNames = useSelector((state) => state.questionary.filteredCompanyData)
-  const [inn, setInn] = useState('') // ИНН из строки URL
+  const companyData = useSelector((state) => state.questionary.companyData) //все данные с сервера
+  const inn = useSelector((state) => state.questionary.inn)
 
-  const [filteredCompanyData, setFilteredCompanyData] = useState([])
-  const [generalData, setGeneralData] = useState([])
-  const [occupationalData, setOccupationalData] = useState([])
+  const [allFormsData, setAllFormsData] = useState([])
+  const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
+  const [formsData, setFormsData] = useState([]) //данные по остальным формам
+  const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные по фомам относ-ся к оборуд-ю под давл
 
   // отслеживаем URL
   useEffect(() => {
-    const link = window.location.href;
+    const link = window.location.href
     const url = new URL(link)
-    const innLink = url.searchParams.get('inn');
-    setInn(innLink);
+    const innLink = url.searchParams.get('inn')
+    dispatch(setInn(innLink))
   }, [])
 
-
-
+  //сетаем в сейт ВСЕ данные с сервера по компании
   useEffect(() => {
-    const response = dispatch(fetchPosts(inn))
-    if (response.length) {
-      dispatch(getCompanyData(response))
+    const fetchData = async () => {
+      const response = await dispatch(fetchPosts(inn))
+      if (response.length) {
+        dispatch(getCompanyData(response))
+      }
     }
-  }, [inn])
+    fetchData()
+  }, [inn, fetchPosts])
 
+  //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
-    if(companyData.length){
-      const intersection = []
-      const filteredData = []
+    const result = []
+    if (companyData.length > 0) {
       companyData.forEach((el) => {
-         fullInfo.forEach(item => {
-           if(el._id === item.name){
-            intersection.push(item.title); 
-            filteredData.push(el)
-           }
-         })
-       })
-      //  setFilteredCompanyData(intersection)
-      setFilteredCompanyData(filteredData)
-       dispatch(getFilteredCompanyData(intersection))
-       
+        fullInfo.forEach((item) => {
+          if (el._id === item.name) {
+            result.push({
+              ...el,
+              title: item.title
+            })
+          }
+        })
+      })
+    }
+    setAllFormsData(result)
+  }, [companyData, setAllFormsData])
 
+  //делаем отбор по инфо-данным, данным по оборуд-ю под давл, остальным данным
+  useEffect(() => {
+    const underPressure = []
+    const info = []
+    const restForms = []
+
+    if (allFormsData.length > 0) {
+      allFormsData.forEach((el) => {
+        chemicalEquipmentManufacturing.forEach((item) => {
+          if (el._id === item) {
+            underPressure.push(el)
+          }
+        })
+        individualForms.forEach((form) => {
+          if (el._id === form) {
+            restForms.push(el)
+          }
+        })
+        if (el._id === 'Main' || el._id === 'EconomicData') {
+          info.push(el)
+        }
+      })
     }
 
-  }, [companyData])
+    setInfoData(info)
+    setFormsData(restForms)
+    setUnderPressureEquip(underPressure)
+  }, [allFormsData])
 
- console.log(filteredCompanyData);
-  
+  console.log(allFormsData)
+
+  console.log(infoData)
+  console.log(formsData)
+  console.log(underPressureEquip)
+
   return (
-    <Container className={s.container}>
+    <Container className={`${s.container}`}>
       <Accordion defaultActiveKey='0' flush className={s.accordion}>
-        <div className={s.test}></div>
-        {filteredOccupationNames.map((el, idx) => (
-          <Accordion.Item eventKey={idx} key={el} >
-            <Accordion.Header className={s.accordion_header}><span>{el}</span></Accordion.Header>
-            <Accordion.Body className={s.accordion_body}>
-{filteredCompanyData && filteredCompanyData[idx] && filteredCompanyData[idx].data.map(el => (
-   <div key={el._id}>{el.value && el.information + ' ' + el.value }</div> 
-    
-  ))}
+        {infoData.map((el, idx) => (
+          <Accordion.Item eventKey={`${el._id}_${idx}`} className={`${s.accordion_item}`} key={el._id}>
+            <Accordion.Header className={`${s.accordion_header}`} id={'info'}>{el.title}</Accordion.Header>
+            <Accordion.Body>
+              {el.data.map((item, index) => (
+                <div key={index}>{item.value && item.information + ' ' + item.value}</div>
+              ))}
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+        <Accordion.Item>
+          <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>Оборудование под давлением</Accordion.Header>
+          <Accordion.Body>
+            {underPressureEquip.map((el, idx) => (
+              <Accordion defaultActiveKey='0' flush className={s.accordion}>
+                <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
+                  <Accordion.Header className={`${s.accordion_header}`} id={'pressure'}>{el.title}</Accordion.Header>
+                  <Accordion.Body>
+                    {el.data.map((item, index) => (
+                      <div key={index}>{item.value && item.information + ' ' + item.value}</div>
+                    ))}
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            ))}
+          </Accordion.Body>
+        </Accordion.Item>
+        {formsData.map((el, idx) => (
+          <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
+            <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
+            <Accordion.Body>
+              {el.data.map((item, index) => (
+                <div key={index}>{item.value && item.information + ' ' + item.value}</div>
+              ))}
             </Accordion.Body>
           </Accordion.Item>
         ))}
       </Accordion>
     </Container>
-
   )
 }
