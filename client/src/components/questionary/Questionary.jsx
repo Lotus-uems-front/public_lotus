@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn } from '../../redux/questionary/slice'
+import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -16,7 +16,7 @@ export default function Questionary() {
   // const companyData = useSelector((state) => state.questionary.companyData)
   const filteredOccupationNames = useSelector((state) => state.questionary.filteredCompanyData)
   // const [inn, setInn] = useState('') // ИНН из строки URL
-  const [companyName, setCompanyName] = useState('') // значение для поиска компании по названию
+  // const [companyName, setCompanyName] = useState('') // значение для поиска компании по названию
   const [occupationCompany, setOccupationCompany] = useState('') // вид деятельности для поиска компании
 
   const [allFormsData, setAllFormsData] = useState([])
@@ -29,7 +29,6 @@ export default function Questionary() {
     const link = window.location.href
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
-    // dispatch(setInn(innLink))
     const searchByName = url.searchParams.get('name');
     const searchOccupation = url.searchParams.get('occupation');
 
@@ -40,14 +39,19 @@ export default function Questionary() {
     }
 
     if (searchByName) {
-      setCompanyName(searchByName)
-      // todo: запустить POST запрос на поиск компании по названию
-      //todo: получить ответ, обработать
+      // поиск по названию, возвращает массив объектов MAIN
+      const fetchSearchByName = async () => {
+        const response = await dispatch(fetchSearchByCompanyName(searchByName))
+
+        if (response?.payload?.length) {
+          dispatch(searchByCompanyName(response.payload))
+        }
+      }
+      fetchSearchByName()
     }
 
     if (innLink) {
       dispatch(setInn(innLink))
-      // setInn(innLink)
     }
   }, [])
 
@@ -55,6 +59,7 @@ export default function Questionary() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(fetchPosts(inn))
+
       if (response.length) {
         dispatch(getCompanyData(response))
       }

@@ -7,16 +7,17 @@ export type FilteredCompanyData = {
   data: any[]
 }
 
-export enum StatusType  {
+export enum StatusType {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error'
 }
-  
-  export type InitialStateType = {
-    companyData: CompanyDataType[]
-    filteredOccupationNames: string[]
-    filteredCompanyData: FilteredCompanyData[]
-    status: StatusType
-    inn: string
-  }
+
+export type InitialStateType = {
+  companyData: CompanyDataType[]
+  filteredOccupationNames: string[]
+  filteredCompanyData: FilteredCompanyData[]
+  status: StatusType
+  inn: string
+  searchByCompanyName: FilteredCompanyData[]
+}

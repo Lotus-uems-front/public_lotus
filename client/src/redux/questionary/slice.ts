@@ -4,20 +4,31 @@ import { InitialStateType, StatusType } from './types'
 
 
 export const fetchPosts = createAsyncThunk(
-    'questionary/fetchPostsStatus',
-    async (inn:string) => {
-      const data = await companiesDataApi.getCompanyData(inn)
-      return data
-    }
+  'questionary/fetchPostsStatus',
+  async (inn: string) => {
+    const data = await companiesDataApi.getCompanyData(inn)
+    return data
+  }
+)
 
-  )
+/**
+ * поиск по названию компании
+ */
+export const fetchSearchByCompanyName = createAsyncThunk(
+  'questionary/fetchSearchByName',
+  async (searchString: string) => {
+    const data = await companiesDataApi.searchByCompanyName(searchString)
+    return data
+  }
+)
 
 const initialState: InitialStateType = {
   companyData: [],
-  filteredOccupationNames: [], 
+  filteredOccupationNames: [],
   filteredCompanyData: [],
   status: StatusType.LOADING,
-  inn: ''
+  inn: '',
+  searchByCompanyName: [],
 }
 
 export const questionarySlice = createSlice({
@@ -25,20 +36,24 @@ export const questionarySlice = createSlice({
   initialState,
   reducers: {
     getCompanyData: (state, action) => {
-      state.companyData = action.payload    
+      state.companyData = action.payload
     },
 
     getFilteredOccupationNames: (state, action) => {
-      state.filteredOccupationNames = action.payload    
+      state.filteredOccupationNames = action.payload
     },
 
     getFilteredCompanyData: (state, action) => {
-      state.filteredCompanyData = action.payload    
+      state.filteredCompanyData = action.payload
     },
 
     setInn: (state, action) => {
-      state.inn = action.payload    
-    }
+      state.inn = action.payload
+    },
+
+    searchByCompanyName: (state, action) => {
+      state.searchByCompanyName = action.payload
+    },
   },
 
   extraReducers: builder => {
@@ -47,7 +62,7 @@ export const questionarySlice = createSlice({
       state.status = StatusType.LOADING
     })
 
-    builder.addCase(fetchPosts.fulfilled, (state, action:any) => {
+    builder.addCase(fetchPosts.fulfilled, (state, action: any) => {
       state.companyData = action.payload
       state.status = StatusType.SUCCESS
     })
@@ -60,6 +75,6 @@ export const questionarySlice = createSlice({
 
 })
 
-export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn } = questionarySlice.actions
+export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, searchByCompanyName } = questionarySlice.actions
 
 export default questionarySlice.reducer
