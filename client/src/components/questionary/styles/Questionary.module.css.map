@@ -1,6 +1,6 @@
 {
     "version": 3,
-    "mappings": "AAAA,AAAA,YAAY,CAAA;EACR,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;CACjC;;AAED,AAAA,MAAM,CAAA;EACF,aAAa,EAAE,GAAG;CACrB",
+    "mappings": "AAAA,AAAA,YAAY,CAAA;EACR,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;CACjC;;AAED,AAAA,MAAM,CAAA;EACF,aAAa,EAAE,GAAG;EAClB,OAAO,EAAE,KACb;CAAC",
     "sources": [
         "Questionary.module.scss"
     ],
