@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn } from '../../redux/questionary/slice'
+import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -31,6 +31,7 @@ export default function Questionary() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(fetchPosts(inn))
+
       if (response.length) {
         dispatch(getCompanyData(response))
       }
