@@ -1,7 +1,9 @@
 :root {
   --primary-color: #007bff;
+  --primary-disabled-color: #59a9ff;
   --secondary-color: #5C636A;
   --success-color: #28a745;
+  --success-disabled-color: #73c586;
   --warning-color: #FFCA2C;
   --danger-color: #BB2D3B;
 }
@@ -25,12 +27,20 @@ code {
 } */
 #info .accordion-button{
   background-color: var(--success-color);
-  color: #fff
+  color: #fff;
+  
 }
 
 #pressure .accordion-button{
-  background-color: var(--success-color);
-  color: #fff
+  background-color: var(--primary-disabled-color);
+  color: #fff;
+  margin-bottom: 1px;
+}
+
+#test .accordion-body{
+  /* position: absolute;
+  top: 100px */
+
 }
 
 #rest .accordion-button{

@@ -1,12 +1,14 @@
-.container {
-  overflow: hidden;
+.description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
-.container .accordion .accordion_item .accordion_header {
-  background-color: red;
-}
-
-.accordion-button {
-  background-color: red;
+.mb_10 {
+  margin-bottom: 5px;
+  padding: 0 7px;
 }
 /*# sourceMappingURL=Questionary.module.css.map */

@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
+
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import s from './styles/Questionary.module.css'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../lists/occupationTypesLists'
+import { QuestionaryItem } from './QuestionaryItem'
 
 // CiMoneyCheck1
 
 export default function Questionary() {
   const dispatch = useDispatch()
-  const companyData = useSelector((state) => state.questionary.companyData) //все данные с сервера
+
+  const companyData = useSelector((state) => state.questionary.companyData)
   const inn = useSelector((state) => state.questionary.inn)
+  const [companyName, setCompanyName] = useState('') // значение для поиска компании по названию
+  const [occupationCompany, setOccupationCompany] = useState('') // вид деятельности для поиска компании
+
 
   const [allFormsData, setAllFormsData] = useState([])
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
@@ -24,6 +31,22 @@ export default function Questionary() {
     const link = window.location.href
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
+
+    const searchByName = url.searchParams.get('name')
+    const searchOccupation = url.searchParams.get('occupation')
+
+    if (searchOccupation) {
+      setOccupationCompany(searchOccupation)
+      //todo: запустить POST запрос для поиска компании по виду деятельности
+      //todo: получить ответ, обработать
+    }
+
+    if (searchByName) {
+      setCompanyName(searchByName)
+      // todo: запустить POST запрос на поиск компании по названию
+      //todo: получить ответ, обработать
+    }
+
 
     if (innLink) {
       dispatch(setInn(innLink))
@@ -89,43 +112,30 @@ export default function Questionary() {
     setUnderPressureEquip(underPressure)
   }, [allFormsData])
 
-  console.log(allFormsData)
-
-  console.log(infoData)
-  console.log(formsData)
   console.log(underPressureEquip)
 
   return (
     <Container className={`${s.container}`}>
       <Accordion defaultActiveKey='0' flush className={s.accordion}>
         {infoData.map((el, idx) => (
-          <Accordion.Item eventKey={`${el._id}_${idx}`} className={`${s.accordion_item}`} key={el._id}>
-            <Accordion.Header className={`${s.accordion_header}`} id={'info'}>{el.title}</Accordion.Header>
-            <Accordion.Body>
-              {el.data.map((item, index) => (
-                <div key={index}>{item.value && item.information + ' ' + item.value}</div>
-              ))}
-            </Accordion.Body>
-          </Accordion.Item>
+          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' />
         ))}
         <Accordion.Item>
-          <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>Оборудование под давлением</Accordion.Header>
+          <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>
+            Оборудование под давлением
+          </Accordion.Header>
           <Accordion.Body>
-            {underPressureEquip.map((el, idx) => (
-              <Accordion defaultActiveKey='0' flush className={s.accordion}>
-                <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
-                  <Accordion.Header className={`${s.accordion_header}`} id={'pressure'}>{el.title}</Accordion.Header>
-                  <Accordion.Body>
-                    {el.data.map((item, index) => (
-                      <div key={index}>{item.value && item.information + ' ' + item.value}</div>
-                    ))}
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            ))}
+            <Accordion defaultActiveKey='0' flush className={s.accordion} id='test'>
+              {underPressureEquip.map((el, idx) => (
+                <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} />
+              ))}
+            </Accordion>
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
+
+          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' />
+
           <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
             <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
             <Accordion.Body>
@@ -134,6 +144,7 @@ export default function Questionary() {
               ))}
             </Accordion.Body>
           </Accordion.Item>
+
         ))}
       </Accordion>
     </Container>

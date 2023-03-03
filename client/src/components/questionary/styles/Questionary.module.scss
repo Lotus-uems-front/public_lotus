@@ -1,20 +1,12 @@
-.container{
-    overflow: hidden;
-
-    .accordion {
-        .accordion_item{
-            .accordion_header{
-                background-color: red;
-            }
-        }
-    }
+.description{
+    display: flex;
+    justify-content: space-between;
 }
 
-.accordion-button{
-    background-color: red;
+.mb_10{
+    margin-bottom: 5px;
+    padding: 0 7px
 }
-
-
 
 
 

@@ -2,6 +2,7 @@ export type CompanyDataType = {
   data: any[]
 }
 
+
 export type FilteredCompanyData = {
   _id: string
   data: any[]
@@ -13,6 +14,14 @@ export enum StatusType {
   ERROR = 'error'
 }
 
+  
+//  export type InitialStateType = {
+//    companyData: CompanyDataType[]
+//    status: StatusType
+//    inn: string
+//  }
+
+
 export type InitialStateType = {
   companyData: CompanyDataType[]
   filteredOccupationNames: string[]
@@ -21,3 +30,4 @@ export type InitialStateType = {
   inn: string
   searchByCompanyName: FilteredCompanyData[]
 }
+
