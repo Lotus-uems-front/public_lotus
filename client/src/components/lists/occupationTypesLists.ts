@@ -83,7 +83,7 @@ export const companyListExcludeDisabled = [
 ]
 
 
-export const individualForms = [ 'Four', 'Ten',  'Fifteen', 'Sixteen', 'Seventeen', 'FormBendPipe', 'FormBottoms', 'FormLensCompensators', 'FormFlanges', 'FormForgings', 'FormBends', 'FormHardware', 'FormRolling', 'FormProductColoration', 'FormBendingCuttingMetal', 'FormHeatTreatment', 'FormWelding', 'FormRolled', 'FormPipesSupply', 'FormSheetMetalSupply']
+export const individualForms = [ 'Four', 'Ten', 'Sixteen', 'Seventeen', 'FormBendPipe', 'FormBottoms', 'FormLensCompensators', 'FormFlanges', 'FormForgings', 'FormBends', 'FormHardware', 'FormRolling', 'FormProductColoration', 'FormBendingCuttingMetal', 'FormHeatTreatment', 'FormWelding', 'FormRolled', 'FormPipesSupply', 'FormSheetMetalSupply']
 
 export const fullInfo = [{
     id: 0,

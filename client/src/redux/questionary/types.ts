@@ -1,7 +1,7 @@
 export type CompanyDataType = {
   data: any[]
+  _id: string
 }
-
 
 export type FilteredCompanyData = {
   _id: string
