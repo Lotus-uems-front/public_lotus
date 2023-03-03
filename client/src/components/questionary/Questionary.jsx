@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
+
+import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
+
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -12,21 +14,24 @@ import { QuestionaryItem } from './QuestionaryItem'
 
 export default function Questionary() {
   const dispatch = useDispatch()
+
   const companyData = useSelector((state) => state.questionary.companyData)
   const inn = useSelector((state) => state.questionary.inn)
   const [companyName, setCompanyName] = useState('') // значение для поиска компании по названию
   const [occupationCompany, setOccupationCompany] = useState('') // вид деятельности для поиска компании
 
+
   const [allFormsData, setAllFormsData] = useState([])
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
-  const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные по фомам относ-ся к оборуд-ю под давл
+  const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
 
   // отслеживаем URL
   useEffect(() => {
     const link = window.location.href
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
+
     const searchByName = url.searchParams.get('name')
     const searchOccupation = url.searchParams.get('occupation')
 
@@ -42,6 +47,7 @@ export default function Questionary() {
       //todo: получить ответ, обработать
     }
 
+
     if (innLink) {
       dispatch(setInn(innLink))
     }
@@ -51,6 +57,7 @@ export default function Questionary() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(fetchPosts(inn))
+
       if (response.length) {
         dispatch(getCompanyData(response))
       }
@@ -126,7 +133,18 @@ export default function Questionary() {
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
+
           <QuestionaryItem questionaryItem={el} idx={idx} id='rest' />
+
+          <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
+            <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
+            <Accordion.Body>
+              {el.data.map((item, index) => (
+                <div key={index}>{item.value && item.information + ' ' + item.value}</div>
+              ))}
+            </Accordion.Body>
+          </Accordion.Item>
+
         ))}
       </Accordion>
     </Container>

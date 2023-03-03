@@ -10,10 +10,11 @@ class SearchController {
 
     async getCompanyName(req, res, next) {
         const db = req.db;
-        const { data } = req.body;
+        const { searchString } = req.body;
         try {
             const innArray = await getCompaniesInn(db);
-            const namesCompanies = await searchCompanyName(db, innArray, data);
+            const namesCompanies = await searchCompanyName(db, innArray, searchString);
+            console.log(`search string::: `, searchString); // test
 
             res.json(namesCompanies)
         } catch (err) {
