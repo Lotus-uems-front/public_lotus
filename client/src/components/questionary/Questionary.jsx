@@ -24,7 +24,10 @@ export default function Questionary() {
     const link = window.location.href
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
-    dispatch(setInn(innLink))
+
+    if (innLink) {
+      dispatch(setInn(innLink))
+    }
   }, [])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
