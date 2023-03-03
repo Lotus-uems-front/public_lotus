@@ -17,8 +17,8 @@ export default function Questionary() {
 
   const companyData = useSelector((state) => state.questionary.companyData)
   const inn = useSelector((state) => state.questionary.inn)
-  const [companyName, setCompanyName] = useState('') // значение для поиска компании по названию
-  const [occupationCompany, setOccupationCompany] = useState('') // вид деятельности для поиска компании
+  const [companyName, setCompanyName] = useState([]) // компании по названию
+  const [occupationCompany, setOccupationCompany] = useState('') // todo: вид деятельности для поиска компании
 
 
   const [allFormsData, setAllFormsData] = useState([])
@@ -31,7 +31,6 @@ export default function Questionary() {
     const link = window.location.href
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
-
     const searchByName = url.searchParams.get('name')
     const searchOccupation = url.searchParams.get('occupation')
 
@@ -42,16 +41,23 @@ export default function Questionary() {
     }
 
     if (searchByName) {
-      setCompanyName(searchByName)
-      // todo: запустить POST запрос на поиск компании по названию
-      //todo: получить ответ, обработать
+      //* при наличии поиска по названию компании
+      const searchByCompanyName = async () => {
+        const response = await dispatch(fetchSearchByCompanyName(searchByName))
+        setCompanyName(response)
+      }
+      searchByCompanyName()
     }
-
 
     if (innLink) {
       dispatch(setInn(innLink))
     }
   }, [])
+
+  // в сторе отправляем Main найденных компаний
+  useEffect(() => {
+    dispatch(searchByCompanyName(companyName.payload))
+  }, [companyName])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
   useEffect(() => {
@@ -136,14 +142,14 @@ export default function Questionary() {
 
           <QuestionaryItem questionaryItem={el} idx={idx} id='rest' />
 
-          <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
-            <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
-            <Accordion.Body>
-              {el.data.map((item, index) => (
-                <div key={index}>{item.value && item.information + ' ' + item.value}</div>
-              ))}
-            </Accordion.Body>
-          </Accordion.Item>
+          // <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
+          //   <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
+          //   <Accordion.Body>
+          //     {el.data.map((item, index) => (
+          //       <div key={index}>{item.value && item.information + ' ' + item.value}</div>
+          //     ))}
+          //   </Accordion.Body>
+          // </Accordion.Item>
 
         ))}
       </Accordion>

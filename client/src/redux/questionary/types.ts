@@ -14,14 +14,6 @@ export enum StatusType {
   ERROR = 'error'
 }
 
-  
-//  export type InitialStateType = {
-//    companyData: CompanyDataType[]
-//    status: StatusType
-//    inn: string
-//  }
-
-
 export type InitialStateType = {
   companyData: CompanyDataType[]
   filteredOccupationNames: string[]
