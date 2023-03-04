@@ -20,6 +20,8 @@ export const fetchSearchByCompanyName = createAsyncThunk(
   'questionary/fetchSearchByName',
   async (searchString: string) => {
     const data = await companiesDataApi.searchByCompanyName(searchString)
+    console.log(data);
+    
     return data
   }
 )

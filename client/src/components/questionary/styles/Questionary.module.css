@@ -7,7 +7,11 @@
           justify-content: space-between;
 }
 
-.mb_10 {
+.mb_20 {
+  margin-bottom: 20px;
+}
+
+.under_press_equip_body {
   margin-bottom: 5px;
   padding: 0 7px;
 }

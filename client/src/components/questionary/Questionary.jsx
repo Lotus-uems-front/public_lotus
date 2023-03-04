@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { fetchPosts, getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
+import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
 
 import Accordion from 'react-bootstrap/Accordion'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import s from './styles/Questionary.module.css'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../lists/occupationTypesLists'
-import { QuestionaryItem } from './QuestionaryItem'
+import { QuestionaryItem } from './questionaryItem/QuestionaryItem'
 
 // CiMoneyCheck1
 
@@ -104,7 +104,7 @@ export default function Questionary() {
             restForms.push(el)
           }
         })
-        if (el._id === 'Main' || el._id === 'EconomicData') {
+        if (el._id === 'Main' || el._id === 'EconomicData' || el._id === 'Fifteen') {
           info.push(el)
         }
       })
@@ -115,7 +115,7 @@ export default function Questionary() {
     setUnderPressureEquip(underPressure)
   }, [allFormsData])
 
-  console.log(underPressureEquip)
+  console.log(test)
 
   return (
     <Container className={`${s.container}`}>
@@ -136,18 +136,7 @@ export default function Questionary() {
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
-
           <QuestionaryItem questionaryItem={el} idx={idx} id='rest' />
-
-          // <Accordion.Item eventKey={idx} className={`${s.accordion_item}`} key={el._id}>
-          //   <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>{el.title}</Accordion.Header>
-          //   <Accordion.Body>
-          //     {el.data.map((item, index) => (
-          //       <div key={index}>{item.value && item.information + ' ' + item.value}</div>
-          //     ))}
-          //   </Accordion.Body>
-          // </Accordion.Item>
-
         ))}
       </Accordion>
     </Container>
