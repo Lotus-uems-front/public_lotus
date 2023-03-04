@@ -34,7 +34,7 @@ const initialState: InitialStateType = {
 
   status: StatusType.LOADING,
   inn: '',
-  searchByCompanyName: [],
+  searchByName: [],
 }
 
 export const questionarySlice = createSlice({
@@ -58,7 +58,7 @@ export const questionarySlice = createSlice({
     },
 
     searchByCompanyName: (state, action) => {
-      state.searchByCompanyName = action.payload
+      state.searchByName = action.payload
     },
   },
 
@@ -75,6 +75,21 @@ export const questionarySlice = createSlice({
 
     builder.addCase(fetchPosts.rejected, state => {
       state.companyData = []
+      state.status = StatusType.ERROR
+    })
+
+    builder.addCase(fetchSearchByCompanyName.pending, state => {
+      state.searchByName = []
+      state.status = StatusType.LOADING
+    })
+
+    builder.addCase(fetchSearchByCompanyName.fulfilled, (state, action: any) => {
+      state.searchByName = action.payload
+      state.status = StatusType.SUCCESS
+    })
+
+    builder.addCase(fetchSearchByCompanyName.rejected, state => {
+      state.searchByName = []
       state.status = StatusType.ERROR
     })
   }

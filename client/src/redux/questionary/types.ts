@@ -18,8 +18,8 @@ export type InitialStateType = {
   companyData: CompanyDataType[]
   filteredOccupationNames: string[]
   filteredCompanyData: FilteredCompanyData[]
+  searchByName: FilteredCompanyData[]
   status: StatusType
   inn: string
-  searchByCompanyName: FilteredCompanyData[]
 }
 

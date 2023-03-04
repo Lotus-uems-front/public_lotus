@@ -17,8 +17,7 @@ export default function Questionary() {
 
   const companyData = useSelector((state) => state.questionary.companyData)
   const inn = useSelector((state) => state.questionary.inn)
-  const test = useSelector((state) => state.questionary.searchByCompanyName)
-  const [companyName, setCompanyName] = useState([]) // компании по названию
+  const searchByName = useSelector((state) => state.questionary.searchByName) // массив Main найденных компаний по названию
   const [occupationCompany, setOccupationCompany] = useState('') // todo: вид деятельности для поиска компании
 
   const [allFormsData, setAllFormsData] = useState([])
@@ -42,23 +41,20 @@ export default function Questionary() {
 
     if (searchByName) {
       //* при наличии поиска по названию компании
-      const searchByCompanyName = async () => {
+      const searchByCompanyNameArray = async () => {
         const response = await dispatch(fetchSearchByCompanyName(searchByName))
 
-        setCompanyName(response)
+        if (response.length) {
+          dispatch(searchByCompanyName(response))
+        }
       }
-      searchByCompanyName()
+      searchByCompanyNameArray()
     }
 
     if (innLink) {
       dispatch(setInn(innLink))
     }
   }, [])
-
-  // в сторе отправляем Main найденных компаний
-  useEffect(() => {
-    dispatch(searchByCompanyName(companyName.payload))
-  }, [companyName])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
   useEffect(() => {
