@@ -115,8 +115,6 @@ export default function Questionary() {
     setUnderPressureEquip(underPressure)
   }, [allFormsData])
 
-  console.log(test)
-
   return (
     <Container className={`${s.container}`}>
       <Accordion defaultActiveKey='0' flush className={s.accordion}>
