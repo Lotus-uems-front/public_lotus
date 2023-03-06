@@ -1,72 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
-
-import Accordion from 'react-bootstrap/Accordion'
-import Container from 'react-bootstrap/Container'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Accordion, Container } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
 import s from './styles/Questionary.module.css'
-import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../lists/occupationTypesLists'
-import { QuestionaryItem } from './questionaryItem/QuestionaryItem'
+import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 
-// CiMoneyCheck1
-
-export default function Questionary() {
-  const dispatch = useDispatch()
+export default function CompanyDetails() {
 
   const companyData = useSelector((state) => state.questionary.companyData)
-  const inn = useSelector((state) => state.questionary.inn)
-  const searchByName = useSelector((state) => state.questionary.searchByName) // массив Main найденных компаний по названию
-  const [occupationCompany, setOccupationCompany] = useState('') // todo: вид деятельности для поиска компании
 
   const [allFormsData, setAllFormsData] = useState([])
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
-
-  // отслеживаем URL
-  useEffect(() => {
-    const link = window.location.href
-    const url = new URL(link)
-    const innLink = url.searchParams.get('inn')
-    const searchByName = url.searchParams.get('name')
-    const searchOccupation = url.searchParams.get('occupation')
-
-    if (searchOccupation) {
-      setOccupationCompany(searchOccupation)
-      //todo: запустить POST запрос для поиска компании по виду деятельности
-      //todo: получить ответ, обработать
-    }
-
-    if (searchByName) {
-      //* при наличии поиска по названию компании
-      const searchByCompanyNameArray = async () => {
-        const response = await dispatch(fetchSearchByCompanyName(searchByName))
-
-        if (response.length) {
-          dispatch(searchByCompanyName(response))
-        }
-      }
-      searchByCompanyNameArray()
-    }
-
-    if (innLink) {
-      dispatch(setInn(innLink))
-    }
-  }, [])
-
-  //сетаем в сейт ВСЕ данные с сервера по компании
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await dispatch(fetchPosts(inn))
-
-      if (response.length) {
-        dispatch(getCompanyData(response))
-      }
-    }
-    fetchData()
-  }, [inn, fetchPosts])
 
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
@@ -114,7 +60,6 @@ export default function Questionary() {
     setFormsData(restForms)
     setUnderPressureEquip(underPressure)
   }, [allFormsData])
-
   return (
     <Container className={`${s.container}`}>
       <Accordion defaultActiveKey='0' flush className={s.accordion}>

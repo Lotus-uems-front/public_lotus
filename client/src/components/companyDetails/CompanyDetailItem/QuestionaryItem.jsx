@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Accordion, Badge, ListGroup } from 'react-bootstrap'
-import { equip } from '../../lists/occupationTypesLists'
+import { equip } from '../../../assets/lists/occupationTypesLists'
 import s from '../styles/Questionary.module.css'
 import ListGroupItem from './ListGroupItem'
 
@@ -9,21 +9,14 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
 
   const returnFormatedData = (item) => {
     if (typeof item.value === 'boolean' && item.value === true && item.information !== 'Емкости для хранения' && item.information !== '[object Object]') {
-      return (
-        <ListGroupItem item={item} insideBadge='Да'/>
-      )
+      return <ListGroupItem item={item} insideBadge='Да' />
     }
     if (item.information === 'ФИО руководителя') {
-      return (
-        <ListGroupItem item={item} insideBadge={`${item.value[0]} ${item.value[1]} ${item.value[2]}`}/>
-      )
+      return <ListGroupItem item={item} insideBadge={`${item.value[0]} ${item.value[1]} ${item.value[2]}`} />
     }
 
     if (typeof item.value === 'string') {
-      return (
-        <ListGroupItem item={item} insideBadge={item.value}/>
-        
-      )
+      return <ListGroupItem item={item} insideBadge={item.value} />
     }
     if (equip.some((el) => el === item.description)) {
       if (item.value.some((elem) => elem))

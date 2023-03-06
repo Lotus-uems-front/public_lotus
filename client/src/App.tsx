@@ -1,11 +1,12 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../src/style/css/style.css'
-import Questionary from './components/questionary/Questionary'
+import Home from './components/appEntry/Home'
+// import Home from './components/appEntry/Home'
 
 function App() {
   return <div className='app'>
-    <Questionary />
+    <Home />
   </div>
 }
 
