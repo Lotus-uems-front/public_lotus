@@ -15,6 +15,10 @@ export default function Home() {
   const searchByName = useSelector((state) => state.questionary.searchByName) // массив Main найденных компаний по названию
   const [occupationCompany, setOccupationCompany] = useState('') // todo: вид деятельности для поиска компании
 
+  const urlDataCompany = '/data-company/';
+  const urlSearchByName = '/search-name/';
+  const urlOccupation = '/occupation/';
+
   // отслеживаем URL
   useEffect(() => {
     const link = window.location.href
@@ -23,13 +27,16 @@ export default function Home() {
     const searchByName = url.searchParams.get('name')
     const searchOccupation = url.searchParams.get('occupation')
 
-    if (searchOccupation) {
+    console.log(`URL pathname::: `, url.pathname); // test
+
+    if (searchOccupation && urlOccupation === url.pathname) {
       setOccupationCompany(searchOccupation)
       //todo: запустить POST запрос для поиска компании по виду деятельности
+      console.log(`search occupation::: `, searchOccupation); // test
       //todo: получить ответ, обработать
     }
 
-    if (searchByName) {
+    if (searchByName && urlSearchByName === url.pathname) {
       //* при наличии поиска по названию компании
       const searchByCompanyNameArray = async () => {
         const response = await dispatch(fetchSearchByCompanyName(searchByName))
@@ -41,7 +48,7 @@ export default function Home() {
       searchByCompanyNameArray()
     }
 
-    if (innLink) {
+    if (innLink && urlDataCompany === url.pathname) {
       dispatch(setInn(innLink))
     }
   }, [])
@@ -61,7 +68,7 @@ export default function Home() {
   return (
     <>
       <CompanyDetails />
-      <CompaniesList companies={searchByName}/>
+      <CompaniesList companies={searchByName} />
     </>
   )
 }
