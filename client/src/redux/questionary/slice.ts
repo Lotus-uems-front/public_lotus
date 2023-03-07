@@ -20,8 +20,19 @@ export const fetchSearchByCompanyName = createAsyncThunk(
   'questionary/fetchSearchByName',
   async (searchString: string) => {
     const data = await companiesDataApi.searchByCompanyName(searchString)
-    console.log(data);
-    
+
+    return data
+  }
+)
+
+/**
+ * Поиск по виду деятельности
+ */
+export const fetchSearchOccupation = createAsyncThunk(
+  'questionary/fetchSearchOccupation',
+  async (occupation: string) => {
+    const data = await companiesDataApi.searchOccupation(occupation)
+
     return data
   }
 )
@@ -35,6 +46,7 @@ const initialState: InitialStateType = {
   status: StatusType.LOADING,
   inn: '',
   searchByName: [],
+  companyOccupation: [],
 }
 
 export const questionarySlice = createSlice({
@@ -59,6 +71,10 @@ export const questionarySlice = createSlice({
 
     searchByCompanyName: (state, action) => {
       state.searchByName = action.payload
+    },
+
+    searchOccupation: (state, action) => {
+      state.companyOccupation = action.payload
     },
   },
 
@@ -92,10 +108,25 @@ export const questionarySlice = createSlice({
       state.searchByName = []
       state.status = StatusType.ERROR
     })
+
+    builder.addCase(fetchSearchOccupation.pending, state => {
+      state.searchByName = []
+      state.status = StatusType.LOADING
+    })
+
+    builder.addCase(fetchSearchOccupation.fulfilled, (state, action: any) => {
+      state.companyOccupation = action.payload
+      state.status = StatusType.SUCCESS
+    })
+
+    builder.addCase(fetchSearchOccupation.rejected, state => {
+      state.searchByName = []
+      state.status = StatusType.ERROR
+    })
   }
 
 })
 
-export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, searchByCompanyName } = questionarySlice.actions
+export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, searchByCompanyName, searchOccupation } = questionarySlice.actions
 
 export default questionarySlice.reducer

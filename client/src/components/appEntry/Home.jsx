@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName } from '../../redux/questionary/slice'
+import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName, searchOccupation, fetchSearchOccupation } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
@@ -13,7 +13,7 @@ export default function Home() {
 
   const inn = useSelector((state) => state.questionary.inn)
   const searchByName = useSelector((state) => state.questionary.searchByName) // массив Main найденных компаний по названию
-  const [occupationCompany, setOccupationCompany] = useState('') // todo: вид деятельности для поиска компании
+  const companyOccupation = useSelector((state) => state.questionary.companyOccupation) // массив Main найденных компаний по виду деятльености
 
   const urlDataCompany = '/data-company/';
   const urlSearchByName = '/search-name/';
@@ -25,19 +25,25 @@ export default function Home() {
     const url = new URL(link)
     const innLink = url.searchParams.get('inn')
     const searchByName = url.searchParams.get('name')
-    const searchOccupation = url.searchParams.get('occupation')
+    const searchParamOccupation = url.searchParams.get('occupation')
 
     console.log(`URL pathname::: `, url.pathname); // test
 
-    if (searchOccupation && urlOccupation === url.pathname) {
-      setOccupationCompany(searchOccupation)
-      //todo: запустить POST запрос для поиска компании по виду деятельности
-      console.log(`search occupation::: `, searchOccupation); // test
-      //todo: получить ответ, обработать
+    //* При наличии поиска по вдиу деятельности
+    if (searchParamOccupation && urlOccupation === url.pathname) {
+      const searchCompanyOccupationArray = async () => {
+        console.log(`search occupation::: `, searchParamOccupation); // test
+        const response = await dispatch(fetchSearchOccupation(searchParamOccupation))
+
+        if (response.length) {
+          dispatch(searchOccupation(response))
+        }
+      }
+      searchCompanyOccupationArray();
     }
 
+    //* при наличии поиска по названию компании
     if (searchByName && urlSearchByName === url.pathname) {
-      //* при наличии поиска по названию компании
       const searchByCompanyNameArray = async () => {
         const response = await dispatch(fetchSearchByCompanyName(searchByName))
 
@@ -48,6 +54,7 @@ export default function Home() {
       searchByCompanyNameArray()
     }
 
+    //* при наличии ИНН
     if (innLink && urlDataCompany === url.pathname) {
       dispatch(setInn(innLink))
     }
@@ -68,7 +75,7 @@ export default function Home() {
   return (
     <>
       <CompanyDetails />
-      <CompaniesList companies={searchByName} />
+      <CompaniesList companies={searchByName?.length ? searchByName : companyOccupation?.length ? companyOccupation : ''} />
     </>
   )
 }

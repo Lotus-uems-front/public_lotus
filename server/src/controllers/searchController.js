@@ -1,6 +1,8 @@
 const ApiError = require('../error/ApiError');
 const getCompaniesInn = require('../model/getCompaniesInn');
+const getMainFormOccupation = require('../model/search/getMainFormOccupation');
 const searchCompanyName = require('../model/search/searchCompanyName');
+const searchOccupation = require('../model/search/searchOccupation');
 
 
 /**
@@ -8,6 +10,13 @@ const searchCompanyName = require('../model/search/searchCompanyName');
  */
 class SearchController {
 
+    /**
+     * Поиск компаний по названию
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
     async getCompanyName(req, res, next) {
         const db = req.db;
         const { searchString } = req.body;
@@ -21,21 +30,30 @@ class SearchController {
             console.log('Ошибка при поиске названия компании: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске названия компании`));
         }
-
     }
 
+    /**
+     * Поиск компаний по виду деятельности
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
     async getCompanyOccupation(req, res, next) {
         const db = req.db;
-        const { data } = req.body;
+        const { occupation } = req.body;
         try {
             //todo: поиск компаний по виду деятельности
+            console.log(`OCCUPATION:::: `, occupation); //test
+            const innArr = await getCompaniesInn(db);
+            const arrayInn = await searchOccupation(db, innArr, occupation)
+            const companyOccupation = await getMainFormOccupation(db, arrayInn);
 
-            res.json({ server: 'поиск компании по виду деятельности' })
+            res.json(companyOccupation)
         } catch (err) {
             console.log('Ошибка при поиске вида деятельности компании: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске вида деятельности компании`));
         }
-
     }
 
 }
