@@ -14,6 +14,8 @@ export default function CompanyDetails() {
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
 
+
+  // console.log(companyData);
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
     const result = []

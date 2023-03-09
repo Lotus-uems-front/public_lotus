@@ -22,9 +22,6 @@ code {
     monospace;
 }
 
-/* .accordion-button {
-  background-color: red !important;
-} */
 #info .accordion-button{
   background-color: var(--success-color);
   color: #fff;
@@ -52,3 +49,4 @@ code {
   color: #fff;
   background-image: url('https://www.freeiconspng.com/uploads/white-down-arrow-png-2.png') !important
 }
+
