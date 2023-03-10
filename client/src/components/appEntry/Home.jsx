@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation
-} from "react-router-dom";
+import {  Route, Routes, useLocation } from 'react-router-dom'
 import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName, searchOccupation, fetchSearchOccupation } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
@@ -15,7 +10,6 @@ import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
 // CiMoneyCheck1
 
 export default function Home() {
-
   const nav = useLocation()
   const dispatch = useDispatch()
 
@@ -25,7 +19,6 @@ export default function Home() {
 
   const link = window.location.href
   const url = new URL(link)
-
 
   // отслеживаем URL
   useEffect(() => {
@@ -49,7 +42,7 @@ export default function Home() {
           dispatch(searchOccupation(response))
         }
       }
-      searchCompanyOccupationArray();
+      searchCompanyOccupationArray()
     }
 
     //* при наличии поиска по названию компании
@@ -82,14 +75,11 @@ export default function Home() {
     fetchData()
   }, [inn, fetchPosts])
 
-  console.log(nav);
+  // console.log(nav);
   return (
-
-  // <Router>
     <Routes>
-    <Route exact path="/data-company/" element={<CompanyDetails />} />
-    <Route exact path="/search-name/" element={<CompaniesList companies={searchByName?.length ? searchByName : companyOccupation?.length ? companyOccupation : ''} />} />
+      <Route exact path='/data-company/' element={<CompanyDetails />} />
+      <Route exact path='/search-name/' element={<CompaniesList companies={searchByName?.length ? searchByName : companyOccupation?.length ? companyOccupation : ''} />} />
     </Routes>
-  // </Router>
   )
 }

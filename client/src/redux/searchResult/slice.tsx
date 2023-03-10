@@ -2,16 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { companiesDataApi } from '../../api/api'
 import { InitialStateType, StatusType } from './types'
 
-/**
- * Получение всех данных указанной компании
- */
-export const fetchPosts = createAsyncThunk(
-  'questionary/fetchPostsStatus',
-  async (inn: string) => {
-    const data = await companiesDataApi.getCompanyData(inn)
-    return data
-  }
-)
 
 /**
  * поиск по названию компании
@@ -38,37 +28,15 @@ export const fetchSearchOccupation = createAsyncThunk(
 )
 
 const initialState: InitialStateType = {
-  companyData: [],
-
-  filteredOccupationNames: [],
-  filteredCompanyData: [],
-
   status: StatusType.LOADING,
-  inn: '',
   searchByName: [],
   companyOccupation: [],
-  companyName: ''
 }
 
-export const questionarySlice = createSlice({
-  name: 'questionary',
+export const searchSlice = createSlice({
+  name: 'search',
   initialState,
   reducers: {
-    getCompanyData: (state, action) => {
-      state.companyData = action.payload
-    },
-
-    getFilteredOccupationNames: (state, action) => {
-      state.filteredOccupationNames = action.payload
-    },
-
-    getFilteredCompanyData: (state, action) => {
-      state.filteredCompanyData = action.payload
-    },
-
-    setInn: (state, action) => {
-      state.inn = action.payload
-    },
 
     searchByCompanyName: (state, action) => {
       state.searchByName = action.payload
@@ -77,27 +45,9 @@ export const questionarySlice = createSlice({
     searchOccupation: (state, action) => {
       state.companyOccupation = action.payload
     },
-
-    setCompanyName: (state, action) => {
-      state.companyName = action.payload
-    },
   },
 
   extraReducers: builder => {
-    builder.addCase(fetchPosts.pending, state => {
-      state.companyData = []
-      state.status = StatusType.LOADING
-    })
-
-    builder.addCase(fetchPosts.fulfilled, (state, action: any) => {
-      state.companyData = action.payload
-      state.status = StatusType.SUCCESS
-    })
-
-    builder.addCase(fetchPosts.rejected, state => {
-      state.companyData = []
-      state.status = StatusType.ERROR
-    })
 
     builder.addCase(fetchSearchByCompanyName.pending, state => {
       state.searchByName = []
@@ -132,6 +82,6 @@ export const questionarySlice = createSlice({
 
 })
 
-export const { getCompanyData, getFilteredOccupationNames, getFilteredCompanyData, setInn, searchByCompanyName, searchOccupation, setCompanyName } = questionarySlice.actions
+export const { searchByCompanyName, searchOccupation } = searchSlice.actions
 
-export default questionarySlice.reducer
+export default searchSlice.reducer

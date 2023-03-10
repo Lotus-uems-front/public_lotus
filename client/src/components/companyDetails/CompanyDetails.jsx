@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Container } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { Accordion, Card, Container } from 'react-bootstrap'
+import { IoIosArrowBack } from 'react-icons/io';
+import { useSelector, useDispatch } from 'react-redux'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
 import s from './styles/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
+import { setCompanyName } from '../../redux/questionary/slice'
+import { useNavigate } from 'react-router-dom';
 
 export default function CompanyDetails() {
 
+  // IoIosArrowBack
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch()
   const companyData = useSelector((state) => state.questionary.companyData)
+  const companyName = useSelector((state) => state.questionary.companyName)
 
   const [allFormsData, setAllFormsData] = useState([])
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
@@ -30,8 +38,10 @@ export default function CompanyDetails() {
           }
         })
       })
+      dispatch(setCompanyName(companyData.filter(el => el._id === 'Main')[0].data[1].value))
     }
     setAllFormsData(result)
+    
   }, [companyData, setAllFormsData])
 
   //делаем отбор по инфо-данным, данным по оборуд-ю под давл, остальным данным
@@ -61,19 +71,27 @@ export default function CompanyDetails() {
     setInfoData(info)
     setFormsData(restForms)
     setUnderPressureEquip(underPressure)
-  }, [allFormsData])
+    
+  }, [allFormsData, setInfoData])
+
+
+  console.log(companyName);
+
   return (
-    <Container className={`${s.container}`}>
-      <Accordion defaultActiveKey='0' flush className={s.accordion}>
+    <Container>
+      <Card className={s.card}>
+        <Card.Header><span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack/></span>{companyName} </Card.Header>
+      </Card>
+      <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
           <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' />
         ))}
         <Accordion.Item>
-          <Accordion.Header className={`${s.accordion_header}`} id={'rest'}>
+          <Accordion.Header id={'rest'}>
             Оборудование под давлением
           </Accordion.Header>
           <Accordion.Body>
-            <Accordion defaultActiveKey='0' flush className={s.accordion} id='test'>
+            <Accordion defaultActiveKey='0' flush id='test'>
               {underPressureEquip.map((el, idx) => (
                 <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} />
               ))}

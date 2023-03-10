@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import { Badge, Container, ListGroup, Table } from 'react-bootstrap'
+import { Badge, Button, Container, Table } from 'react-bootstrap'
+import { MdOutlineOpenInNew } from 'react-icons/md';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import s from '../style/CompaniesList.module.css'
 
 export default function CompaniesList({ companies }) {
   // console.log(companies)
-  
-  
-  const nav = useLocation()
+
+  // MdOutlineOpenInNew
+  // AiOutlineInfoCircle
 
   const filteredInfo =
     companies.length &&
@@ -24,44 +25,54 @@ export default function CompaniesList({ companies }) {
       }
     })
 
-  console.log(nav)
- 
-
   if (filteredInfo.length)
     return (
-      <Container>
-        <Table className={s.table}>
-          <thead className={s.table_head}>
-            <tr>
-              <th>#</th>
-              <th>Название</th>
-              <th>Город</th>
-              <th>ИНН</th>
-              <th>Телефон</th>
-              <th>Почта</th>
-            </tr>
-            <div id={s.test} className={s.test}></div>
-          </thead>
-          {filteredInfo.map((company, idx) => {
-            const {ownership, name, inn, tel, email, country, city} = company
-            return (
-              <tbody className={s.table_body}>
-            
-                <tr className={s.table_row}>
-                  <td>{idx + 1}</td>
-                  <td><b>{`${ownership} ${name}`}</b></td>
-                  <td>{`${city} ${country ? `(${country})` : ''} `}</td>
-                  <td><Badge bg='warning'>{inn}</Badge></td>
-                  <td>{tel}</td>
-                  <td><Badge>{email}</Badge></td>
-                  <td><Link to={`/data-company/?inn=${inn}`}>...</Link></td>
-                </tr>
-           
-                <div id={s.test} className={s.test}></div>
-              </tbody>
-            )
-          })}
-        </Table>
-      </Container>
+      <div className={s.wrapper}>
+        <Container>
+          <Table className={s.table} >
+            <thead className={s.table_head}>
+              <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Город</th>
+                <th>ИНН</th>
+                <th>Телефон</th>
+                <th>Почта</th>
+              </tr>
+              <div id={s.test} className={s.test}></div>
+            </thead>
+            {filteredInfo.map((company, idx) => {
+              const { ownership, name, inn, tel, email, country, city } = company
+              return (
+                <tbody className={s.table_body} key={inn}>
+                  <tr className={s.table_row}>
+                    <td>{idx + 1}</td>
+                    <td>
+                      <b>{`${ownership} ${name}`}</b>
+                    </td>
+                    <td>{`${city} ${country ? `(${country})` : ''} `}</td>
+                    <td>
+                      <Badge bg='warning'>{inn}</Badge>
+                    </td>
+                    <td>{tel}</td>
+                    <td>
+                      <Badge>{email}</Badge>
+                    </td>
+                    <td>
+                      <Link to={`/data-company/?inn=${inn}`}>
+                        <Button variant='outline-info'>
+                          Подробно
+                          <span className={s.detailsIcon}><MdOutlineOpenInNew/></span> 
+                        </Button>
+                         
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+            })}
+          </Table>
+        </Container>
+      </div>
     )
 }
