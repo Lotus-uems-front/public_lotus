@@ -1,30 +1,47 @@
-.table {
-  border-collapse: separate;
-  border-spacing: 0 10px;
-  cursor: pointer;
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #F9FDFE;
 }
 
-.table .table_head {
+.wrapper .table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  cursor: auto;
+}
+
+.wrapper .table .table_head {
   text-align: center;
 }
 
-.table .table_body .link {
+.wrapper .table .table_body .link {
   display: block;
 }
 
-.table .table_body .table_row td {
-  border: solid 1px #EBECF0;
-  border-style: solid none;
-  padding: 15px;
+.wrapper .table .table_body .table_row {
+  background-color: #fff;
+  -webkit-box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
+          box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
 }
 
-.table .table_body .table_row td:first-child {
-  border-left-style: solid;
+.wrapper .table .table_body .table_row td {
+  border: solid 1px #F9FDFE;
+  border-style: solid none;
+  padding: 15px;
+  position: relative;
+}
+
+.wrapper .table .table_body .table_row td .detailsIcon {
+  margin-left: 5px;
+}
+
+.wrapper .table .table_body .table_row td:first-child {
+  border-left-style: transparent;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-.table .table_body .table_row td:last-child {
+.wrapper .table .table_body .table_row td:last-child {
   border-right-style: solid;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;

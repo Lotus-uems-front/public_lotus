@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const port = '5000'
-// const url = `http://localhost:${port}` // для домашнего использования
-const url = `https://test.public.lotus-uems.ru` // для тестового сервера
+const url = `http://localhost:${port}` // для домашнего использования
+// const url = `https://test.public.lotus-uems.ru` // для тестового сервера
 
 const baseURL = `${url}/api/company/get_all_data`
 const searchByCompanyNameURL = `${url}/api/search/search_name` // поиск компаний по названию

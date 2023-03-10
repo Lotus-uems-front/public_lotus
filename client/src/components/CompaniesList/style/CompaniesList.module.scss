@@ -1,37 +1,55 @@
-.table{
-    border-collapse: separate; 
-    border-spacing: 0 10px; 
-    cursor: pointer;
-    .table_head{
-    text-align: center;
-    }
-    .table_body{
-        .link{
-            display: block
-        }
-        .table_row{
-            // margin-bottom: 2px;
-            td{
-                border: solid 1px #EBECF0;
-                border-style: solid none;
-                padding: 15px;
-            }
-                td:first-child{
-                    // padding: 10px;  
-                    border-left-style: solid;
-                    border-top-left-radius: 10px; 
-                    border-bottom-left-radius: 10px;
-                }
+@import '../../../style/colors';
 
-                td:last-child{
-                    // padding: 10px;  
-                    border-right-style: solid;
-                    border-bottom-right-radius: 10px; 
-                    border-top-right-radius: 10px;
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+    background-color: $light-bg-color;
+        .table{
+        border-collapse: separate; 
+        border-spacing: 0 8px; 
+        cursor:auto;
+        // cursor: pointer;
+        .table_head{
+        text-align: center;
+        }
+        .table_body{
+            .link{
+                display: block
+            }
+            .table_row{
+                background-color: #fff;
+                box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
+
+                td{
+                    border: solid 1px $light-bg-color;
+                    border-style: solid none;
+                    padding: 15px;
+                    position: relative;
+
+                    .detailsIcon{
+                       margin-left: 5px;
+
+                    }
                 }
+                    td:first-child{
+                        // padding: 10px;  
+                        border-left-style: transparent;
+                        border-top-left-radius: 10px; 
+                        border-bottom-left-radius: 10px;
+                    }
+
+                    td:last-child{
+                        // padding: 10px;  
+                        border-right-style: solid;
+                        border-bottom-right-radius: 10px; 
+                        border-top-right-radius: 10px;
+                    }
+            }
         }
     }
 }
+
+
 
 
 
