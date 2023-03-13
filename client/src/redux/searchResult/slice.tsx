@@ -29,8 +29,8 @@ export const fetchSearchOccupation = createAsyncThunk(
 
 const initialState: InitialStateType = {
   status: StatusType.LOADING,
-  searchByName: [],
-  companyOccupation: [],
+  searchByNameResult: [],
+  searchByOccupationResult: [],
 }
 
 export const searchSlice = createSlice({
@@ -39,43 +39,43 @@ export const searchSlice = createSlice({
   reducers: {
 
     searchByCompanyName: (state, action) => {
-      state.searchByName = action.payload
+      state.searchByNameResult = action.payload
     },
 
     searchOccupation: (state, action) => {
-      state.companyOccupation = action.payload
+      state.searchByOccupationResult = action.payload
     },
   },
 
   extraReducers: builder => {
 
     builder.addCase(fetchSearchByCompanyName.pending, state => {
-      state.searchByName = []
+      state.searchByNameResult = []
       state.status = StatusType.LOADING
     })
 
     builder.addCase(fetchSearchByCompanyName.fulfilled, (state, action: any) => {
-      state.searchByName = action.payload
+      state.searchByNameResult = action.payload
       state.status = StatusType.SUCCESS
     })
 
     builder.addCase(fetchSearchByCompanyName.rejected, state => {
-      state.searchByName = []
+      state.searchByNameResult = []
       state.status = StatusType.ERROR
     })
 
     builder.addCase(fetchSearchOccupation.pending, state => {
-      state.searchByName = []
+      state.searchByNameResult = []
       state.status = StatusType.LOADING
     })
 
     builder.addCase(fetchSearchOccupation.fulfilled, (state, action: any) => {
-      state.companyOccupation = action.payload
+      state.searchByOccupationResult = action.payload
       state.status = StatusType.SUCCESS
     })
 
     builder.addCase(fetchSearchOccupation.rejected, state => {
-      state.searchByName = []
+      state.searchByNameResult = []
       state.status = StatusType.ERROR
     })
   }
