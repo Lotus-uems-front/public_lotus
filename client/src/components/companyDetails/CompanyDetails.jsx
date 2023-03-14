@@ -8,10 +8,8 @@ import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
 import { useNavigate } from 'react-router-dom';
 
-export default function CompanyDetails() {
+export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
 
-
-  // IoIosArrowBack
   const navigate = useNavigate();
 
   const dispatch = useDispatch()
@@ -24,7 +22,7 @@ export default function CompanyDetails() {
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
 
 
-  console.log(companyData);
+  // console.log(companyData);
 
   // console.log(companyData);
   //делаем единый объект в котором есть название форм по русски
@@ -83,12 +81,15 @@ export default function CompanyDetails() {
   }, [allFormsData, setInfoData])
 
 
-  console.log(companyData);
+  // console.log(companyData);
 
   return (
     <Container>
       <Card className={s.card}>
-        <Card.Header><span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack /></span>{companyName} </Card.Header>
+        <Card.Header>
+          {firstEnterPath !== urlDataCompany && <span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack /></span>}
+          {companyName} 
+        </Card.Header>
       </Card>
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
