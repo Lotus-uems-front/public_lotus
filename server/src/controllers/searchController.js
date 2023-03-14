@@ -43,7 +43,6 @@ class SearchController {
         const db = req.db;
         const { occupation } = req.body;
         try {
-            //todo: поиск компаний по виду деятельности
             console.log(`OCCUPATION:::: `, occupation); //test
             const innArr = await getCompaniesInn(db);
             const arrayInn = await searchOccupation(db, innArr, occupation)
