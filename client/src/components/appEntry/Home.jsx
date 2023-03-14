@@ -1,39 +1,39 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {  Route, Routes, useLocation } from 'react-router-dom'
-import { fetchPosts, getCompanyData, setInn, fetchSearchByCompanyName, searchByCompanyName, searchOccupation, fetchSearchOccupation } from '../../redux/questionary/slice'
+import {  Route, Routes } from 'react-router-dom'
+import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
+import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
 // import CompanyDetails from './companyDetails/CompanyDetails'
 
 // CiMoneyCheck1
 
 export default function Home() {
-  const nav = useLocation()
   const dispatch = useDispatch()
 
   const inn = useSelector((state) => state.questionary.inn)
-  const searchByName = useSelector((state) => state.questionary.searchByName) // массив Main найденных компаний по названию
-  const companyOccupation = useSelector((state) => state.questionary.companyOccupation) // массив Main найденных компаний по виду деятльености
+  const searchByNameResult = useSelector((state) => state.search.searchByNameResult) // массив Main найденных компаний по названию
+  const searchByOccupationResult = useSelector((state) => state.search.searchByOccupationResult) // массив Main найденных компаний по виду деятльености
 
   const link = window.location.href
   const url = new URL(link)
+  const urlDataCompany = '/data-company/'
+  const urlSearchByName = '/search-name/'
+  const urlSearchByOccupation = '/occupation/'
 
   // отслеживаем URL
   useEffect(() => {
-    const urlDataCompany = '/data-company/'
-    const urlSearchByName = '/search-name/'
-    const urlOccupation = '/occupation/'
 
     const innLink = url.searchParams.get('inn')
-    const searchByName = url.searchParams.get('name')
+    const searchedName = url.searchParams.get('name')
     const searchParamOccupation = url.searchParams.get('occupation')
 
     // console.log(`URL pathname::: `, url.pathname); // test
 
     //* При наличии поиска по вдиу деятельности
-    if (searchParamOccupation && urlOccupation === url.pathname) {
+    if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
         // console.log(`search occupation::: `, searchParamOccupation); // test
         const response = await dispatch(fetchSearchOccupation(searchParamOccupation))
@@ -46,9 +46,9 @@ export default function Home() {
     }
 
     //* при наличии поиска по названию компании
-    if (searchByName && urlSearchByName === url.pathname) {
+    if (searchedName && urlSearchByName === url.pathname) {
       const searchByCompanyNameArray = async () => {
-        const response = await dispatch(fetchSearchByCompanyName(searchByName))
+        const response = await dispatch(fetchSearchByCompanyName(searchedName))
 
         if (response.length) {
           dispatch(searchByCompanyName(response))
@@ -75,11 +75,11 @@ export default function Home() {
     fetchData()
   }, [inn, fetchPosts])
 
-  // console.log(nav);
   return (
     <Routes>
-      <Route exact path='/data-company/' element={<CompanyDetails />} />
-      <Route exact path='/search-name/' element={<CompaniesList companies={searchByName?.length ? searchByName : companyOccupation?.length ? companyOccupation : ''} />} />
+      <Route exact path={urlDataCompany} element={<CompanyDetails />} />
+      <Route exact path={urlSearchByName} element={<CompaniesList companies={searchByNameResult?.length ? searchByNameResult : ''} />} />
+      <Route exact path={urlSearchByOccupation} element={<CompaniesList companies={searchByOccupationResult?.length ? searchByOccupationResult : ''} />} />
     </Routes>
   )
 }
