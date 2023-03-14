@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CompanyDetails() {
 
+
   // IoIosArrowBack
   const navigate = useNavigate();
 
@@ -23,25 +24,32 @@ export default function CompanyDetails() {
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
 
 
+  console.log(companyData);
+
   // console.log(companyData);
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
-    const result = []
-    if (companyData.length > 0) {
-      companyData.forEach((el) => {
-        fullInfo.forEach((item) => {
-          if (el._id === item.name) {
-            result.push({
-              ...el,
-              title: item.title
-            })
-          }
+    try {
+      const result = []
+      if (companyData.length > 0) {
+        companyData.forEach((el) => {
+          fullInfo.forEach((item) => {
+            if (el._id === item.name) {
+              result.push({
+                ...el,
+                title: item.title
+              })
+            }
+          })
         })
-      })
-      dispatch(setCompanyName(companyData.filter(el => el._id === 'Main')[0].data[1].value))
+        dispatch(setCompanyName(companyData.filter(el => el._id === 'Main')[0].data[1].value))
+      }
+      setAllFormsData(result)
+    } catch (err) {
+      console.log('Oshibka', err);
     }
-    setAllFormsData(result)
-    
+
+
   }, [companyData, setAllFormsData])
 
   //делаем отбор по инфо-данным, данным по оборуд-ю под давл, остальным данным
@@ -71,16 +79,16 @@ export default function CompanyDetails() {
     setInfoData(info)
     setFormsData(restForms)
     setUnderPressureEquip(underPressure)
-    
+
   }, [allFormsData, setInfoData])
 
 
-  console.log(companyName);
+  console.log(companyData);
 
   return (
     <Container>
       <Card className={s.card}>
-        <Card.Header><span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack/></span>{companyName} </Card.Header>
+        <Card.Header><span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack /></span>{companyName} </Card.Header>
       </Card>
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
