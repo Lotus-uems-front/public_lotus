@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {  Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
@@ -22,6 +22,8 @@ export default function Home() {
   const urlDataCompany = '/data-company/'
   const urlSearchByName = '/search-name/'
   const urlSearchByOccupation = '/occupation/'
+  let pageName = 0; // Страница пагинации для поиска компаний по имени
+  let pageOccupation = 0; // Страница пагинации для поиска компаний по виду деятльности
 
   // отслеживаем URL
   useEffect(() => {
@@ -29,14 +31,12 @@ export default function Home() {
     const innLink = url.searchParams.get('inn')
     const searchedName = url.searchParams.get('name')
     const searchParamOccupation = url.searchParams.get('occupation')
-
     // console.log(`URL pathname::: `, url.pathname); // test
 
     //* При наличии поиска по вдиу деятельности
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
-        // console.log(`search occupation::: `, searchParamOccupation); // test
-        const response = await dispatch(fetchSearchOccupation(searchParamOccupation))
+        const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: pageOccupation }))
 
         if (response.length) {
           dispatch(searchOccupation(response))
@@ -48,7 +48,7 @@ export default function Home() {
     //* при наличии поиска по названию компании
     if (searchedName && urlSearchByName === url.pathname) {
       const searchByCompanyNameArray = async () => {
-        const response = await dispatch(fetchSearchByCompanyName(searchedName))
+        const response = await dispatch(fetchSearchByCompanyName({ searchString: searchedName, page: pageName }))
 
         if (response.length) {
           dispatch(searchByCompanyName(response))

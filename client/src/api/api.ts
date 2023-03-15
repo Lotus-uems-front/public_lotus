@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Obj } from 'reselect/es/types'
 
 const port = '5000'
 const url = `http://localhost:${port}` // для домашнего использования
@@ -19,30 +20,48 @@ export const companiesDataApi = {
      * @returns {Array}
      */
     async getCompanyData(inn: string) {
-        const response = await axios.post(baseURL, { inn })
-        const data = await response.data
-        return data
+        try {
+            const response = await axios.post(baseURL, { inn })
+            const data = await response.data
+            return data
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return []
+        }
+
     },
 
     /**
      * Поиск по названию компании
-     * @param {string} searchString строка поиска
+     * @param {Object} dataSearch строка поиска
      * @returns {Array} возвращает массив объектов MAIN
      */
-    async searchByCompanyName(searchString: string) {
-        const response = await axios.post(searchByCompanyNameURL, { searchString })
-        const data = await response.data
-        return data
+    async searchByCompanyName(dataSearch: Object) {
+        try {
+            const response = await axios.post(searchByCompanyNameURL, { dataSearch })
+            const data = await response.data
+            return data
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return []
+        }
+
     },
 
     /**
      * Поиск по виду деятельности
-     * @param {String} occupation 
-     * @returns 
+     * @param {Object} occupation строка поиска
+     * @returns {Array} возвращает массив объектов MAIN
      */
-    async searchOccupation(occupation: string) {
-        const response = await axios.post(searchOccupationURL, { occupation })
-        const data = await response.data
-        return data
+    async searchOccupation(occupation: Object) {
+        try {
+            const response = await axios.post(searchOccupationURL, { occupation })
+            const data = await response.data
+            return data
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return []
+        }
+
     }
 }

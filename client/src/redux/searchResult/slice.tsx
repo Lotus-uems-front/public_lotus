@@ -3,15 +3,20 @@ import { companiesDataApi } from '../../api/api'
 import { InitialStateType, StatusType } from './types'
 
 
+
 /**
  * поиск по названию компании
  */
 export const fetchSearchByCompanyName = createAsyncThunk(
   'questionary/fetchSearchByName',
-  async (searchString: string) => {
-    const data = await companiesDataApi.searchByCompanyName(searchString)
+  async (dataSearch: Object) => {
+    try {
+      const data = await companiesDataApi.searchByCompanyName(dataSearch)
+      return data
 
-    return data
+    } catch (err) {
+      console.log(`Ошибка в slise.tsx::: `, err);
+    }
   }
 )
 
@@ -20,10 +25,15 @@ export const fetchSearchByCompanyName = createAsyncThunk(
  */
 export const fetchSearchOccupation = createAsyncThunk(
   'questionary/fetchSearchOccupation',
-  async (occupation: string) => {
-    const data = await companiesDataApi.searchOccupation(occupation)
+  async (occupation: Object) => {
+    try {
+      const data = await companiesDataApi.searchOccupation(occupation)
+      return data
 
-    return data
+    } catch (err) {
+      console.log(`Ошибка в slise.tsx::: `, err);
+    }
+
   }
 )
 
