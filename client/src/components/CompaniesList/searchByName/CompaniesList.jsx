@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Badge, Button, Container, Table } from 'react-bootstrap'
-import { MdOutlineOpenInNew } from 'react-icons/md';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { MdOutlineOpenInNew } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
 
 export default function CompaniesList({ companies }) {
