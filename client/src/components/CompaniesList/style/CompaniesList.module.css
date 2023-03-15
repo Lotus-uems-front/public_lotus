@@ -35,6 +35,10 @@
   margin-left: 5px;
 }
 
+.wrapper .table .table_body .table_row td .highlight {
+  background-color: #8cc3ff;
+}
+
 .wrapper .table .table_body .table_row td:first-child {
   border-left-style: transparent;
   border-top-left-radius: 10px;

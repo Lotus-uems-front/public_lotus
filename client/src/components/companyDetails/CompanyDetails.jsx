@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Accordion, Card, Container } from 'react-bootstrap'
-import { IoIosArrowBack } from 'react-icons/io';
+import { IoIosArrowBack } from 'react-icons/io'
 import { useSelector, useDispatch } from 'react-redux'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
 import s from './styles/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 
-export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
-
-  const navigate = useNavigate();
+export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const companyData = useSelector((state) => state.questionary.companyData)
@@ -21,10 +20,8 @@ export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
 
-
   // console.log(companyData);
 
-  // console.log(companyData);
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
     try {
@@ -40,14 +37,12 @@ export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
             }
           })
         })
-        dispatch(setCompanyName(companyData.filter(el => el._id === 'Main')[0].data[1].value))
+        dispatch(setCompanyName(companyData.filter((el) => el._id === 'Main')[0].data[1].value))
       }
       setAllFormsData(result)
     } catch (err) {
-      console.log('Oshibka', err);
+      console.log('Oshibka', err)
     }
-
-
   }, [companyData, setAllFormsData])
 
   //делаем отбор по инфо-данным, данным по оборуд-ю под давл, остальным данным
@@ -77,18 +72,28 @@ export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
     setInfoData(info)
     setFormsData(restForms)
     setUnderPressureEquip(underPressure)
-
   }, [allFormsData, setInfoData])
 
+  const location = useLocation()
 
-  // console.log(companyData);
+  console.log(location.state)
 
   return (
     <Container>
       <Card className={s.card}>
         <Card.Header>
-          {firstEnterPath !== urlDataCompany && <span onClick={() => navigate(-1)} className={s.icon}><IoIosArrowBack /></span>}
-          {companyName} 
+          {/* {!firstEnterPath && <span onClick={()=> navigate(-1)} className={s.icon}><IoIosArrowBack /></span>} */}
+          {companyName}
+
+          {location.state && (
+            <Link to={location.state.from}>
+              <span className={s.icon}>
+                <IoIosArrowBack />
+              </span>
+            </Link>
+          )}
+
+          {/* {location.state && <Link to={location.state.from}>Back</Link>} */}
         </Card.Header>
       </Card>
       <Accordion defaultActiveKey='0' flush>
@@ -96,9 +101,7 @@ export default function CompanyDetails({firstEnterPath, urlDataCompany}) {
           <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' />
         ))}
         <Accordion.Item>
-          <Accordion.Header id={'rest'}>
-            Оборудование под давлением
-          </Accordion.Header>
+          <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
           <Accordion.Body>
             <Accordion defaultActiveKey='0' flush id='test'>
               {underPressureEquip.map((el, idx) => (

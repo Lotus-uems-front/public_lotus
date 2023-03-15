@@ -28,7 +28,10 @@
 
                     .detailsIcon{
                        margin-left: 5px;
+                    }
 
+                    .highlight{
+                        background-color: lighten($primary-disabled-color, 10%) ;
                     }
                 }
                     td:first-child{
