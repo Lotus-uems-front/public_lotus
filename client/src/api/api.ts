@@ -1,13 +1,13 @@
 import axios from 'axios'
-import { Obj } from 'reselect/es/types'
 
 const port = '5000'
-// const url = `http://localhost:${port}` // для домашнего использования
-const url = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL = `http://localhost:${port}` // для домашнего использования
+// export const URL = `https://test.public.lotus-uems.ru` // для тестового сервера
 
-const baseURL = `${url}/api/company/get_all_data`
-const searchByCompanyNameURL = `${url}/api/search/search_name` // поиск компаний по названию
-const searchOccupationURL = `${url}/api/search/search_occupation` // поиск по виду деятельности
+const baseURL = `${URL}/api/company/get_all_data`
+const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск компаний по названию
+const searchOccupationURL = `${URL}/api/search/search_occupation` // поиск по виду деятельности
+const getIconURL = `${URL}/api/file/get-icon` // получение иконки
 
 const headers = { "Content-Type": "application/json" }
 
@@ -63,5 +63,35 @@ export const companiesDataApi = {
             return []
         }
 
+    },
+
+    /**
+     * Возвращаем файл по указанному URL
+     * @param {string} fileName URL полный путь до файла
+     * @returns 
+     */
+    async getIcon(fileName: String) {
+        try {
+            const userBody = {
+                fileName: fileName
+            }
+
+            const response = await fetch(getIconURL, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userBody)
+            });
+
+            const result = await response.blob();
+            const linkBlob = global.URL.createObjectURL(result);
+
+            return linkBlob
+
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return null
+        }
     }
 }

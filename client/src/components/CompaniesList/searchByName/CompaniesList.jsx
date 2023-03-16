@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
 import Highlighter from 'react-highlight-words'
+import loadImageUrl from '../../../assets/loadImageUrl'
 
 export default function CompaniesList({ companies, searchedName, urlSearchByName }) {
   // console.log(companies)
+
+  // ! ниже пример получения иконки
+  const [url, setUrl] = useState('');
+  useEffect(() => {
+    (async () => {
+      const urlIcon = await loadImageUrl('icon_logo', '1111111111') // (файл, ИНН)
+      setUrl(urlIcon);
+    })()
+  }, []);
+
+
 
   const filteredInfo =
     companies.length &&
@@ -20,6 +32,7 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
         email: company.data[112].value,
         ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value,
       }
+
     })
 
   if (filteredInfo.length)
@@ -30,6 +43,7 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
             <thead className={s.table_head}>
               <tr>
                 <th>#</th>
+                <th> logo </th>
                 <th>Название</th>
                 <th>Город</th>
                 <th>ИНН</th>
@@ -45,6 +59,7 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
                     <td>{idx + 1}</td>
+                    <td> <img src={url} alt='logo' width={40} height={40} /> </td>
                     <td>
                       <Highlighter
                         //  highlightClassName={s.highlight}
