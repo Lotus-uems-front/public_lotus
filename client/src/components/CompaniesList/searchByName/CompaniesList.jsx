@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom'
 import { Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
+import Highlighter from 'react-highlight-words'
 
-export default function CompaniesList({ companies }) {
+export default function CompaniesList({ companies, searchedName, urlSearchByName }) {
   // console.log(companies)
-
-  // MdOutlineOpenInNew
-  // AiOutlineInfoCircle
 
   const filteredInfo =
     companies.length &&
@@ -28,7 +26,7 @@ export default function CompaniesList({ companies }) {
     return (
       <div className={s.wrapper}>
         <Container>
-          <Table className={s.table} >
+          <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
                 <th>#</th>
@@ -41,13 +39,19 @@ export default function CompaniesList({ companies }) {
               <div id={s.test} className={s.test}></div>
             </thead>
             {filteredInfo.map((company, idx) => {
-              const { ownership, name, inn, tel, email, country, city, url } = company
+              const { ownership, name, inn, tel, email, country, city } = company
+
               return (
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
                     <td>{idx + 1}</td>
                     <td>
-                      <b>{`${ownership} ${name}`}</b>
+                      <Highlighter
+                        //  highlightClassName={s.highlight}
+                        searchWords={[searchedName]}
+                        autoEscape={true}
+                        textToHighlight={`${ownership} ${name}`}
+                      />
                     </td>
                     <td>{`${city} ${country ? `(${country})` : ''} `}</td>
                     <td>
@@ -58,12 +62,19 @@ export default function CompaniesList({ companies }) {
                       <Badge>{email}</Badge>
                     </td>
                     <td>
-                      <Link to={`/data-company/?inn=${inn}`}>
+                      <Link
+                        to={{
+                          pathname: '/data-company/',
+                          search: `?inn=${inn}`,
+                          state: { from: urlSearchByName }
+                        }}
+                      >
                         <Button variant='outline-info'>
                           Подробно
-                          <span className={s.detailsIcon}><MdOutlineOpenInNew /></span>
+                          <span className={s.detailsIcon}>
+                            <MdOutlineOpenInNew />
+                          </span>
                         </Button>
-
                       </Link>
                     </td>
                   </tr>
