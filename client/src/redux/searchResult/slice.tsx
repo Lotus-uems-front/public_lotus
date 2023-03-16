@@ -12,6 +12,7 @@ export const fetchSearchByCompanyName = createAsyncThunk(
   async (dataSearch: Object) => {
     try {
       const data = await companiesDataApi.searchByCompanyName(dataSearch)
+      
       return data
 
     } catch (err) {
@@ -28,6 +29,7 @@ export const fetchSearchOccupation = createAsyncThunk(
   async (occupation: Object) => {
     try {
       const data = await companiesDataApi.searchOccupation(occupation)
+
       return data
 
     } catch (err) {

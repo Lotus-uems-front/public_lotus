@@ -31,6 +31,18 @@
   position: relative;
 }
 
+.wrapper .table .table_body .table_row td a {
+  text-decoration: none;
+}
+
+.wrapper .table .table_body .table_row td a button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
 .wrapper .table .table_body .table_row td .detailsIcon {
   margin-left: 5px;
 }

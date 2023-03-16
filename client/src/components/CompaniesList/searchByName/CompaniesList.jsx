@@ -13,8 +13,9 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
   const [url, setUrl] = useState('');
   useEffect(() => {
     (async () => {
-      const urlIcon = await loadImageUrl('icon_logo', '1111111111') // (файл, ИНН)
+      const urlIcon = await loadImageUrl('icon_logo', '8888822222') // (файл, ИНН)
       setUrl(urlIcon);
+      console.log(urlIcon);
     })()
   }, []);
 
