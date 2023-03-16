@@ -20,7 +20,7 @@ export default function CompaniesList({ companies }) {
         inn: company.data[6].value,
         tel: company.data[111].value,
         email: company.data[112].value,
-        ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value
+        ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value,
       }
     })
 
@@ -41,7 +41,7 @@ export default function CompaniesList({ companies }) {
               <div id={s.test} className={s.test}></div>
             </thead>
             {filteredInfo.map((company, idx) => {
-              const { ownership, name, inn, tel, email, country, city } = company
+              const { ownership, name, inn, tel, email, country, city, url } = company
               return (
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
@@ -61,9 +61,9 @@ export default function CompaniesList({ companies }) {
                       <Link to={`/data-company/?inn=${inn}`}>
                         <Button variant='outline-info'>
                           Подробно
-                          <span className={s.detailsIcon}><MdOutlineOpenInNew/></span> 
+                          <span className={s.detailsIcon}><MdOutlineOpenInNew /></span>
                         </Button>
-                         
+
                       </Link>
                     </td>
                   </tr>
