@@ -1,7 +1,15 @@
 .wrapper {
-  width: 100vw;
-  height: 100vh;
   background-color: #F9FDFE;
+}
+
+.wrapper .paginationButtonGroup {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  gap: 5px;
 }
 
 .wrapper .table {

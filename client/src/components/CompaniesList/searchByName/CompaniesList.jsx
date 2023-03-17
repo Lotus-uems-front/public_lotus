@@ -2,24 +2,49 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
+import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai'
 import s from '../style/CompaniesList.module.css'
 import Highlighter from 'react-highlight-words'
 import loadImageUrl from '../../../assets/loadImageUrl'
+import { useDispatch, useSelector } from 'react-redux'
+import {  setCurrentPage, setIconUrl } from '../../../redux/searchResult/slice'
 
 export default function CompaniesList({ companies, searchedName, urlSearchByName }) {
   // console.log(companies)
+  const dispatch = useDispatch()
+  const currentPage = useSelector((state) => state.search.currentPage)
+  // const iconUrl = useSelector((state) => state.search.iconUrl)
+
+  const[url, setUrl] = useState('')
+
+// console.log(iconUrl);
+
+  const pageUp = () => {
+    dispatch(setCurrentPage(currentPage + 1))
+  }
+
+  const pageDown = () => {
+    if (currentPage !== 0) {
+      dispatch(setCurrentPage(currentPage - 1))
+    }
+  }
 
   // ! ниже пример получения иконки
-  const [url, setUrl] = useState('');
   useEffect(() => {
-    (async () => {
-      const urlIcon = await loadImageUrl('icon_logo', '8888822222') // (файл, ИНН)
-      setUrl(urlIcon);
-      console.log(urlIcon);
+    ;(async () => {
+      const urlIcon = await loadImageUrl('icon_logo', '2222222222') // (файл, ИНН)
+      setUrl(urlIcon)
+      console.log(urlIcon)
     })()
-  }, []);
 
+    // const fetchIconUrl = async () => {
+    //   const urlIcon = await dispatch(loadImageUrl('icon_logo', '2222222222'))
+    //   await dispatch(setIconUrl(urlIcon))
+    //   console.log(iconUrl)
+    // }
 
+    // fetchIconUrl()
+  }, [])
 
   const filteredInfo =
     companies.length &&
@@ -31,9 +56,8 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
         inn: company.data[6].value,
         tel: company.data[111].value,
         email: company.data[112].value,
-        ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value,
+        ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value
       }
-
     })
 
   if (filteredInfo.length)
@@ -60,7 +84,10 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
                     <td>{idx + 1}</td>
-                    <td> <img src={url} alt='logo' width={40} height={40} /> </td>
+                    <td>
+                      {' '}
+                      <img src={url} alt='logo' width={40} height={40} />{' '}
+                    </td>
                     <td>
                       <Highlighter
                         //  highlightClassName={s.highlight}
@@ -98,6 +125,14 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
               )
             })}
           </Table>
+          <div className={s.paginationButtonGroup}>
+            <Button disabled={currentPage === 1} onClick={pageDown}>
+              <AiOutlineCaretLeft />
+            </Button>
+            <Button onClick={pageUp}>
+              <AiOutlineCaretRight />
+            </Button>
+          </div>
         </Container>
       </div>
     )
