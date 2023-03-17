@@ -1,5 +1,6 @@
 const ApiError = require('../error/ApiError');
 const allCompany = require('../model/company/allCompany');
+const onlyFullData = require('../model/company/onlyFullData');
 
 
 /**
@@ -72,8 +73,10 @@ class CompanyController {
                 return next(ApiError.badRequest(`Не указана коллекция`));
             }
 
-            const result = await db.collection(String(inn))
+            const data = await db.collection(String(inn))
                 .find({}).toArray()
+
+            const result = onlyFullData(data) // убираем пустые формы
 
             res.json(result)
 
