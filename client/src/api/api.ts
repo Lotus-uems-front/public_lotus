@@ -65,6 +65,19 @@ export const companiesDataApi = {
 
     },
 
+    async getIcon(fileName: string) {
+        try {
+          const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
+          const data = global.URL.createObjectURL(response.data);
+          console.log(data);
+          
+          return global.URL.createObjectURL(response.data);
+        } catch (error) {
+          console.error('Ошибка в api.ts:', error);
+          return null;
+        }
+      }
+
     /**
      * Возвращаем файл по указанному URL
      * @param {string} fileName URL полный путь до файла

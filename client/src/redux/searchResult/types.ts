@@ -18,6 +18,8 @@ export type CompanyDataType = {
     searchByNameResult: FilteredCompanyData[]
     searchByOccupationResult: FilteredCompanyData[]
     status: StatusType
+    currentPage: number
+    iconUrl: string
   }
   
   
