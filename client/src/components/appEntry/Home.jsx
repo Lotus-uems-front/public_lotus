@@ -7,8 +7,6 @@ import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
 import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
 
-
-
 export default function Home() {
   const dispatch = useDispatch()
 
@@ -23,13 +21,17 @@ export default function Home() {
   const urlDataCompany = '/data-company/'
   const urlSearchByName = '/search-name/'
   const urlSearchByOccupation = '/occupation/'
-  let pageName = 0; // Страница пагинации для поиска компаний по имени
-  let pageOccupation = 0; // Страница пагинации для поиска компаний по виду деятльности
+  // let pageNumberName = 0; // Страница пагинации для поиска компаний по имени
+  // let pageNumberOccupation = 0; // Страница пагинации для поиска компаний по виду деятльности
+
+  const [pageNumber, setPageNumber] = useState(1)
+
+  const [pagesCount, setPagesCount] = useState(null)
 
   const [firstEnterPath, setFirstEnterPath] = useState(false)
 
   useEffect(() => {
-    if(url.pathname === urlDataCompany){
+    if (url.pathname === urlDataCompany) {
       setFirstEnterPath(true)
     }
   }, [])
@@ -38,15 +40,13 @@ export default function Home() {
   // отслеживаем URL
   useEffect(() => {
     const innLink = url.searchParams.get('inn')
-    
-    const searchParamOccupation = url.searchParams.get('occupation')
 
-    console.log(searchedName);
+    const searchParamOccupation = url.searchParams.get('occupation')
 
     //* При наличии поиска по вдиу деятельности
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
-        const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: pageOccupation }))
+        const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: pageNumber }))
 
         if (response.length) {
           dispatch(searchOccupation(response))
@@ -58,8 +58,7 @@ export default function Home() {
     //* при наличии поиска по названию компании
     if (searchedName && urlSearchByName === url.pathname) {
       const searchByCompanyNameArray = async () => {
-        const response = await dispatch(fetchSearchByCompanyName({ searchString: searchedName, page: pageName }))
-
+        const response = await dispatch(fetchSearchByCompanyName({ searchString: searchedName, page: pageNumber }))
         if (response.length) {
           dispatch(searchByCompanyName(response))
         }
@@ -71,7 +70,7 @@ export default function Home() {
     if (innLink && urlDataCompany === url.pathname) {
       dispatch(setInn(innLink))
     }
-  }, [link, loc.pathname])
+  }, [link, loc.pathname, pageNumber])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
   useEffect(() => {
@@ -84,12 +83,24 @@ export default function Home() {
     }
     fetchData()
   }, [inn])
+  // console.log(searchByNameResult)
 
+  const pageUp = () => {
+    setPageNumber(prev => prev + 1)
+  }
+
+  const pageDown = () => {
+    setPageNumber(prev => prev - 1)
+  }
   return (
-    <Routes>
-      <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} urlDataCompany={urlDataCompany} />} />
-      <Route exact path={urlSearchByName} element={<CompaniesList urlSearchByName={urlSearchByName} companies={searchByNameResult?.length ? searchByNameResult : ''} searchedName={searchedName}/>} />
-      <Route exact path={urlSearchByOccupation} element={<CompaniesList companies={searchByOccupationResult?.length ? searchByOccupationResult : ''} />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} urlDataCompany={urlDataCompany} />} />
+        <Route exact path={urlSearchByName} element={<CompaniesList urlSearchByName={urlSearchByName} companies={searchByNameResult?.length ? searchByNameResult : ''} searchedName={searchedName} />} />
+        <Route exact path={urlSearchByOccupation} element={<CompaniesList companies={searchByOccupationResult?.length ? searchByOccupationResult : ''} />} />
+      </Routes>
+      <button onClick={pageDown}>{'<='}</button>
+      <button onClick={pageUp}>{'=>'}</button>
+    </>
   )
 }

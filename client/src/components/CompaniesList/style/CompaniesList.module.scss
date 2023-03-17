@@ -26,6 +26,15 @@
                     padding: 15px;
                     position: relative;
 
+                    a{
+                        text-decoration: none;
+
+                        button{
+                            display: flex;
+                            flex-wrap: nowrap
+                        }
+                    }
+
                     .detailsIcon{
                        margin-left: 5px;
                     }
@@ -34,15 +43,13 @@
                         background-color: lighten($primary-disabled-color, 10%) ;
                     }
                 }
-                    td:first-child{
-                        // padding: 10px;  
+                    td:first-child{ 
                         border-left-style: transparent;
                         border-top-left-radius: 10px; 
                         border-bottom-left-radius: 10px;
                     }
 
                     td:last-child{
-                        // padding: 10px;  
                         border-right-style: solid;
                         border-bottom-right-radius: 10px; 
                         border-top-right-radius: 10px;
