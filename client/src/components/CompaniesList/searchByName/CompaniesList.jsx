@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { Badge, Button, Container, Table } from 'react-bootstrap'
+import { Link, useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Highlighter from 'react-highlight-words'
+import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import { AiOutlineCaretLeft, AiOutlineCaretRight } from 'react-icons/ai'
 import s from '../style/CompaniesList.module.css'
-import Highlighter from 'react-highlight-words'
 import loadImageUrl from '../../../assets/loadImageUrl'
-import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentPage } from '../../../redux/searchResult/slice'
 
-export default function CompaniesList({ companies, searchedName, urlSearchByName }) {
+export default function CompaniesList({ companies, searchedName, searchParamOccupation }) {
   // console.log(companies)
   const dispatch = useDispatch()
   const currentPage = useSelector((state) => state.search.currentPage)
@@ -49,10 +49,24 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
       }
     })
 
+    const location = useLocation()
+    
+
+    const setHeader = () => {
+      if(location.pathname.includes('search')){
+        return <span>По запросу <b>"{searchedName}"</b> найдено {filteredInfo.length} результатов:</span>
+      }
+      // когда будет вся длина массива, будет отображаться не 10, а сколько в общ сложности
+      if(location.pathname.includes('occupation')){
+        return <span>По запросу: <b>"{searchParamOccupation}"</b> найдено {filteredInfo.length} результатов:</span>
+      }
+    }
+
   if (filteredInfo.length)
     return (
       <div className={s.wrapper}>
         <Container>
+         <Alert variant='light'>{setHeader()}</Alert> 
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
@@ -98,7 +112,7 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
                         to={{
                           pathname: '/data-company/',
                           search: `?inn=${inn}`,
-                          state: { from: urlSearchByName }
+                          state: location.pathname
                         }}
                       >
                         <Button variant='outline-info'>

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const port = '5000'
-export const URL = `http://localhost:${port}` // для домашнего использования
-// export const URL = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL:string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 
 const baseURL = `${URL}/api/company/get_all_data`
 const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск компаний по названию
@@ -82,4 +82,57 @@ export const companiesDataApi = {
         }
       }
 
+    // /**
+    //  * Возвращаем файл по указанному URL
+    //  * @param {string} fileName URL полный путь до файла
+    //  * @returns 
+    //  */
+    // async getIcon(fileName: String) {
+    //     try {
+    //         const userBody = {
+    //             fileName: fileName
+    //         }
+
+    //         const response = await fetch(getIconURL, {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(userBody)
+    //         });
+
+    //         const result = await response.blob();
+    //         const linkBlob = global.URL.createObjectURL(result);
+
+    //         return linkBlob
+
+    //     } catch (err) {
+    //         console.log(`Ошибка в api.ts: `, err);
+    //         return null
+    //     }
+    // },
+
+
+    // async getIcon2(fileName2: string) {
+    //     try {
+    //         const userBody = {
+    //             fileName: fileName2
+    //         }
+
+    //         const response = await axios.post(getIconURL, userBody, {
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             responseType: 'blob',
+    //         });
+
+    //         const blob = response.data;
+    //         const linkBlob = global.URL.createObjectURL(blob);
+
+    //         return linkBlob;
+    //     } catch (err) {
+    //         console.log('Ошибка в api.ts:', err);
+    //         return null;
+    //     }
+    // }
 }

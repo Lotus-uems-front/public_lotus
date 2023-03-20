@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Card, Container } from 'react-bootstrap'
+import { Accordion, Alert, Card, Container } from 'react-bootstrap'
 import { IoIosArrowBack } from 'react-icons/io'
 import { useSelector, useDispatch } from 'react-redux'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
 import s from './styles/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
   const navigate = useNavigate()
@@ -74,26 +74,13 @@ export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
     setUnderPressureEquip(underPressure)
   }, [allFormsData, setInfoData])
 
-  const location = useLocation()
-
-  console.log(location.state)
-
   return (
     <Container>
+       {/* <Alert variant='light'></Alert>  */}
       <Card className={s.card}>
         <Card.Header>
-          {/* {!firstEnterPath && <span onClick={()=> navigate(-1)} className={s.icon}><IoIosArrowBack /></span>} */}
+          {!firstEnterPath && <span onClick={()=> navigate(-1)} className={s.icon}><IoIosArrowBack /></span>}
           {companyName}
-
-          {location.state && (
-            <Link to={location.state.from}>
-              <span className={s.icon}>
-                <IoIosArrowBack />
-              </span>
-            </Link>
-          )}
-
-          {/* {location.state && <Link to={location.state.from}>Back</Link>} */}
         </Card.Header>
       </Card>
       <Accordion defaultActiveKey='0' flush>
