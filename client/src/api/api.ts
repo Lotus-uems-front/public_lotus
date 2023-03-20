@@ -65,47 +65,21 @@ export const companiesDataApi = {
 
     },
 
+        /**
+     * Возвращаем файл по указанному URL
+     * @param {string} fileName URL полный путь до файла
+     * @returns 
+     */
+
     async getIcon(fileName: string) {
         try {
           const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
           const data = global.URL.createObjectURL(response.data);
-          console.log(data);
-          
-          return global.URL.createObjectURL(response.data);
+          return data;
         } catch (error) {
           console.error('Ошибка в api.ts:', error);
           return null;
         }
       }
 
-    /**
-     * Возвращаем файл по указанному URL
-     * @param {string} fileName URL полный путь до файла
-     * @returns 
-     */
-    // async getIcon(fileName: String) {
-    //     try {
-    //         const userBody = {
-    //             fileName: fileName
-    //         }
-
-    //         const response = await fetch(getIconURL, {
-    //             method: 'POST',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(userBody)
-    //         });
-
-    //         const result = await response.blob();
-    //         const linkBlob = global.URL.createObjectURL(result);
-
-    //         return linkBlob
-
-    //     } catch (err) {
-    //         console.log(`Ошибка в api.ts: `, err);
-    //         return null
-    //     }
-    // }
-    
 }
