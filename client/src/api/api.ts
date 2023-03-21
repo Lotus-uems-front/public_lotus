@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 const port = '5000'
+
 export const URL:string = `http://localhost:${port}` // для домашнего использования
 // export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+
 
 const baseURL = `${URL}/api/company/get_all_data`
 const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск компаний по названию
@@ -65,6 +67,7 @@ export const companiesDataApi = {
 
     },
 
+
         /**
      * Возвращаем файл по указанному URL
      * @param {string} fileName URL полный путь до файла
@@ -104,7 +107,24 @@ export const companiesDataApi = {
     //         const result = await response.blob();
     //         const linkBlob = global.URL.createObjectURL(result);
 
-    //         return linkBlob
+    /**
+     * Получение иконки
+     * @param {string} fileName 
+     * @returns 
+     */
+  //  async getIcon(fileName: string) {
+  //      try {
+  //          const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
+   //         const data = global.URL.createObjectURL(response.data);
+   //         console.log(data);
+
+   //         return global.URL.createObjectURL(response.data);
+   //     } catch (error) {
+    //        console.error('Ошибка в api.ts:', error);
+    //        return null;
+     //   }
+  //  }
+
 
     //     } catch (err) {
     //         console.log(`Ошибка в api.ts: `, err);
@@ -135,4 +155,5 @@ export const companiesDataApi = {
     //         return null;
     //     }
     // }
+
 }
