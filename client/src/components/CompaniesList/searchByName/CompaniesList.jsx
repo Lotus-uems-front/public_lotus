@@ -7,7 +7,7 @@ import s from '../style/CompaniesList.module.css'
 import Highlighter from 'react-highlight-words'
 import loadImageUrl from '../../../assets/loadImageUrl'
 import { useDispatch, useSelector } from 'react-redux'
-import {  setCurrentPage, setIconUrl } from '../../../redux/searchResult/slice'
+import { setCurrentPage, setIconUrl } from '../../../redux/searchResult/slice'
 
 export default function CompaniesList({ companies, searchedName, urlSearchByName }) {
   // console.log(companies)
@@ -15,9 +15,9 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
   const currentPage = useSelector((state) => state.search.currentPage)
   // const iconUrl = useSelector((state) => state.search.iconUrl)
 
-  const[url, setUrl] = useState('')
+  const [url, setUrl] = useState('')
 
-// console.log(iconUrl);
+  // console.log(iconUrl);
 
   const pageUp = () => {
     dispatch(setCurrentPage(currentPage + 1))
@@ -31,10 +31,10 @@ export default function CompaniesList({ companies, searchedName, urlSearchByName
 
   // ! ниже пример получения иконки
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const urlIcon = await loadImageUrl('icon_logo', '2222222222') // (файл, ИНН)
       setUrl(urlIcon)
-      console.log(urlIcon)
+      console.log(urlIcon)// test
     })()
 
     // const fetchIconUrl = async () => {

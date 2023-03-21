@@ -26,6 +26,8 @@ class SearchController {
             const innArray = await getCompaniesInn(db);
             let namesCompanies = await searchCompanyName(db, innArray, searchString);
             console.log(`search string::: `, searchString); // test
+            const lengthArr = namesCompanies.length;
+            console.log(`LENGTH:::: ${lengthArr}`); // test
 
             if (page && Number(page) > 0) {
                 console.log(`PAGES:::: `, Number(page)); // test

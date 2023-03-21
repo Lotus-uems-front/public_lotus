@@ -74,13 +74,13 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
             const data = global.URL.createObjectURL(response.data);
-            console.log(data);
+            // console.log(data);
 
-            return global.URL.createObjectURL(response.data);
+            return data
         } catch (error) {
             console.error('Ошибка в api.ts:', error);
             return null;
         }
-    }
+    },
 
 }
