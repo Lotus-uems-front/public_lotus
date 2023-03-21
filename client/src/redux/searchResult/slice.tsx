@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { companiesDataApi, URL } from '../../api/api'
+import { companiesDataApi } from '../../api/api'
 import { InitialStateType, StatusType } from './types'
 
-/**
- * поиск по названию компании
- */
+//поиск по названию компании
 export const fetchSearchByCompanyName = createAsyncThunk('search/fetchSearchByName', async (dataSearch: Object) => {
   try {
     const data = await companiesDataApi.searchByCompanyName(dataSearch)
@@ -15,38 +13,17 @@ export const fetchSearchByCompanyName = createAsyncThunk('search/fetchSearchByNa
   }
 })
 
-/**
- * Поиск по виду деятельности
- */
+//Поиск по виду деятельности
 export const fetchSearchOccupation = createAsyncThunk('search/fetchSearchOccupation', async (occupation: Object) => {
   try {
     const data = await companiesDataApi.searchOccupation(occupation)
-
     return data
   } catch (err) {
     console.log(`Ошибка в slise.tsx::: `, err)
   }
 })
 
-//@ts-ignore
-export const loadImageUrl = createAsyncThunk('search/loadImageUrl', async (fileName: string, login: string) => {
-  try {
-    let urlIcon
-    const user = 'leonid'
-    if (URL === 'http://localhost:5000') {
-      // urlIcon = await companiesDataApi.getIcon(`D:/github/uems_backend/uems-uploads/icons/${login}_${fileName}.jpg`) // icon_logo
-      urlIcon = await companiesDataApi.getIcon(`C:/Users/semen/OneDrive/Рабочий стол/server/uems-uploads/icons/${login}_${fileName}.jpg`)
-    } else {
-      urlIcon = await companiesDataApi.getIcon(`/home/${user}/uems-uploads/icons/${login}_${fileName}.jpg`)
-    }
-    console.log(urlIcon)
 
-    return urlIcon
-  } catch (err) {
-    console.log(`Ошибка::: `, err)
-    return null
-  }
-})
 
 const initialState: InitialStateType = {
   status: StatusType.LOADING,
@@ -105,21 +82,6 @@ export const searchSlice = createSlice({
 
     builder.addCase(fetchSearchOccupation.rejected, (state) => {
       state.searchByNameResult = []
-      state.status = StatusType.ERROR
-    })
-    // //icon
-    builder.addCase(loadImageUrl.pending, (state) => {
-      state.iconUrl = ''
-      state.status = StatusType.LOADING
-    })
-
-    builder.addCase(loadImageUrl.fulfilled, (state, action: any) => {
-      state.iconUrl = action.payload
-      state.status = StatusType.SUCCESS
-    })
-
-    builder.addCase(loadImageUrl.rejected, (state) => {
-      state.iconUrl = ''
       state.status = StatusType.ERROR
     })
   }
