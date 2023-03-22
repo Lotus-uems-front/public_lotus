@@ -106,54 +106,9 @@ export const companiesDataApi = {
 
     //         const result = await response.blob();
     //         const linkBlob = global.URL.createObjectURL(result);
-
-    /**
-     * Получение иконки
-     * @param {string} fileName 
-     * @returns 
-     */
-  //  async getIcon(fileName: string) {
-  //      try {
-  //          const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
-   //         const data = global.URL.createObjectURL(response.data);
-   //         console.log(data);
-
-   //         return global.URL.createObjectURL(response.data);
-   //     } catch (error) {
-    //        console.error('Ошибка в api.ts:', error);
-    //        return null;
-     //   }
-  //  }
-
-
-    //     } catch (err) {
+    //         } catch (err) {
     //         console.log(`Ошибка в api.ts: `, err);
     //         return null
     //     }
     // },
-
-
-    // async getIcon2(fileName2: string) {
-    //     try {
-    //         const userBody = {
-    //             fileName: fileName2
-    //         }
-
-    //         const response = await axios.post(getIconURL, userBody, {
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             responseType: 'blob',
-    //         });
-
-    //         const blob = response.data;
-    //         const linkBlob = global.URL.createObjectURL(blob);
-
-    //         return linkBlob;
-    //     } catch (err) {
-    //         console.log('Ошибка в api.ts:', err);
-    //         return null;
-    //     }
-    // }
-
 }
