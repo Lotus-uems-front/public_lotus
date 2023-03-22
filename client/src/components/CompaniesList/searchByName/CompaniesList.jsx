@@ -53,7 +53,7 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
 
       const objWithIcon = await objectInPromise
       setFullCompaniesArray(objWithIcon)
-      console.log(objWithIcon);
+      console.log(`:::`, objWithIcon);
     }
 
   }
