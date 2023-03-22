@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const port = '5000'
 
-export const URL: string = `http://localhost:${port}` // для домашнего использования
-// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+// export const URL: string = `http://localhost:${port}` // для домашнего использования
+export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 
 
 const baseURL = `${URL}/api/company/get_all_data`
@@ -42,6 +42,8 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(searchByCompanyNameURL, { dataSearch })
             const data = await response.data.namesCompanies
+            console.log(`DATA::: `, response); // test
+
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
