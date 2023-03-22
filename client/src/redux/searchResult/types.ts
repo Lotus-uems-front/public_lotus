@@ -20,6 +20,8 @@ export type CompanyDataType = {
     status: StatusType
     currentPage: number
     iconUrl: string | null
+    companiesCount: number
+    companiesCountName: number
   }
   
   

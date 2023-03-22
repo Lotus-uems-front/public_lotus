@@ -5,6 +5,7 @@
     // height: 100vh;
     background-color: $light-bg-color;
     // overflow-y: scroll;
+    font-size: 18px;
     .paginationButtonGroup{
         display: flex; 
         justify-content: end; 
@@ -17,6 +18,7 @@
             cursor:auto;
         .table_head{
             text-align: center;
+            color: gray;
         }
         .table_body{
             .link{
@@ -25,6 +27,35 @@
             .table_row{
                 background-color: #fff;
                 box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
+
+                .city{
+                    width: 250px;
+                }
+                .tel{
+                    white-space: nowrap
+                }
+                .email{
+                   display: block 
+                }
+                
+                .logoSection{
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 15px;
+                    font-size: 18px;
+                    .companyLogo{
+                        width: 60px; 
+                        height: 60px;
+                        border-radius: 50%;
+                    }
+                    .inn{
+                        margin-top: 5px;
+                        font-size: 14px;
+                        color: gray;
+                        font-weight: bolder;
+                    }
+                }
 
                 td{
                     border: solid 1px $light-bg-color;

@@ -5,7 +5,7 @@ import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slic
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
-import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
+import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation, setCompaniesCount, fetchCompaniesLength } from '../../redux/searchResult/slice'
 import s from './style/Home.module.css'
 
 export default function Home() {
@@ -16,6 +16,7 @@ export default function Home() {
   const inn = useSelector((state) => state.questionary.inn)
   const searchByNameResult = useSelector((state) => state.search.searchByNameResult) // массив Main найденных компаний по названию
   const searchByOccupationResult = useSelector((state) => state.search.searchByOccupationResult) // массив Main найденных компаний по виду деятльености
+  const companiesCount = useSelector((state) => state.search.companiesCount)
 
   const link = window.location.href
   const url = new URL(link)
@@ -41,7 +42,7 @@ export default function Home() {
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
         const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: currentPage }))
-        if (response.length) {
+        if (response) {
           dispatch(searchOccupation(response))
         }
       }
@@ -76,7 +77,7 @@ export default function Home() {
     }
     fetchData()
   }, [inn])
-
+  // console.log('ther', companiesCount);
   return (
     <div className={s.wrapper}>
       <Routes>

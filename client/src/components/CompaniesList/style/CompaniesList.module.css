@@ -1,5 +1,6 @@
 .wrapper {
   background-color: #F9FDFE;
+  font-size: 18px;
 }
 
 .wrapper .paginationButtonGroup {
@@ -20,6 +21,7 @@
 
 .wrapper .table .table_head {
   text-align: center;
+  color: gray;
 }
 
 .wrapper .table .table_body .link {
@@ -30,6 +32,45 @@
   background-color: #fff;
   -webkit-box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
           box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
+}
+
+.wrapper .table .table_body .table_row .city {
+  width: 250px;
+}
+
+.wrapper .table .table_body .table_row .tel {
+  white-space: nowrap;
+}
+
+.wrapper .table .table_body .table_row .email {
+  display: block;
+}
+
+.wrapper .table .table_body .table_row .logoSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 15px;
+  font-size: 18px;
+}
+
+.wrapper .table .table_body .table_row .logoSection .companyLogo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.wrapper .table .table_body .table_row .logoSection .inn {
+  margin-top: 5px;
+  font-size: 14px;
+  color: gray;
+  font-weight: bolder;
 }
 
 .wrapper .table .table_body .table_row td {
