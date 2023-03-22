@@ -10,11 +10,13 @@ import loadImageUrl from '../../../assets/loadImageUrl'
 import { setCurrentPage, setIconUrl } from '../../../redux/searchResult/slice'
 
 export default function CompaniesList({ companies, searchedName, searchParamOccupation }) {
-  // console.log(companies)
+
+  useEffect(() => {
+    setObjectWithIcons()
+  }, [companies.length])
+
   const dispatch = useDispatch()
   const currentPage = useSelector((state) => state.search.currentPage)
-  // const iconUrl = useSelector((state) => state.search.iconUrl)
-
   const [url, setUrl] = useState('')
 
   // console.log(iconUrl);
@@ -34,7 +36,6 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
     ; (async () => {
       const urlIcon = await loadImageUrl('icon_logo', '2222222222') // (файл, ИНН)
       setUrl(urlIcon)
-      console.log(urlIcon)
     })()
 
   }, [])

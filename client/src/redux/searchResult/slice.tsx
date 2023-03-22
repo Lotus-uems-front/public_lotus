@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { companiesDataApi } from '../../api/api'
+import { companiesDataApi, URL } from '../../api/api'
 import { InitialStateType, StatusType } from './types'
 
 //поиск по названию компании
@@ -24,13 +24,30 @@ export const fetchSearchOccupation = createAsyncThunk('search/fetchSearchOccupat
 })
 
 
+export const loadImageUrl = createAsyncThunk('search/loadImageUrl', async (login, fileName) => {
+  try {
+    let urlIcon;
+    const user = 'Leonid';
+    if (URL === 'http://localhost:5000') {
+        urlIcon = await companiesDataApi.getIcon(`C:/Users/semen/OneDrive/Рабочий стол/server/uems-uploads/icons/${login}_${fileName}.jpg`)
+    } else {
+        urlIcon = await companiesDataApi.getIcon(`/home/${user}/uems-uploads/icons/${login}_${fileName}.jpg`)
+    }
+    // console.log(`${urlIcon}`); // test
+    return urlIcon
+} catch (err) {
+    console.log(`Ошибка::: `, err);
+    return null
+}
+})
+
 
 const initialState: InitialStateType = {
   status: StatusType.LOADING,
   searchByNameResult: [],
   searchByOccupationResult: [],
   currentPage: 1,
-  iconUrl: ''
+  iconUrl: '' 
 }
 
 export const searchSlice = createSlice({
@@ -55,35 +72,47 @@ export const searchSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchSearchByCompanyName.pending, (state) => {
+    builder
+    .addCase(fetchSearchByCompanyName.pending, (state) => {
       state.searchByNameResult = []
       state.status = StatusType.LOADING
     })
 
-    builder.addCase(fetchSearchByCompanyName.fulfilled, (state, action: any) => {
+    .addCase(fetchSearchByCompanyName.fulfilled, (state, action: any) => {
       state.searchByNameResult = action.payload
       state.status = StatusType.SUCCESS
     })
 
-    builder.addCase(fetchSearchByCompanyName.rejected, (state) => {
+    .addCase(fetchSearchByCompanyName.rejected, (state) => {
       state.searchByNameResult = []
       state.status = StatusType.ERROR
     })
 
-    builder.addCase(fetchSearchOccupation.pending, (state) => {
+    .addCase(fetchSearchOccupation.pending, (state) => {
       state.searchByNameResult = []
       state.status = StatusType.LOADING
     })
 
-    builder.addCase(fetchSearchOccupation.fulfilled, (state, action: any) => {
+    .addCase(fetchSearchOccupation.fulfilled, (state, action: any) => {
       state.searchByOccupationResult = action.payload
       state.status = StatusType.SUCCESS
     })
 
-    builder.addCase(fetchSearchOccupation.rejected, (state) => {
+    .addCase(fetchSearchOccupation.rejected, (state) => {
       state.searchByNameResult = []
       state.status = StatusType.ERROR
     })
+
+    .addCase(loadImageUrl.pending, (state) => {
+      state.status = StatusType.LOADING;
+    })
+    .addCase(loadImageUrl.fulfilled, (state, action) => {
+      state.status = StatusType.SUCCESS;
+      state.iconUrl = action.payload;
+    })
+    .addCase(loadImageUrl.rejected, (state, action) => {
+      state.status = StatusType.ERROR;
+    });
   }
 })
 
