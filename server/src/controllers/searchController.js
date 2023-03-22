@@ -34,7 +34,8 @@ class SearchController {
                 namesCompanies = doPagination(namesCompanies, page);
             }
 
-            res.json(namesCompanies)
+            res.json({ namesCompanies: namesCompanies, lengthArr: lengthArr })
+            // res.json(namesCompanies)
         } catch (err) {
             console.log('Ошибка при поиске названия компании: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске названия компании`));
@@ -57,13 +58,14 @@ class SearchController {
             const innArr = await getCompaniesInn(db);
             const arrayInn = await searchOccupation(db, innArr, searchParamOccupation)
             let companyOccupation = await getMainFormOccupation(db, arrayInn);
+            const lengthArr = companyOccupation.length
 
             if (page && Number(page) > 0) {
                 console.log(`PAGES:::: `, Number(page)); // test
                 companyOccupation = doPagination(companyOccupation, page);
             }
 
-            res.json(companyOccupation)
+            res.json({ companyOccupation: companyOccupation, lengthArr: lengthArr })
         } catch (err) {
             console.log('Ошибка при поиске вида деятельности компании: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске вида деятельности компании`));

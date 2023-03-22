@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 const port = '5000'
-// export const URL:string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+
 
 const baseURL = `${URL}/api/company/get_all_data`
 const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск компаний по названию
@@ -39,7 +41,7 @@ export const companiesDataApi = {
     async searchByCompanyName(dataSearch: Object) {
         try {
             const response = await axios.post(searchByCompanyNameURL, { dataSearch })
-            const data = await response.data
+            const data = await response.data.namesCompanies
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
@@ -56,7 +58,7 @@ export const companiesDataApi = {
     async searchOccupation(occupation: Object) {
         try {
             const response = await axios.post(searchOccupationURL, { occupation })
-            const data = await response.data
+            const data = await response.data.companyOccupation
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
@@ -64,6 +66,7 @@ export const companiesDataApi = {
         }
 
     },
+
 
     /**
      * Получение иконки
@@ -74,9 +77,7 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
             const data = global.URL.createObjectURL(response.data);
-            // console.log(data);
-
-            return data
+            return data;
         } catch (error) {
             console.error('Ошибка в api.ts:', error);
             return null;
