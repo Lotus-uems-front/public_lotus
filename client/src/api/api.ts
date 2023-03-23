@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const port = '5000'
 
-// export const URL: string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 
 
 const baseURL = `${URL}/api/company/get_all_data`
@@ -42,14 +42,25 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(searchByCompanyNameURL, { dataSearch })
             const data = await response.data.namesCompanies
-            console.log(`DATA::: `, response); // test
+            // console.log(`DATA::: `, response); // test
 
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
             return []
         }
+    },
 
+    async getCompaniesLengthName(dataSearch: Object) {
+        try {
+            const response = await axios.post(searchByCompanyNameURL, { dataSearch })
+            const length = await response.data
+            console.log(`DATA::: `, response); // test
+            return length
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return []
+        }
     },
 
     /**
@@ -57,16 +68,35 @@ export const companiesDataApi = {
      * @param {Object} occupation строка поиска
      * @returns {Array} возвращает массив объектов MAIN
      */
+
+    // {companyOccupation: Array(10), lengthArr: 15}
     async searchOccupation(occupation: Object) {
         try {
             const response = await axios.post(searchOccupationURL, { occupation })
             const data = await response.data.companyOccupation
-            return data
+            const length = await response.data.lengthArr
+            // console.log(`DATA::: `, response.data); // test
+            return {
+                data,
+                length
+            }
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
             return []
         }
 
+    },
+
+    async getCompaniesLength(occupation: Object) {
+        try {
+            const response = await axios.post(searchOccupationURL, { occupation })
+            const length = await response.data.lengthArr
+            console.log(`DATA::: `, response); // test
+            return length
+        } catch (err) {
+            console.log(`Ошибка в api.ts: `, err);
+            return []
+        }
     },
 
 
