@@ -6,11 +6,9 @@ import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../..
 import s from './styles/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
-export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
-  const navigate = useNavigate()
-
+export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()
   const companyData = useSelector((state) => state.questionary.companyData)
   const companyName = useSelector((state) => state.questionary.companyName)
@@ -19,8 +17,6 @@ export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
-
-  // console.log(companyData);
 
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
@@ -74,12 +70,18 @@ export default function CompanyDetails({ firstEnterPath, urlDataCompany }) {
     setUnderPressureEquip(underPressure)
   }, [allFormsData, setInfoData])
 
+
+
   return (
     <Container>
-       {/* <Alert variant='light'></Alert>  */}
+      <Alert variant='light'>{setHeader()}</Alert>
       <Card className={s.card}>
         <Card.Header>
-          {!firstEnterPath && <span onClick={()=> navigate(-1)} className={s.icon}><IoIosArrowBack /></span>}
+          {/* {!firstEnterPath && ( */}
+            <Link to={-1} className={s.icon}>
+              <IoIosArrowBack />
+            </Link>
+          {/* )} */}
           {companyName}
         </Card.Header>
       </Card>

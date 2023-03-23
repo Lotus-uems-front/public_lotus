@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Highlighter from 'react-highlight-words'
-import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
+import { Alert, Badge, Button, Card, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
 import loadImageUrl from '../../../assets/loadImageUrl'
@@ -19,9 +19,7 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
   const companiesCount = useSelector((state) => state.search.companiesCount)
   const companiesCountName = useSelector((state) => state.search.companiesCountName)
   const [fullCompaniesArray, setFullCompaniesArray] = useState([])
-  // const pagesCount = Math.ceil(companiesCount / 10)
   const pagesCount = useMemo(() => Math.ceil(companiesCount / 10), [companiesCount])
-  // const pagesCountName = Math.ceil(companiesCountName.lengthArr / 10)
   const pagesCountName = useMemo(() => Math.ceil(companiesCountName.lengthArr / 10), [companiesCountName])
 
   useEffect(() => {
@@ -79,7 +77,6 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
         </span>
       )
     }
-    // когда будет вся длина массива, будет отображаться не 10, а сколько в общ сложности
     if (location.pathname.includes('occupation')) {
       return (
         <span>
@@ -93,7 +90,8 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
     return (
       <div className={s.wrapper}>
         <Container>
-          <Alert variant='light'>{setHeader()}</Alert>
+          <Alert variant='light'>
+            {setHeader()}</Alert>
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
@@ -133,7 +131,8 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
                         to={{
                           pathname: '/data-company/',
                           search: `?inn=${inn}`,
-                          state: location.pathname
+                          state: location.pathname,
+                          prevRoute: location.pathname
                         }}
                       >
                         <Button variant='outline-info'>
