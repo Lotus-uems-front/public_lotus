@@ -20,9 +20,13 @@ class SearchController {
      */
     async getCompanyName(req, res, next) {
         const db = req.db;
-        const { searchString, page } = req.body.dataSearch;
-        console.log(`PG >>> `, page); // test
         try {
+            if (!req.body.dataSearch) {
+
+            }
+            const { searchString, page } = req.body.dataSearch;
+            console.log(`PG >>> `, page); // test
+
             const innArray = await getCompaniesInn(db);
             let namesCompanies = await searchCompanyName(db, innArray, searchString);
             console.log(`search string::: `, searchString); // test
@@ -51,9 +55,13 @@ class SearchController {
      */
     async getCompanyOccupation(req, res, next) {
         const db = req.db;
-        const { searchParamOccupation, page } = req.body.occupation;
-        console.log(`PG >>> `, page); // test
         try {
+            if (!req.body.occupation) {
+                throw new Error('Нет occupation объекта')
+            }
+            const { searchParamOccupation, page } = req.body.occupation;
+            console.log(`PG >>> `, page); // test
+
             console.log(`OCCUPATION:::: `, searchParamOccupation); //test
             const innArr = await getCompaniesInn(db);
             const arrayInn = await searchOccupation(db, innArr, searchParamOccupation)
