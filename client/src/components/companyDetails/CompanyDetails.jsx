@@ -6,7 +6,7 @@ import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../..
 import s from './styles/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
       }
       setAllFormsData(result)
     } catch (err) {
-      console.log('Oshibka', err)
+      console.log('Error fetching company details', err)
     }
   }, [companyData, setAllFormsData])
 
