@@ -13,15 +13,27 @@ export type CompanyDataType = {
     SUCCESS = 'success',
     ERROR = 'error'
   }
+
+  type SearchByNameData = {
+    namesCompanies: any[]
+    lengthArr: number
+  }
+
+  type SearchByOccupationData = {
+    companyOccupation: any[]
+    lengthArr: number
+  }
   
   export type InitialStateType = {
-    searchByNameResult: FilteredCompanyData[]
-    searchByOccupationResult: FilteredCompanyData[]
+    // searchByNameResult: FilteredCompanyData[]
+    // searchByOccupationResult: FilteredCompanyData[]
     status: StatusType
     currentPage: number
     iconUrl: string | null
     companiesCount: number
     companiesCountName: number
+    searchByNameData: SearchByNameData
+    searchByOccupationData: SearchByOccupationData
   }
   
   

@@ -15,11 +15,9 @@ export default function Home() {
 
   const companyName = useSelector((state) => state.questionary.companyName)
   const inn = useSelector((state) => state.questionary.inn)
-  const searchByNameResult = useSelector((state) => state.search.searchByNameResult) // массив Main найденных компаний по названию
-  const searchByOccupationResult = useSelector((state) => state.search.searchByOccupationResult) // массив Main найденных компаний по виду деятльености
-  // const companiesCount = useSelector((state) => state.search.companiesCount)
 
-  // console.log(searchByOccupationResult);
+  const searchByNameData = useSelector((state) => state.search.searchByNameData)
+  const searchByOccupationData = useSelector((state) => state.search.searchByOccupationData)
 
   const link = window.location.href
   const url = new URL(link)
@@ -29,8 +27,6 @@ export default function Home() {
   const currentPage = useSelector((state) => state.search.currentPage)
 
   const [firstEnterPath, setFirstEnterPath] = useState(false)
-  // const occupation = 'occupation'
-  // const name = 'name'
 
   useEffect(() => {
     if (url.pathname === urlDataCompany) {
@@ -38,10 +34,7 @@ export default function Home() {
     }
   }, [])
 
-  // const searchedName = url.searchParams.get('name')
-  // const searchParamOccupation = url.searchParams.get('occupation')
   const innLink = url.searchParams.get('inn')
-
   const [searchedName] = useState(url.searchParams.get('name'))
   const [searchParamOccupation] = useState(url.searchParams.get('occupation'))
 
@@ -51,7 +44,7 @@ export default function Home() {
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
         const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: currentPage }))
-        if (response) {
+        if (response.length) {
           dispatch(searchOccupation(response))
         }
       }
@@ -79,14 +72,12 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await dispatch(fetchPosts(inn))
-
       if (response.length) {
         dispatch(getCompanyData(response))
       }
     }
     fetchData()
   }, [inn])
-  // console.log('there', window.history);
 
   const setHeader = () => {
     if (searchedName) {
@@ -95,14 +86,17 @@ export default function Home() {
     if(searchParamOccupation){
       return <span><b><Link to={-1} className={s.grey_color}>{searchParamOccupation}</Link></b> / {companyName}</span>
     }
-
   }
+
+  const {namesCompanies, lengthArr: lengthArrName} = searchByNameData
+  const {companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
+
   return (
     <div className={s.wrapper}>
       <Routes>
         <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader}/>} />
-        <Route exact path={urlSearchByName} element={<CompaniesList companies={searchByNameResult?.length ? searchByNameResult : ''} searchedName={searchedName} />} />
-        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchParamOccupation={searchParamOccupation} companies={searchByOccupationResult?.length ? searchByOccupationResult : ''} />} />
+        <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} />} />
+        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} />} />
       </Routes>
     </div>
   )

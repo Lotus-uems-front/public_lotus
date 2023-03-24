@@ -2,44 +2,22 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Highlighter from 'react-highlight-words'
-import { Alert, Badge, Button, Card, Container, Table } from 'react-bootstrap'
+import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
 import loadImageUrl from '../../../assets/loadImageUrl'
-import { fetchCompaniesLength, fetchCompaniesLengthName, setCompaniesCount, setCompaniesCountName, setCurrentPage } from '../../../redux/searchResult/slice'
+import { setCurrentPage } from '../../../redux/searchResult/slice'
 import PaginationO from '../../../assets/Pagination'
 
-export default function CompaniesList({ companies, searchedName, searchParamOccupation }) {
+export default function CompaniesList({ companies, searchedParam, companiesCount }) {
   useEffect(() => {
     setObjectWithIcons()
   }, [companies.length])
 
   const dispatch = useDispatch()
   const currentPage = useSelector((state) => state.search.currentPage)
-  const companiesCount = useSelector((state) => state.search.companiesCount)
-  const companiesCountName = useSelector((state) => state.search.companiesCountName)
   const [fullCompaniesArray, setFullCompaniesArray] = useState([])
   const pagesCount = useMemo(() => Math.ceil(companiesCount / 10), [companiesCount])
-  const pagesCountName = useMemo(() => Math.ceil(companiesCountName.lengthArr / 10), [companiesCountName])
-
-  useEffect(() => {
-    const fetchLength = async () => {
-      if (location.pathname.includes('occupation')) {
-        const length = await dispatch(fetchCompaniesLength({ searchParamOccupation: searchParamOccupation, page: currentPage }))
-        if (length) {
-          dispatch(setCompaniesCount(length.payload))
-        }
-      }
-
-      if (location.pathname.includes('search')) {
-        const length = await dispatch(fetchCompaniesLengthName({ searchString: searchedName, page: currentPage }))
-        if (length) {
-          dispatch(setCompaniesCountName(length.payload.lengthArr))
-        }
-      }
-    }
-    fetchLength()
-  }, [currentPage, searchParamOccupation, searchedName])
 
   const paginate = (pageNumber) => {
     dispatch(setCurrentPage(pageNumber))
@@ -70,20 +48,11 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
   const location = useLocation()
 
   const setHeader = () => {
-    if (location.pathname.includes('search')) {
-      return (
-        <span>
-          По запросу <b>"{searchedName}"</b> найдено {companiesCount} результатов:
-        </span>
-      )
-    }
-    if (location.pathname.includes('occupation')) {
-      return (
-        <span>
-          По запросу: <b>"{searchParamOccupation}"</b> найдено {companiesCount} результатов:
-        </span>
-      )
-    }
+    return (
+      <span>
+        По запросу <b>"{searchedParam}"</b> найдено {companiesCount} результатов:
+      </span>
+    )
   }
 
   if (fullCompaniesArray.length)
@@ -114,7 +83,7 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
                       <div>
                         <div>
                           <Highlighter
-                            searchWords={[searchedName]}
+                            searchWords={[searchedParam]}
                             autoEscape={true}
                             style={{ fontWeight: 'bold' }}
                             textToHighlight={`${ownership} ${name}`}
@@ -149,12 +118,7 @@ export default function CompaniesList({ companies, searchedName, searchParamOccu
             })}
           </Table>
           <div className={s.paginationButtonGroup}>
-            {location.pathname.includes('occupation') && 
-            <PaginationO pagesCount={pagesCount} paginate={paginate} currentPage={currentPage} /> }
-
-            {location.pathname.includes('search') && 
-            <PaginationO pagesCount={pagesCountName} paginate={paginate} currentPage={currentPage} />
-            }
+            <PaginationO pagesCount={pagesCount} paginate={paginate} currentPage={currentPage} />
           </div>
         </Container>
       </div>
