@@ -3,61 +3,27 @@ import { companiesDataApi, URL } from '../../api/api'
 import { InitialStateType, StatusType } from './types'
 
 //поиск по названию компании
+
 export const fetchSearchByCompanyName = createAsyncThunk('search/fetchSearchByName', async (dataSearch: Object) => {
   try {
     const data = await companiesDataApi.searchByCompanyName(dataSearch)
-console.log(data);
-
+    console.log(data);
+    
     return data
   } catch (err) {
     console.log(`Ошибка в slise.tsx::: `, err)
   }
 })
 
-export const fetchCompaniesLengthName = createAsyncThunk('search/fetchCompaniesLengthName', async (dataSearch: Object) => {
-  try {
-    const response = await companiesDataApi.getCompaniesLengthName(dataSearch)
-    
-    const data = response
-    if (!data) {
-      throw new Error('Data is not defined on the response object')
-    }
-    return data
-  } catch (err) {
-    console.log('Ошибка в slise.tsx:::', err)
-    return { length: 0 }
-  }
-})
-
-//Поиск по виду деятельности
 export const fetchSearchOccupation = createAsyncThunk('search/fetchSearchOccupation', async (occupation: Object) => {
+
   try {
-    const response = await companiesDataApi.searchOccupation(occupation)
-    const data = (response as { data: any[]; length: number }).data
-
-    if (!data) {
-      throw new Error('Data is not defined on the response object')
-    }
-    console.log({ data: data, length: response.length } as { data: any[]; length: number })
-
-    return { data: data, length: response.length } as { data: any[]; length: number }
-  } catch (err) {
-    console.log('Ошибка в slise.tsx:::', err)
-    return { data: [], length: 0 }
-  }
-})
-
-export const fetchCompaniesLength = createAsyncThunk('search/fetchCompaniesLength', async (occupation: Object) => {
-  try {
-    const response = await companiesDataApi.getCompaniesLength(occupation)
-    const data = response
-    if (!data) {
-      throw new Error('Data is not defined on the response object')
-    }
+    const data = await companiesDataApi.searchOccupation(occupation)
+    console.log(data);
+    
     return data
   } catch (err) {
-    console.log('Ошибка в slise.tsx:::', err)
-    return { length: 0 }
+    console.log(`Ошибка в slise.tsx::: `, err)
   }
 })
 
@@ -80,12 +46,20 @@ export const loadImageUrl = createAsyncThunk('search/loadImageUrl', async (login
 
 const initialState: InitialStateType = {
   status: StatusType.LOADING,
-  searchByNameResult: [],
-  searchByOccupationResult: [],
   currentPage: 1,
   iconUrl: '',
   companiesCount: 0,
-  companiesCountName: 0
+  companiesCountName: 0,
+
+  searchByNameData: {
+    namesCompanies: [],
+    lengthArr: 0
+  },
+
+  searchByOccupationData: {
+    companyOccupation: [],
+    lengthArr: 0
+  }
 }
 
 export const searchSlice = createSlice({
@@ -93,11 +67,11 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     searchByCompanyName: (state, action) => {
-      state.searchByNameResult = action.payload
+      state.searchByNameData = action.payload
     },
 
     searchOccupation: (state, action) => {
-      state.searchByOccupationResult = action.payload.data
+      state.searchByOccupationData = action.payload
     },
 
     setCurrentPage: (state, action) => {
@@ -118,34 +92,48 @@ export const searchSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    //by name handlers
     builder
       .addCase(fetchSearchByCompanyName.pending, (state) => {
-        state.searchByNameResult = []
+        state.searchByNameData = {
+          namesCompanies: [],
+          lengthArr: 0
+        }
         state.status = StatusType.LOADING
       })
 
       .addCase(fetchSearchByCompanyName.fulfilled, (state, action: any) => {
-        state.searchByNameResult = action.payload
+        state.searchByNameData = action.payload
         state.status = StatusType.SUCCESS
       })
 
       .addCase(fetchSearchByCompanyName.rejected, (state) => {
-        state.searchByNameResult = []
+        state.searchByNameData = {
+          namesCompanies: [],
+          lengthArr: 0
+        }
         state.status = StatusType.ERROR
       })
 
+   //by occupation handlers
       .addCase(fetchSearchOccupation.pending, (state) => {
-        state.searchByNameResult = []
+        state.searchByOccupationData = {
+          companyOccupation: [],
+          lengthArr: 0
+        }
         state.status = StatusType.LOADING
       })
 
       .addCase(fetchSearchOccupation.fulfilled, (state, action: any) => {
-        state.searchByOccupationResult = action.payload.data
+        state.searchByOccupationData = action.payload
         state.status = StatusType.SUCCESS
       })
 
       .addCase(fetchSearchOccupation.rejected, (state) => {
-        state.searchByNameResult = []
+        state.searchByOccupationData = {
+          companyOccupation: [],
+          lengthArr: 0
+        }
         state.status = StatusType.ERROR
       })
 
@@ -157,33 +145,6 @@ export const searchSlice = createSlice({
         state.iconUrl = action.payload
       })
       .addCase(loadImageUrl.rejected, (state) => {
-        state.status = StatusType.ERROR
-      })
-      .addCase(fetchCompaniesLength.fulfilled, (state, action: any) => {
-        state.companiesCount = action.payload
-        state.status = StatusType.SUCCESS
-        
-      })
-      .addCase(fetchCompaniesLength.pending, (state) => {
-        state.companiesCount = 0
-        state.status = StatusType.LOADING
-      })
-      .addCase(fetchCompaniesLength.rejected, (state) => {
-        state.companiesCount = 0
-        state.status = StatusType.ERROR
-      })
-
-      .addCase(fetchCompaniesLengthName.fulfilled, (state, action: any) => {
-        state.companiesCountName = action.payload
-        state.status = StatusType.SUCCESS
-        
-      })
-      .addCase(fetchCompaniesLengthName.pending, (state) => {
-        state.companiesCountName = 0
-        state.status = StatusType.LOADING
-      })
-      .addCase(fetchCompaniesLengthName.rejected, (state) => {
-        state.companiesCountName = 0
         state.status = StatusType.ERROR
       })
   }

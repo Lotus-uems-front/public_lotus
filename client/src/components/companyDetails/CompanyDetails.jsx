@@ -70,8 +70,6 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
     setUnderPressureEquip(underPressure)
   }, [allFormsData, setInfoData])
 
-
-
   return (
     <Container>
       <Alert variant='light'>{setHeader()}</Alert>
