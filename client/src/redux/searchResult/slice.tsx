@@ -17,7 +17,6 @@ console.log(data);
 export const fetchCompaniesLengthName = createAsyncThunk('search/fetchCompaniesLengthName', async (dataSearch: Object) => {
   try {
     const response = await companiesDataApi.getCompaniesLengthName(dataSearch)
-    console.log(response);
     
     const data = response
     if (!data) {
