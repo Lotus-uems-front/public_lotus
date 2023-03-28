@@ -11,9 +11,6 @@ const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск к�
 const searchOccupationURL = `${URL}/api/search/search_occupation` // поиск по виду деятельности
 const getIconURL = `${URL}/api/file/get-icon` // получение иконки
 
-const headers = { "Content-Type": "application/json" }
-
-
 export const companiesDataApi = {
 
     /**
@@ -38,7 +35,6 @@ export const companiesDataApi = {
             const response = await axios.post(searchByCompanyNameURL, { dataSearch })
             const data = await response.data
             // console.log(`DATA::: `, response); // test
-
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
@@ -50,7 +46,7 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(searchOccupationURL, { occupation })
             const data = await response.data
-            console.log(`DATA::: `, response.data); // test
+            // console.log(`DATA::: `, response.data); // test
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
@@ -63,7 +59,7 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(searchOccupationURL, { occupation })
             const length = await response.data.lengthArr
-            console.log(`DATA::: `, response); // test
+            // console.log(`DATA::: `, response); // test
             return length
         } catch (err) {
             console.log(`Ошибка в api.ts: `, err);
@@ -80,6 +76,7 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
             const data = global.URL.createObjectURL(response.data);
+            
             return data;
         } catch (error) {
             console.error('Ошибка в api.ts:', error);

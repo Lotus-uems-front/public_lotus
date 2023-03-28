@@ -7,8 +7,6 @@ import { InitialStateType, StatusType } from './types'
 export const fetchSearchByCompanyName = createAsyncThunk('search/fetchSearchByName', async (dataSearch: Object) => {
   try {
     const data = await companiesDataApi.searchByCompanyName(dataSearch)
-    console.log(data);
-    
     return data
   } catch (err) {
     console.log(`Ошибка в slise.tsx::: `, err)
@@ -19,8 +17,6 @@ export const fetchSearchOccupation = createAsyncThunk('search/fetchSearchOccupat
 
   try {
     const data = await companiesDataApi.searchOccupation(occupation)
-    console.log(data);
-    
     return data
   } catch (err) {
     console.log(`Ошибка в slise.tsx::: `, err)
@@ -139,6 +135,7 @@ export const searchSlice = createSlice({
 
       .addCase(loadImageUrl.pending, (state) => {
         state.status = StatusType.LOADING
+        state.iconUrl = ''
       })
       .addCase(loadImageUrl.fulfilled, (state, action) => {
         state.status = StatusType.SUCCESS
@@ -146,6 +143,7 @@ export const searchSlice = createSlice({
       })
       .addCase(loadImageUrl.rejected, (state) => {
         state.status = StatusType.ERROR
+        state.iconUrl = ''
       })
   }
 })
