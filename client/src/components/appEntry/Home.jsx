@@ -7,6 +7,8 @@ import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
 import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
 import s from './style/Home.module.css'
+import Filter from '../../assets/filterComponent/Filter'
+import EquipmentUnderPressure from '../filterForms/EquipmentUnderPressure'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -24,6 +26,7 @@ export default function Home() {
   const urlDataCompany = '/data-company/'
   const urlSearchByName = '/search-name/'
   const urlSearchByOccupation = '/occupation/'
+  const urlFilter = 'filter/'
   const currentPage = useSelector((state) => state.search.currentPage)
 
   const [firstEnterPath, setFirstEnterPath] = useState(false)
@@ -90,13 +93,23 @@ export default function Home() {
 
   const {namesCompanies, lengthArr: lengthArrName} = searchByNameData
   const {companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
+  const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
+
+  console.log(filterOccupationPath);
+
 
   return (
     <div className={s.wrapper}>
       <Routes>
+        
         <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader}/>} />
+
         <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} />} />
-        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} />} />
+
+        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath}/>} />
+
+        <Route exact path={filterOccupationPath} element={<Filter filterContent={<EquipmentUnderPressure/>}/>}/>
+
       </Routes>
     </div>
   )

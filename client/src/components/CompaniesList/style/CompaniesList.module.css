@@ -3,6 +3,10 @@
   font-size: 18px;
 }
 
+.wrapper .filterIcon {
+  cursor: pointer;
+}
+
 .wrapper .paginationButtonGroup {
   display: -webkit-box;
   display: -ms-flexbox;

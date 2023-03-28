@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Highlighter from 'react-highlight-words'
 import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
+import { MdTune } from 'react-icons/md'
 import s from '../style/CompaniesList.module.css'
 import loadImageUrl from '../../../assets/loadImageUrl'
 import { setCurrentPage } from '../../../redux/searchResult/slice'
 import PaginationO from '../../../assets/Pagination'
+import { IconContext } from 'react-icons/lib'
 
-export default function CompaniesList({ companies, searchedParam, companiesCount }) {
+export default function CompaniesList({ companies, searchedParam, companiesCount, filterPath }) {
   useEffect(() => {
     setObjectWithIcons()
   }, [companies.length])
@@ -46,11 +48,17 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
     }
   }
   const location = useLocation()
+  const navigate = useNavigate()
 
   const setHeader = () => {
     return (
-      <span>
-        По запросу <b>"{searchedParam}"</b> найдено {companiesCount} результатов:
+      <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <span>
+          По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
+        </span>
+        <IconContext.Provider value={{style: { cursor: 'pointer', fontSize: '40px' }} }>
+          <MdTune onClick={()=>navigate(filterPath)}/>
+        </IconContext.Provider>
       </span>
     )
   }
@@ -59,8 +67,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
     return (
       <div className={s.wrapper}>
         <Container>
-          <Alert variant='light'>
-            {setHeader()}</Alert>
+          <Alert variant='light'>{setHeader()}</Alert>
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
@@ -82,12 +89,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
                       <img src={url} alt='logo' className={s.companyLogo} />{' '}
                       <div>
                         <div>
-                          <Highlighter
-                            searchWords={[searchedParam]}
-                            autoEscape={true}
-                            style={{ fontWeight: 'bold' }}
-                            textToHighlight={`${ownership} ${name}`}
-                          />
+                          <Highlighter searchWords={[searchedParam]} autoEscape={true} style={{ fontWeight: 'bold' }} textToHighlight={`${ownership} ${name}`} />
                           <div className={s.inn}>ИНН: {inn}</div>
                         </div>
                       </div>

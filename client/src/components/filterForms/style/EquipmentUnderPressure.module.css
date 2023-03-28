@@ -1,0 +1,22 @@
+.mainVessel {
+  font-weight: 600;
+}
+
+.mainFormGroup {
+  padding: 20px 0 20px 60px;
+}
+
+.mainFormGroup .dimentions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 5px;
+  padding: 0px 0 25px 0;
+}
+
+.mainFormGroup .subVessel {
+  padding-top: 5px;
+}
+/*# sourceMappingURL=EquipmentUnderPressure.module.css.map */
