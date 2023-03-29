@@ -6,6 +6,10 @@
     background-color: $light-bg-color;
     // overflow-y: scroll;
     font-size: 18px;
+
+    .filterIcon{
+        cursor: pointer
+    }
     .paginationButtonGroup{
         display: flex; 
         justify-content: end; 
