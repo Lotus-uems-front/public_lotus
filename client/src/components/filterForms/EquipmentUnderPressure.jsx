@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Col, Form } from 'react-bootstrap'
-import { equipmentUnderPressure } from '../../assets/lists/formsDimentions'
-import s from './style/EquipmentUnderPressure.module.css'
+import { equipmentUnderPressure } from '../../assets/lists/equipmentUnderPressureList'
+import s from '../../css/EquipmentUnderPressure.module.css'
 
-export default function EquipmentUnderPressure() {
+export default function EquipmentUnderPressure({doChangeValue}) {
   const [showSubContainer, setShowSubContainer] = useState(new Array(equipmentUnderPressure.length).fill(false))
 
   const handleContainerClick = (index) => {
@@ -12,15 +12,18 @@ export default function EquipmentUnderPressure() {
     setShowSubContainer(newArray)
   }
 
-  const doChangeValue = (e, index) => {
+  const handleChange = (e, index) => {
     handleContainerClick(index)
+    doChangeValue(e, index)
   }
+
+
 
   return (
     <Form>
       {equipmentUnderPressure.map((element, index) => (
         <Form.Group key={element.container}>
-          <Form.Check value={element.container} label={element.container} className={s.mainVessel} onClick={(e) => doChangeValue(e, index)} id={element.container} />
+          <Form.Check value={element.container} label={element.container} className={s.mainVessel} onClick={(e) => handleChange(e, index)} id={element.container} />
           {showSubContainer[index] && (
             <div className={s.mainFormGroup}>
               <div className={s.dimentions}>
@@ -33,7 +36,7 @@ export default function EquipmentUnderPressure() {
 
               {element.subContainers.map((sub) => (
                 <React.Fragment key={sub}>
-                  <Form.Check value={sub} label={sub} id={sub} className={s.subVessel} onClick={(e) => doChangeValue(e)} />
+                  <Form.Check value={sub} label={sub} id={sub} className={s.subVessel} onClick={(e) => handleChange(e)} />
                 </React.Fragment>
               ))}
             </div>

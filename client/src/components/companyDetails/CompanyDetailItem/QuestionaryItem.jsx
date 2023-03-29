@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Accordion, Badge, ListGroup } from 'react-bootstrap'
 import { equip } from '../../../assets/lists/occupationTypesLists'
-import s from '../styles/Questionary.module.css'
+import s from '../../../css/Questionary.module.css'
 import ListGroupItem from './ListGroupItem'
 
 export const QuestionaryItem = ({ questionaryItem, id }) => {

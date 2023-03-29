@@ -1,0 +1,10 @@
+@import './mixins.scss';
+
+.dimentions{
+    @include flex_for_dimentions
+}
+
+.gosts{
+    @include flex_for_dimentions;
+    gap: 10px;
+}
