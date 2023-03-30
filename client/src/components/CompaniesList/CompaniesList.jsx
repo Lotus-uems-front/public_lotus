@@ -56,7 +56,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
         <span>
           По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
         </span>
-        <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '40px' } }}>
+        <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '30px' } }}>
           <MdTune onClick={() => navigate(filterPath)} />
         </IconContext.Provider>
       </span>

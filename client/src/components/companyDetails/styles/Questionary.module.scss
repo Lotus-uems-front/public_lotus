@@ -1,3 +1,5 @@
+@import '../../../style/mixins.scss';
+
 .description{
     display: flex;
     justify-content: space-between;
@@ -18,9 +20,7 @@
      font-weight: bolder; 
      position: relative;
      .icon{
-        position: absolute;
-        left: 10px;
-        cursor: pointer;
+        @include back_btn_position
     }
 }
 

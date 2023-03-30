@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,QAAQ,CAAA;EACJ,MAAM,EAAE,SACZ;CAAC",
-    "sources": [
-        "Filter.module.scss"
-    ],
-    "names": [],
-    "file": "Filter.module.css"
-}
