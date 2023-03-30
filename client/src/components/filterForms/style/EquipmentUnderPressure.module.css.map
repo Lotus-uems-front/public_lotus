@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,WAAW,CAAA;EACP,WAAW,EAAE,GAAG;CACnB;;AAED,AAAA,cAAc,CAAA;EACV,OAAO,EAAE,gBAAgB;CAY5B;;AAbD,AAGI,cAHU,CAGV,WAAW,CAAA;EACP,OAAO,EAAE,IAAI;EACb,SAAS,EAAE,IAAI;EACf,GAAG,EAAE,GAAG;EACR,OAAO,EAAE,YACb;CAAC;;AARL,AAUI,cAVU,CAUV,UAAU,CAAA;EACN,WAAW,EAAE,GACjB;CAAC",
-    "sources": [
-        "EquipmentUnderPressure.module.scss"
-    ],
-    "names": [],
-    "file": "EquipmentUnderPressure.module.css"
-}

@@ -1,3 +1,5 @@
+@import './mixins.scss';
+
 .mainVessel{
     font-weight: 600;
 }
@@ -6,14 +8,14 @@
     padding: 20px 0 20px 60px;
 
     .dimentions{
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 5px;
-        padding: 0px 0 25px 0
+        @include flex_for_dimentions
     }
 
     .subVessel{
-        padding-top: 5px
+        padding-top: 5px;
     }
 }
+
+
+
 

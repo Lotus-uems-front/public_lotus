@@ -4,11 +4,10 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
-import CompaniesList from '../CompaniesList/searchByName/CompaniesList'
+import CompaniesList from '../CompaniesList/CompaniesList'
 import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
-import s from './style/Home.module.css'
+import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
-import EquipmentUnderPressure from '../filterForms/EquipmentUnderPressure'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -84,32 +83,47 @@ export default function Home() {
 
   const setHeader = () => {
     if (searchedName) {
-      return <span><b><Link to={-1} className={s.grey_color}>"{searchedName}"</Link></b> / {companyName}</span>
-    } 
-    if(searchParamOccupation){
-      return <span><b><Link to={-1} className={s.grey_color}>{searchParamOccupation}</Link></b> / {companyName}</span>
+      return (
+        <span>
+          <b>
+            <Link to={-1} className={s.grey_color}>
+              "{searchedName}"
+            </Link>
+          </b>{' '}
+          / {companyName}
+        </span>
+      )
+    }
+    if (searchParamOccupation) {
+      return (
+        <span>
+          <b>
+            <Link to={-1} className={s.grey_color}>
+              {searchParamOccupation}
+            </Link>
+          </b>{' '}
+          / {companyName}
+        </span>
+      )
     }
   }
 
-  const {namesCompanies, lengthArr: lengthArrName} = searchByNameData
-  const {companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
+  const { namesCompanies, lengthArr: lengthArrName } = searchByNameData
+  const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
   const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
 
-  console.log(filterOccupationPath);
-
+  console.log(filterOccupationPath)
 
   return (
     <div className={s.wrapper}>
       <Routes>
-        
-        <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader}/>} />
+        <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />} />
 
         <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} />} />
 
-        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath}/>} />
+        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath} />} />
 
-        <Route exact path={filterOccupationPath} element={<Filter filterContent={<EquipmentUnderPressure/>}/>}/>
-
+        <Route exact path={filterOccupationPath} element={<Filter content={searchParamOccupation} />} />
       </Routes>
     </div>
   )

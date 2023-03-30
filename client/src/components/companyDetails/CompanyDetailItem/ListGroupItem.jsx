@@ -1,6 +1,6 @@
 import React from 'react'
 import { Badge, ListGroup } from 'react-bootstrap'
-import s from '../styles/Questionary.module.css'
+import s from '../../../css/Questionary.module.css'
 
 export default function ListGroupItem({ item, insideBadge }) {
   return (

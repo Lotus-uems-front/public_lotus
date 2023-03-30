@@ -5,10 +5,10 @@ import Highlighter from 'react-highlight-words'
 import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
 import { MdTune } from 'react-icons/md'
-import s from '../style/CompaniesList.module.css'
-import loadImageUrl from '../../../assets/loadImageUrl'
-import { setCurrentPage } from '../../../redux/searchResult/slice'
-import PaginationO from '../../../assets/Pagination'
+import s from '../../css/CompaniesList.module.css'
+import loadImageUrl from '../../assets/loadImageUrl'
+import { setCurrentPage } from '../../redux/searchResult/slice'
+import PaginationO from '../../assets/Pagination'
 import { IconContext } from 'react-icons/lib'
 
 export default function CompaniesList({ companies, searchedParam, companiesCount, filterPath }) {
@@ -56,8 +56,8 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
         <span>
           По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
         </span>
-        <IconContext.Provider value={{style: { cursor: 'pointer', fontSize: '40px' }} }>
-          <MdTune onClick={()=>navigate(filterPath)}/>
+        <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '40px' } }}>
+          <MdTune onClick={() => navigate(filterPath)} />
         </IconContext.Provider>
       </span>
     )
