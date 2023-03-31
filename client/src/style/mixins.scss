@@ -4,3 +4,9 @@
     gap: 5px;
     padding: 0px 0 25px 0;
 }
+
+@mixin back_btn_position {
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+}

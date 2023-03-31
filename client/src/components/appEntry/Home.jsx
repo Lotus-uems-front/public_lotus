@@ -112,7 +112,7 @@ export default function Home() {
   const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
   const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
 
-  console.log(filterOccupationPath)
+  // console.log(filterOccupationPath)
 
   return (
     <div className={s.wrapper}>

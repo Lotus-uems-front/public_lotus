@@ -1,0 +1,15 @@
+.wrapper {
+  font-size: 20px;
+}
+
+.wrapper .card {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wrapper .card .back_icon {
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  cursor: pointer;
+}
