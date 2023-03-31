@@ -50,15 +50,18 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   const location = useLocation()
   const navigate = useNavigate()
 
+  // console.log(location.pathname.includes('occupation'));
+  const isFilterNeeded = location.pathname.includes('occupation')
+
   const setHeader = () => {
     return (
       <span style={{ display: 'flex', justifyContent: 'space-between' }}>
         <span>
           По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
         </span>
-        <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '30px' } }}>
+        {isFilterNeeded && <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '30px' } }}>
           <MdTune onClick={() => navigate(filterPath)} />
-        </IconContext.Provider>
+        </IconContext.Provider>}
       </span>
     )
   }
@@ -77,7 +80,6 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
                 <th>Телефон</th>
                 <th>Почта</th>
               </tr>
-              <div id={s.test} className={s.test}></div>
             </thead>
             {fullCompaniesArray.map((company, idx) => {
               const { ownership, name, inn, tel, email, country, city, url } = company
