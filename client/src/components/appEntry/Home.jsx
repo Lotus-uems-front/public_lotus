@@ -119,9 +119,9 @@ export default function Home() {
       <Routes>
         <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />} />
 
-        <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} />} />
+        <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} isFilterNeeded={false}/>} />
 
-        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath} />} />
+        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath} isFilterNeeded={true}/>} />
 
         <Route exact path={filterOccupationPath} element={<Filter content={searchParamOccupation} />} />
       </Routes>
