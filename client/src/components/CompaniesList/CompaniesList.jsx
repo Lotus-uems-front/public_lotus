@@ -59,9 +59,14 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
         <span>
           По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
         </span>
-        {isFilterNeeded && <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '30px' } }}>
-          <MdTune onClick={() => navigate(filterPath)} />
-        </IconContext.Provider>}
+        {isFilterNeeded && 
+        <Button onClick={() => navigate(filterPath)}>
+          Фильтр
+           <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '20px', marginLeft: '5px' } }}>
+          <MdTune  />
+        </IconContext.Provider>
+        </Button>
+       }
       </span>
     )
   }
@@ -70,7 +75,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
     return (
       <div className={s.wrapper}>
         <Container>
-          <Alert variant='light'>{setHeader()}</Alert>
+          {/* <Alert variant='light'>{setHeader()}</Alert> */}
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
