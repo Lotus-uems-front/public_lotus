@@ -119,7 +119,7 @@ export default function Home() {
 
   return (
     <div className={s.wrapper}>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />} />
 
