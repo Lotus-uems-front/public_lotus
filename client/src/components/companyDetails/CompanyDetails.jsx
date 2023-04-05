@@ -71,7 +71,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
 
   return (
     <Container>
-      <Alert variant='light'>{setHeader()}</Alert>
+      {/* <Alert variant='light'>{setHeader()}</Alert> */}
       <Card className={s.card}>
         <Card.Header>
           <BackButton style={s.icon}/>

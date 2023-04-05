@@ -10,3 +10,8 @@
     left: 10px;
     cursor: pointer;
 }
+
+@mixin justify_space_between{
+    display: flex; 
+    justify-content: space-between
+}

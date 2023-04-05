@@ -8,6 +8,7 @@ import CompaniesList from '../CompaniesList/CompaniesList'
 import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
 import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
+import Header from '../../assets/header/Header'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -112,10 +113,13 @@ export default function Home() {
   const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
   const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
 
-  // console.log(filterOccupationPath)
+  console.log('innLink', innLink,
+    'searchedName', searchedName,
+    'searchParamOccupation', searchParamOccupation)
 
   return (
     <div className={s.wrapper}>
+      {/* <Header /> */}
       <Routes>
         <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />} />
 
