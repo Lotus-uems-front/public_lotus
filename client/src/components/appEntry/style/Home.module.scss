@@ -1,3 +1,10 @@
+@import '../../../style/mixins.scss';
+
 .grey_color{
     color: grey
+}
+
+.back_btn{
+    @include back_btn_position;
+    z-index: 1;
 }
