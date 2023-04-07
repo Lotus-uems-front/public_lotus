@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import CompanyDetails from '../companyDetails/CompanyDetails'
 import CompaniesList from '../CompaniesList/CompaniesList'
-import { fetchSearchByCompanyName, searchByCompanyName, fetchSearchOccupation, searchOccupation } from '../../redux/searchResult/slice'
+import {
+  fetchSearchByCompanyName,
+  searchByCompanyName,
+  fetchSearchOccupation,
+  searchOccupation
+} from '../../redux/searchResult/slice'
 import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
 import Header from '../../assets/header/Header'
@@ -15,7 +20,7 @@ export default function Home() {
 
   const loc = useLocation()
 
-  const companyName = useSelector((state) => state.questionary.companyName)
+  // const companyName = useSelector((state) => state.questionary.companyName)
   const inn = useSelector((state) => state.questionary.inn)
 
   const searchByNameData = useSelector((state) => state.search.searchByNameData)
@@ -26,10 +31,12 @@ export default function Home() {
   const urlDataCompany = '/data-company/'
   const urlSearchByName = '/search-name/'
   const urlSearchByOccupation = '/occupation/'
-  const urlFilter = 'filter/'
   const currentPage = useSelector((state) => state.search.currentPage)
 
   const [firstEnterPath, setFirstEnterPath] = useState(false)
+
+  const { namesCompanies, lengthArr: lengthArrName } = searchByNameData
+  const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
 
   useEffect(() => {
     if (url.pathname === urlDataCompany) {
@@ -46,7 +53,9 @@ export default function Home() {
     //* При наличии поиска по вдиу деятельности
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
-        const response = await dispatch(fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: currentPage }))
+        const response = await dispatch(
+          fetchSearchOccupation({ searchParamOccupation: searchParamOccupation, page: currentPage })
+        )
         if (response.length) {
           dispatch(searchOccupation(response))
         }
@@ -57,7 +66,9 @@ export default function Home() {
     //* при наличии поиска по названию компании
     if (searchedName && urlSearchByName === url.pathname) {
       const searchByCompanyNameArray = async () => {
-        const response = await dispatch(fetchSearchByCompanyName({ searchString: searchedName, page: currentPage }))
+        const response = await dispatch(
+          fetchSearchByCompanyName({ searchString: searchedName, page: currentPage })
+        )
         if (response.length) {
           dispatch(searchByCompanyName(response))
         }
@@ -82,52 +93,70 @@ export default function Home() {
     fetchData()
   }, [inn])
 
+  const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
+
   const setHeader = () => {
     if (searchedName) {
       return (
-        <span>
-          <b>
-            <Link to={-1} className={s.grey_color}>
-              "{searchedName}"
-            </Link>
-          </b>{' '}
-          / {companyName}
-        </span>
+        <Header
+          searchedParam={searchedName}
+          companiesCount={lengthArrName}
+          isBackBtnNeeded={true}
+        />
       )
     }
     if (searchParamOccupation) {
       return (
-        <span>
-          <b>
-            <Link to={-1} className={s.grey_color}>
-              {searchParamOccupation}
-            </Link>
-          </b>{' '}
-          / {companyName}
-        </span>
+        <Header
+          searchedParam={searchParamOccupation}
+          companiesCount={lengthArrOcc}
+          isBackBtnNeeded={true}
+        />
       )
     }
   }
 
-  const { namesCompanies, lengthArr: lengthArrName } = searchByNameData
-  const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
-  const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
-
-  console.log('innLink', innLink,
-    'searchedName', searchedName,
-    'searchParamOccupation', searchParamOccupation)
-
   return (
     <div className={s.wrapper}>
-      {/* <Header /> */}
       <Routes>
-        <Route exact path={urlDataCompany} element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />} />
+        <Route
+          exact
+          path={urlDataCompany}
+          element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />}
+        />
 
-        <Route exact path={urlSearchByName} element={<CompaniesList companies={namesCompanies?.length ? namesCompanies : ''} searchedParam={searchedName} companiesCount={lengthArrName} isFilterNeeded={false}/>} />
+        <Route
+          exact
+          path={urlSearchByName}
+          element={
+            <CompaniesList
+              companies={namesCompanies?.length ? namesCompanies : ''}
+              searchedParam={searchedName}
+              companiesCount={lengthArrName}
+              isFilterNeeded={false}
+            />
+          }
+        />
 
-        <Route exact path={urlSearchByOccupation} element={<CompaniesList searchedParam={searchParamOccupation} companies={companyOccupation?.length ? companyOccupation : ''} companiesCount={lengthArrOcc} filterPath={filterOccupationPath} isFilterNeeded={true}/>} />
+        <Route
+          exact
+          path={urlSearchByOccupation}
+          element={
+            <CompaniesList
+              searchedParam={searchParamOccupation}
+              companies={companyOccupation?.length ? companyOccupation : ''}
+              companiesCount={lengthArrOcc}
+              filterPath={filterOccupationPath}
+              isFilterNeeded={true}
+            />
+          }
+        />
 
-        <Route exact path={filterOccupationPath} element={<Filter content={searchParamOccupation} />} />
+        <Route
+          exact
+          path={filterOccupationPath}
+          element={<Filter content={searchParamOccupation} searchedParam={searchParamOccupation} companiesCount={lengthArrOcc} isBackBtnNeeded={true}/>}
+        />
       </Routes>
     </div>
   )

@@ -1,0 +1,27 @@
+@import '../../../style/mixins.scss';
+
+.mb_0{
+    margin-bottom: 0;
+}
+
+.ml_10{
+    margin-left: 10px
+}
+
+.span_content{
+    @include justify_space_between
+}
+
+.back_btn{
+    @include back_btn_position;
+    z-index: 1;
+    margin-left: 50px;
+}
+
+.cursor_pointer{
+    cursor: pointer;
+}
+
+.fs{
+    font-size: 20px;
+}

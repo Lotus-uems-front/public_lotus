@@ -1,6 +1,6 @@
 .wrapper {
   background-color: #F9FDFE;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .wrapper .filterIcon {
@@ -21,11 +21,6 @@
   border-collapse: separate;
   border-spacing: 0 8px;
   cursor: auto;
-}
-
-.wrapper .table .table_head {
-  text-align: center;
-  color: gray;
 }
 
 .wrapper .table .table_body .link {
@@ -102,16 +97,4 @@
 
 .wrapper .table .table_body .table_row td .highlight {
   background-color: #8cc3ff;
-}
-
-.wrapper .table .table_body .table_row td:first-child {
-  border-left-style: transparent;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-.wrapper .table .table_body .table_row td:last-child {
-  border-right-style: solid;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
 }

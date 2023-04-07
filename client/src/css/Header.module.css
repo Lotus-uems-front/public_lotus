@@ -1,4 +1,12 @@
-.description {
+.mb_0 {
+  margin-bottom: 0;
+}
+
+.ml_10 {
+  margin-left: 10px;
+}
+
+.span_content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -7,28 +15,18 @@
           justify-content: space-between;
 }
 
-.mb_20 {
-  margin-bottom: 20px;
-}
-
-.under_press_equip_body {
-  margin-bottom: 5px;
-  padding: 0 7px;
-}
-
-.card {
-  width: '100%';
-  text-align: center;
-  font-weight: bolder;
-  position: relative;
-}
-
-.card .icon {
+.back_btn {
   position: absolute;
   left: 10px;
   cursor: pointer;
+  z-index: 1;
+  margin-left: 50px;
 }
 
-.fs_20 {
+.cursor_pointer {
+  cursor: pointer;
+}
+
+.fs {
   font-size: 20px;
 }

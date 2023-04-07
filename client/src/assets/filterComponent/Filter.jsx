@@ -1,32 +1,26 @@
 import React from 'react'
-import { Button, Card, Container, Row } from 'react-bootstrap'
+import { Button, Container, Row } from 'react-bootstrap'
 import EquipmentUnderPressure from '../../components/filterForms/EquipmentUnderPressure'
 import PipeRolling from '../../components/filterForms/PipeRolling'
-import BackButton from '../BackButton/BackButton'
 import s from '../../css/Filter.module.css'
+import Header from '../header/Header'
 
-export default function Filter({ content }) {
-
-
+export default function Filter({ content, searchedParam, companiesCount, isBackBtnNeeded }) {
   const setHeader = () => {
-      return (
-        <span>
-          Фильтр по запросу: <b>"{content}"</b>
-        </span>
-      )
-    
+    return (
+      <Header
+        searchedParam={searchedParam}
+        companiesCount={companiesCount}
+        isBackBtnNeeded={isBackBtnNeeded}
+      />
+    )
   }
 
   return (
     <Container className={s.wrapper}>
-      <Card className={s.card}>
-        <Card.Header>
-          <BackButton style={s.back_icon} />
-          {setHeader()}
-        </Card.Header>
-      </Card>
+      {setHeader()}
 
-      {content === 'Сосуды и аппараты работающие под давлением' && <EquipmentUnderPressure  />}
+      {content === 'Сосуды и аппараты работающие под давлением' && <EquipmentUnderPressure />}
 
       {content === 'Трубный прокат' && <PipeRolling />}
 

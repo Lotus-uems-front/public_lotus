@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Highlighter from 'react-highlight-words'
-import { Alert, Badge, Button, Container, Table } from 'react-bootstrap'
+import { Button, Container, Table } from 'react-bootstrap'
 import { MdOutlineOpenInNew } from 'react-icons/md'
-import { MdTune } from 'react-icons/md'
 import s from '../../css/CompaniesList.module.css'
 import loadImageUrl from '../../assets/loadImageUrl'
 import { setCurrentPage } from '../../redux/searchResult/slice'
 import PaginationO from '../../assets/Pagination'
-import { IconContext } from 'react-icons/lib'
+import Header from '../../assets/header/Header'
 
-export default function CompaniesList({ companies, searchedParam, companiesCount, filterPath }) {
+export default function CompaniesList({ companies, searchedParam, companiesCount,  filterPath }) {
   useEffect(() => {
     setObjectWithIcons()
   }, [companies.length])
@@ -37,7 +36,10 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
             inn: company.data[6].value,
             tel: company.data[111].value,
             email: company.data[112].value,
-            ownership: !company.data[100].value || company.data[100].value === 'Форма собственности компании' ? '' : company.data[100].value,
+            ownership:
+              !company.data[100].value || company.data[100].value === 'Форма собственности компании'
+                ? ''
+                : company.data[100].value,
             url: url
           }
         })
@@ -48,38 +50,20 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
     }
   }
   const location = useLocation()
-  const navigate = useNavigate()
-
-  // console.log(location.pathname.includes('occupation'));
-  const isFilterNeeded = location.pathname.includes('occupation')
 
   const setHeader = () => {
-    return (
-      <span style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span>
-          По запросу <b>"{searchedParam}"</b> найдено результатов: <b>{companiesCount}</b>{' '}
-        </span>
-        {isFilterNeeded && 
-        <Button onClick={() => navigate(filterPath)}>
-          Фильтр
-           <IconContext.Provider value={{ style: { cursor: 'pointer', fontSize: '20px', marginLeft: '5px' } }}>
-          <MdTune  />
-        </IconContext.Provider>
-        </Button>
-       }
-      </span>
-    )
+    return <Header searchedParam={searchedParam} companiesCount={companiesCount}  filterPath={filterPath}/>
   }
 
   if (fullCompaniesArray.length)
     return (
       <div className={s.wrapper}>
         <Container>
-          {/* <Alert variant='light'>{setHeader()}</Alert> */}
+          {setHeader()}
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
-                <th>#</th>
+                {/* <th>#</th> */}
                 <th> Название </th>
                 <th>Город</th>
                 <th>Телефон</th>
@@ -91,19 +75,24 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
               return (
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
-                    <td>{idx + 1}</td>
+                    {/* <td>{idx + 1}</td> */}
                     <td className={s.logoSection}>
                       <img src={url} alt='logo' className={s.companyLogo} />{' '}
                       <div>
                         <div>
-                          <Highlighter searchWords={[searchedParam]} autoEscape={true} style={{ fontWeight: 'bold' }} textToHighlight={`${ownership} ${name}`} />
+                          <Highlighter
+                            searchWords={[searchedParam]}
+                            autoEscape={true}
+                            style={{ fontWeight: 'bold' }}
+                            textToHighlight={`${ownership} ${name}`}
+                          />
                           <div className={s.inn}>ИНН: {inn}</div>
                         </div>
                       </div>
                     </td>
                     <td className={s.city}>{`${city} ${country ? `(${country})` : ''} `}</td>
                     <td className={s.tel}>{tel}</td>
-                    <td>{email && <Badge className={s.email}>{email}</Badge>}</td>
+                    <td>{email && <a href={`mailto:${email}`}>{email}</a>}</td>
                     <td>
                       <Link
                         to={{
