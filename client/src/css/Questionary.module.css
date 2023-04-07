@@ -32,3 +32,9 @@
 .fs_20 {
   font-size: 20px;
 }
+
+.downloadIconDiv {
+  text-align: center;
+  cursor: pointer;
+  color: #007bff;
+}
