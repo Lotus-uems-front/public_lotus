@@ -10,7 +10,8 @@ const baseURL = `${URL}/api/company/get_all_data`
 const searchByCompanyNameURL = `${URL}/api/search/search_name` // поиск компаний по названию
 const searchOccupationURL = `${URL}/api/search/search_occupation` // поиск по виду деятельности
 const getIconURL = `${URL}/api/file/get-icon` // получение иконки
-const fileUrl = `${URL}/home/leo/uems-uploads/`
+// const fileUrl = `${URL}/home/leo/uems-uploads/`
+const fileUrl = `${URL}/api/file/get-icon`
 
 
 export const companiesDataApi = {

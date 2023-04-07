@@ -12,27 +12,27 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
   // console.log(questionaryItem)
 
   const download = async (fileName, login, id) => {
-    const result = await downloadFile(fileName, login, id);
+    const result = await downloadFile(fileName, login, id)
 
     // console.log(this.state.copyNameFile); // test
 
     if (result) {
-        // console.log(`RESULT !!!!!!!!!!!!!!!!!! >>>>>>>>>>> `, result); // test
+      console.log(`RESULT !!!!!!!!!!!!!!!!!! >>>>>>>>>>> `, result) // test
 
-        const linkBlob = window.URL.createObjectURL(result);
-        const link = document.createElement('a');
-        link.href = linkBlob
-        link.download = fileName//! меняем имя файла при загрузке
-        document.body.appendChild(link)
-        link.click()
-        link.remove()
+      const linkBlob = window.URL.createObjectURL(result)
+      const link = document.createElement('a')
+      link.href = linkBlob
+      link.download = fileName //! меняем имя файла при загрузке
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
     }
-    
   }
 
   const inn = useSelector((state) => state.questionary.inn)
 
   const formatString = (string, id) => {
+    console.log(`string - inn - id::: `, string, inn, id)
     if (
       isNaN(string) &&
       string !== 'Да' &&
@@ -43,9 +43,9 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
     ) {
       return <Badge>{string}</Badge>
     } else if (string === 'Да') {
-      return <Form.Check type='checkbox' checked readOnly/>
+      return <Form.Check type='checkbox' checked readOnly />
     } else if (string === 'Нет') {
-      return <Form.Check type='checkbox' checked={false} readOnly/>
+      return <Form.Check type='checkbox' checked={false} readOnly />
     } else if (string.includes('@')) {
       return <a href={`mailto:${string}`}>{string}</a>
     } else if (string.includes('.png') || string.includes('.jpeg')) {
@@ -74,7 +74,7 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
 
         <>
           <td>{item.information}</td>
-          <td>{<Form.Check type='checkbox' checked readOnly/>}</td>
+          <td>{<Form.Check type='checkbox' checked readOnly />}</td>
         </>
       )
     }
