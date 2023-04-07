@@ -13,7 +13,7 @@ export default function Header({ searchedParam, companiesCount, isBackBtnNeeded,
   const navigate = useNavigate()
 
   return (
-    <Alert variant='info' className={`${s.mb_0} ${s.size}`}>
+    <Alert className={`${s.mb_0} ${s.size}`}>
       <span className={s.span_content}>
         <span className={s.cursor_pointer}>
           {isBackBtnNeeded && <BackButton className={s.back_btn} />}

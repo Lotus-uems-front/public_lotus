@@ -51,7 +51,8 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
     } else if (string.includes('.png') || string.includes('.jpeg')) {
       return (
         <div
-          style={{ textAlign: 'center', cursor: 'pointer', color: 'blue' }}
+        className={s.downloadIconDiv}
+          // style={{ textAlign: 'center', cursor: 'pointer', color: 'blue' }}
           onClick={() => download(string, inn, id)}
         >
           <FaDownload />
