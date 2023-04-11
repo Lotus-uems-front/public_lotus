@@ -2,8 +2,9 @@ import axios from 'axios'
 
 const port = '5000'
 
-// export const URL: string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+// export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
 
 
 const baseURL = `${URL}/api/company/get_all_data`
@@ -76,7 +77,7 @@ export const companiesDataApi = {
         try {
             const response = await axios.post(getIconURL, { fileName }, { responseType: 'blob' });
             const data = global.URL.createObjectURL(response.data);
-            
+
             return data;
         } catch (error) {
             console.error('Ошибка в api.ts:', error);
