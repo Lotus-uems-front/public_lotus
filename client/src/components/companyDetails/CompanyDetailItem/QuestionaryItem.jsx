@@ -11,22 +11,31 @@ import downloadFile from '../../../assets/downLoadFile'
 export const QuestionaryItem = ({ questionaryItem, id }) => {
   // console.log(questionaryItem)
 
-  const download = async (fileName, login, id) => {
-    const result = await downloadFile(fileName, login, id)
+  const download = (fileName, login, id) => {
+    (async () => {
+      try {
+        const result = await downloadFile(fileName, login, id) // ? Почему то в id передается полный путь до файла
 
-    // console.log(this.state.copyNameFile); // test
+        // console.log(this.state.copyNameFile); // test
 
-    if (result) {
-      console.log(`RESULT !!!!!!!!!!!!!!!!!! >>>>>>>>>>> `, result) // test
+        if (result) {
+          console.log(`RESULT !!!!!!!!!!!!!!!!!! >>>>>>>>>>> `, result) // test
 
-      const linkBlob = window.URL.createObjectURL(result)
-      const link = document.createElement('a')
-      link.href = linkBlob
-      link.download = fileName //! меняем имя файла при загрузке
-      document.body.appendChild(link)
-      link.click()
-      link.remove()
-    }
+          // const linkBlob = window.URL.createObjectURL(result) // ! из api.ts уже приходит blob объект
+          // const linkBlob = result
+          const link = document.createElement('a')
+          link.href = result
+          link.download = fileName //! меняем имя файла при загрузке
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        }
+      } catch (err) {
+        console.log(`Ошибка при загрузке файла: `, err);
+      }
+
+    })()
+
   }
 
   const inn = useSelector((state) => state.questionary.inn)
@@ -51,7 +60,7 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
     } else if (string.includes('.png') || string.includes('.jpeg')) {
       return (
         <div
-        className={s.downloadIconDiv}
+          className={s.downloadIconDiv}
           // style={{ textAlign: 'center', cursor: 'pointer', color: 'blue' }}
           onClick={() => download(string, inn, id)}
         >
