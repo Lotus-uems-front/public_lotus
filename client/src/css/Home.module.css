@@ -1,3 +1,10 @@
 .grey_color {
   color: grey;
 }
+
+.back_btn {
+  position: absolute;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1;
+}

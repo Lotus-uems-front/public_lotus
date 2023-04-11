@@ -5,7 +5,7 @@
     // height: 100vh;
     background-color: $light-bg-color;
     // overflow-y: scroll;
-    font-size: 18px;
+    font-size: 20px;
 
     .filterIcon{
         cursor: pointer
@@ -20,10 +20,10 @@
             border-collapse: separate; 
             border-spacing: 0 8px; 
             cursor:auto;
-        .table_head{
-            text-align: center;
-            color: gray;
-        }
+        // .table_head{
+        //     // text-align: center;
+        //     // color: gray;
+        // }
         .table_body{
             .link{
                 display: block
@@ -84,17 +84,17 @@
                         background-color: lighten($primary-disabled-color, 10%) ;
                     }
                 }
-                    td:first-child{ 
-                        border-left-style: transparent;
-                        border-top-left-radius: 10px; 
-                        border-bottom-left-radius: 10px;
-                    }
+                    // td:first-child{ 
+                    //     border-left-style: transparent;
+                    //     border-top-left-radius: 10px; 
+                    //     border-bottom-left-radius: 10px;
+                    // }
 
-                    td:last-child{
-                        border-right-style: solid;
-                        border-bottom-right-radius: 10px; 
-                        border-top-right-radius: 10px;
-                    }
+                    // td:last-child{
+                    //     border-right-style: solid;
+                    //     border-bottom-right-radius: 10px; 
+                    //     border-top-right-radius: 10px;
+                    // }
             }
         }
     }

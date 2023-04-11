@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Alert, Card, Container } from 'react-bootstrap'
+import { Accordion, Card, Container } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
 import s from '../../css/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import BackButton from '../../assets/BackButton/BackButton'
 
 export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()
@@ -70,11 +69,10 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
   }, [allFormsData, setInfoData])
 
   return (
-    <Container>
-      <Alert variant='light'>{setHeader()}</Alert>
+    <Container className={s.fs_20}>
+      {setHeader()}
       <Card className={s.card}>
         <Card.Header>
-          <BackButton style={s.icon}/>
           {companyName}
         </Card.Header>
       </Card>
@@ -85,7 +83,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
         <Accordion.Item>
           <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
           <Accordion.Body>
-            <Accordion defaultActiveKey='0' flush id='test'>
+            <Accordion defaultActiveKey='0' flush>
               {underPressureEquip.map((el, idx) => (
                 <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} />
               ))}

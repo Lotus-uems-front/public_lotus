@@ -36,12 +36,6 @@ code {
   margin-bottom: 1px;
 }
 
-#test .accordion-body{
-  /* position: absolute;
-  top: 100px */
-
-}
-
 #rest .accordion-button{
   background-color: var(--primary-color);
   color: #fff

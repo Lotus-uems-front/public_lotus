@@ -1,0 +1,32 @@
+.mb_0 {
+  margin-bottom: 0;
+}
+
+.ml_10 {
+  margin-left: 10px;
+}
+
+.span_content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.back_btn {
+  position: absolute;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1;
+  margin-left: 50px;
+}
+
+.cursor_pointer {
+  cursor: pointer;
+}
+
+.fs {
+  font-size: 20px;
+}
