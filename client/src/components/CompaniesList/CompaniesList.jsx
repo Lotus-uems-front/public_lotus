@@ -52,7 +52,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   const location = useLocation()
 
   const setHeader = () => {
-    return <Header searchedParam={searchedParam} companiesCount={companiesCount}  filterPath={filterPath}/>
+    return <Header searchedParam={searchedParam} companiesCount={companiesCount}  filterPath={filterPath} isSearched={true}/>
   }
 
   if (fullCompaniesArray.length)

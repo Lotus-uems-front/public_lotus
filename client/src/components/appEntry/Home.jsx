@@ -102,6 +102,7 @@ export default function Home() {
           searchedParam={searchedName}
           companiesCount={lengthArrName}
           isBackBtnNeeded={true}
+          isSearched={true}
         />
       )
     }
@@ -111,8 +112,15 @@ export default function Home() {
           searchedParam={searchParamOccupation}
           companiesCount={lengthArrOcc}
           isBackBtnNeeded={true}
+          isSearched={true}
         />
       )
+    }
+    else{
+     return <Header
+        isBackBtnNeeded={false}
+        isSearched={false}
+    />
     }
   }
 

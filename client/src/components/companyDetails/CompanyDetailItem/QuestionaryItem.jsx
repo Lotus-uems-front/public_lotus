@@ -41,7 +41,7 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
   const inn = useSelector((state) => state.questionary.inn)
 
   const formatString = (string, id) => {
-    console.log(`string - inn - id::: `, string, inn, id)
+    // console.log(`string - inn - id::: `, string, inn, id)
     if (
       isNaN(string) &&
       string !== 'Да' &&
@@ -104,12 +104,11 @@ export const QuestionaryItem = ({ questionaryItem, id }) => {
     }
 
     if (typeof item.value === 'string') {
-      item.fid.includes('Fifteen') && console.log(item)
       return (
         // <ListGroupItem item={item} insideBadge={item.value} />
 
         <>
-          <td>{item.fid.includes('Fifteen') ? item.description : item.information}</td>
+          <td>{item.fid && item.fid.includes('Fifteen') ? item.description : item.information}</td>
           {/* <td>{isNaN(item.value) ? <Badge>{item.value}</Badge> : item.value}</td> */}
           <td>{formatString(item.value, item.information, item.id)}</td>
         </>
