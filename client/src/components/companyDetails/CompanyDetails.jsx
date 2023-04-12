@@ -78,20 +78,20 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
       </Card>
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' />
+          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' colNum={2}/>
         ))}
         <Accordion.Item>
           <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
           <Accordion.Body>
             <Accordion defaultActiveKey='0' flush>
               {underPressureEquip.map((el, idx) => (
-                <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} />
+                <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} colNum={1}/>
               ))}
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' />
+          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' colNum={1}/>
         ))}
       </Accordion>
     </Container>
