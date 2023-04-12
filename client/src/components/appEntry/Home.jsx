@@ -117,11 +117,11 @@ export default function Home() {
         />
       )
     }
-    else{
-     return <Header
+    else {
+      return <Header
         isBackBtnNeeded={false}
         isSearched={false}
-    />
+      />
     }
   }
 
@@ -164,7 +164,13 @@ export default function Home() {
         <Route
           exact
           path={filterOccupationPath}
-          element={<Filter content={searchParamOccupation} searchedParam={searchParamOccupation} companiesCount={lengthArrOcc} isBackBtnNeeded={true} />}
+          element={
+            <Filter
+              content={searchParamOccupation}
+              searchedParam={searchParamOccupation}
+              companiesCount={lengthArrOcc}
+              isBackBtnNeeded={true}
+            />}
         />
       </Routes>
     </div>

@@ -3,7 +3,7 @@ import { Col, Form } from 'react-bootstrap'
 import { equipmentUnderPressure } from '../../assets/lists/equipmentUnderPressureList'
 import s from '../../css/EquipmentUnderPressure.module.css'
 
-export default function EquipmentUnderPressure() {
+export default function EquipmentUnderPressure({ sendEquipmentData }) {
   const [showSubContainer, setShowSubContainer] = useState(new Array(equipmentUnderPressure.length).fill(false))
   const [equipmentData, setEquipmentData] = useState([])
   const production = 'Сосуды и аппараты работающие под давлением'
@@ -68,6 +68,7 @@ export default function EquipmentUnderPressure() {
     })
   }
 
+  sendEquipmentData(equipmentData)
   console.log(equipmentData)
 
   return (
