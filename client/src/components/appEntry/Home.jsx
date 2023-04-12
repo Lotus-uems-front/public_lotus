@@ -50,6 +50,7 @@ export default function Home() {
 
   // отслеживаем URL
   useEffect(() => {
+
     //* При наличии поиска по вдиу деятельности
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
@@ -80,7 +81,7 @@ export default function Home() {
     if (innLink && urlDataCompany === url.pathname) {
       dispatch(setInn(innLink))
     }
-  }, [link, loc.pathname, currentPage])
+  }, [link, loc.pathname, currentPage, url.pathname])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
   useEffect(() => {
@@ -155,7 +156,7 @@ export default function Home() {
         <Route
           exact
           path={filterOccupationPath}
-          element={<Filter content={searchParamOccupation} searchedParam={searchParamOccupation} companiesCount={lengthArrOcc} isBackBtnNeeded={true}/>}
+          element={<Filter content={searchParamOccupation} searchedParam={searchParamOccupation} companiesCount={lengthArrOcc} isBackBtnNeeded={true} />}
         />
       </Routes>
     </div>

@@ -1,4 +1,5 @@
 const ApiError = require('../error/ApiError');
+const getFilterData = require('../model/filter/getFilterData');
 const getCompaniesInn = require('../model/getCompaniesInn');
 const doPagination = require('../model/search/doPagination');
 const getMainFormOccupation = require('../model/search/getMainFormOccupation');
@@ -77,6 +78,31 @@ class SearchController {
         } catch (err) {
             console.log('Ошибка при поиске вида деятельности компании: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске вида деятельности компании`));
+        }
+    }
+
+    /**
+     * Получаем массив ИНН компаний соответсвующих фильтру
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getCompanyFilter(req, res, next) {
+        const db = req.db;
+        try {
+            if (!req.body.filterData) {
+                throw new Error('Нет объекта filterData')
+            }
+            const filterData = req.body.filterData;
+            // const { equipment, information, subequipment } = req.body.filterData
+            const innArray = await getCompaniesInn(db);
+            const result = await getFilterData(db, innArray, filterData)
+
+
+        } catch (err) {
+            console.log('Ошибка при поиске данный по фильтру: ', err);
+            return next(ApiError.badRequest(`Ошибка при поиске данный по фильтру`));
         }
     }
 

@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const port = '5000'
 
-// export const URL: string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 // export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
 
 
@@ -13,6 +13,7 @@ const searchOccupationURL = `${URL}/api/search/search_occupation` // поиск 
 const getIconURL = `${URL}/api/file/get-icon` // получение иконки
 // const fileUrl = `${URL}/home/leo/uems-uploads/`
 const fileUrl = `${URL}/api/file/get-icon`
+const filterURL = `${URL}/api/search/filter` // глубокий поиск по фильтру
 
 
 export const companiesDataApi = {
@@ -89,8 +90,12 @@ export const companiesDataApi = {
     },
 
     // /home/${user}/uems-uploads/Fifteen_-${login}_-${id}_-${fileName}
+    /**
+     * Получение файла из DB
+     * @param fileName 
+     * @returns 
+     */
     async getFile(fileName: string) {
-
         try {
             const response = await axios.post(fileUrl, { fileName }, { responseType: 'blob' });
             const data = global.URL.createObjectURL(response.data);
@@ -99,6 +104,23 @@ export const companiesDataApi = {
         } catch (error) {
             console.error('Ошибка в api.ts:', error);
             return null;
+        }
+    },
+
+    /**
+     * Получение массива ИНН компаний согласно фильтра
+     * @param {Object} filterData  объект поиска
+     * @returns {Array} data массив ИНН
+     */
+    async getFilterData(filterData: Object) {
+        try {
+            const response = await axios.post(filterURL, { filterData })
+            const data = await response.data
+            console.log(`DATA::: `, response); // test
+            return data
+        } catch (err) {
+            console.log(`Ошибка в api.ts, поиск по фильтру: `, err);
+            return []
         }
     },
 
