@@ -6,6 +6,7 @@ import s from '../../css/EquipmentUnderPressure.module.css'
 export default function EquipmentUnderPressure() {
   const [showSubContainer, setShowSubContainer] = useState(new Array(equipmentUnderPressure.length).fill(false))
   const [equipmentData, setEquipmentData] = useState([])
+  const production = 'Сосуды и аппараты работающие под давлением'
 
   const handleContainerClick = (index) => {
     const newArray = [...showSubContainer]
@@ -29,6 +30,7 @@ export default function EquipmentUnderPressure() {
         if (checked) {
           if (!mainEquipment) {
             updatedData.push({
+              production,
               equipment: name,
               information: [],
               subequipment: [value]
@@ -44,6 +46,7 @@ export default function EquipmentUnderPressure() {
       } else if (!isCheckbox) {
         if (!mainEquipment) {
           updatedData.push({
+            production,
             equipment: name,
             information: [{ information: equipmentUnderPressure[mainIndex].dimentions[subIndex], value }],
             subequipment: []

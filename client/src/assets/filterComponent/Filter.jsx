@@ -12,6 +12,7 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
         searchedParam={searchedParam}
         companiesCount={companiesCount}
         isBackBtnNeeded={isBackBtnNeeded}
+        isSearched={true}
       />
     )
   }
