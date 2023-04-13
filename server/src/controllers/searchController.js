@@ -99,7 +99,8 @@ class SearchController {
             const innArray = await getCompaniesInn(db);
             const result = await getFilterData(db, innArray, filterData)
 
-
+            console.log(`RESULT INN:::: `, result);
+            res.json({ inn: result })
         } catch (err) {
             console.log('Ошибка при поиске данный по фильтру: ', err);
             return next(ApiError.badRequest(`Ошибка при поиске данный по фильтру`));
