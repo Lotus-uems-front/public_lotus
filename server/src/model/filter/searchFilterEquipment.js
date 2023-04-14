@@ -8,15 +8,38 @@
  * @returns {Array} ИНН компаний
  */
 module.exports = async (db, innArray, equipment) => {
+    try {
+        const responseArr = await innArray.map(item => {
+            return (async () => {
+                const zero = await db.collection(item)
+                    .findOne({ _id: 'Zero' })
 
-    //todo 1: Запускаем итерацию (forEach) по innArray
+                if (!zero) return false
 
-    //todo 2: Загружаем форму Zero
+                let result = false
+                zero.data.forEach(itm => {
 
-    //todo 3: В форме Zero проверяем присутсвия у поля description = "Производственное оборудование" и value = true, тогда сравниваем information = equipment
+                    if (itm.description === 'Производственное оборудование' && itm.information === equipment && itm.value === true) {
+                        result = true
+                    }
+                })
 
-    //todo 4: При совпадении складываем ИНН в массив, иначе переходим к следующей итерации
+                if (result) {
+                    return String(item)
+                } else {
+                    return false
+                }
+            })()
+        })
 
-    //todo 5: По окончанию всех итераций, возвращаем массив с ИНН компаниями
+        const arrCompany = await Promise.all(responseArr)
+
+        return arrCompany
+
+    } catch (err) {
+        console.log(`Ошибка поиска по полю equipment: `, err);
+        return []
+    }
+
 
 }

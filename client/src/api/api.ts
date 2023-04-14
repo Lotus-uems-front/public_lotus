@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const port = '5000'
 
-// export const URL: string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 // export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
 
 
@@ -114,9 +114,11 @@ export const companiesDataApi = {
      */
     async getFilterData(filterData: Object) {
         try {
+            console.log(`FILTER::: `, filterData); // test
+
             const response = await axios.post(filterURL, { filterData })
             const data = await response.data
-            console.log(`DATA::: `, response); // test
+            console.log(`DATA::: `, response.data); // test
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts, поиск по фильтру: `, err);

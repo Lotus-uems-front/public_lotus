@@ -9,16 +9,52 @@
  * @returns {Array} ИНН компаний
  */
 module.exports = async (db, innArray, equipment, information) => {
+    try {
+        const promiseArr = await innArray.map(item => {
+            return (async () => {
+                const zero = await db.collection(String(item))
+                    .findOne({ _id: 'Zero' })
 
-    //todo 1: итерируемся по массиву innArray
+                if (!zero) return false
 
-    //todo 1.1: Загружаем форму Zero
+                let result = false
+                zero.data.forEach(itm => {
 
-    //todo 2: Выбираем блок с information = equipment (длина 10 позиций)
+                    if (itm.description === equipment && _checkInformation(itm, information)) {
+                        result = true
+                    }
+                })
 
-    //todo 3: находим поля с information = information, если находим, то сравниваем поля value согласно условия отбора. Пушаем ИНН или к следующей итерации
+                if (result) {
+                    return item
+                } else {
+                    return false
+                }
+            })()
+        })
 
-    //todo 4: возвращаем массив ИНН компаний
+        const arrCompany = await Promise.all(promiseArr)
 
+        return arrCompany
+    } catch (err) {
+        console.log(`Ошибка поиска по полю information: `, err);
+        return []
+    }
+
+}
+
+/**
+ * Производим сравнение по полям объектов information
+ * @param {Object} itm Объект из БД
+ * @param {Object} information Объект из фильтра
+ */
+const _checkInformation = (itm, information) => {
+    const objInformation = information.find(item => item.information === itm.information)
+
+    if (objInformation && itm && Number(objInformation.value) <= Number(itm.value)) {
+        return true
+    } else {
+        return false
+    }
 
 }
