@@ -78,7 +78,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
       </Card>
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' colNum={2}/>
+          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' colNum={el._id==='Main' ? 2 : 1}/>
         ))}
         <Accordion.Item>
           <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
