@@ -12,7 +12,6 @@ export const QuestionaryItem = ({ questionaryItem, id, colNum }) => {
     ;(async () => {
       try {
         const result = await downloadFile(fileName, login, id) // ? Почему то в id передается полный путь до файла
-
         if (result) {
           const link = document.createElement('a')
           link.href = result
@@ -27,35 +26,9 @@ export const QuestionaryItem = ({ questionaryItem, id, colNum }) => {
     })()
   }
 
-  //   if (equip.some((el) => el === item.description)) {
-  //     if (item.value.some((elem) => elem))
-  //       return (
-  //         <ListGroup.Item>
-  //           <ListGroup.Item variant='primary' className={s.mb_20}>
-  //             {item.description && item.description}
-  //           </ListGroup.Item>
-  //           {item.information.map((el, ind) => {
-  //             if (item.value[ind]) {
-  //               return (
-  //                 <div key={el.id} className={`${s.description} ${s.under_press_equip_body}`}>
-  //                   <div>
-  //                     <div className='fw-bold'>{el}</div>
-  //                   </div>
-  //                   <Badge bg='primary' pill>
-  //                     Да
-  //                   </Badge>
-  //                 </div>
-  //               )
-  //             }
-  //           })}
-  //         </ListGroup.Item>
-  //       )
-  //   }
-  // }
-  // console.log(inn)
-  // console.log(questionaryItem)
+  const filteredData = questionaryItem.data.filter((item) => item.id)
 
-  const filteredData = questionaryItem.data.filter((item) => item.value)
+  // console.log(filteredData);
 
   return (
     <Accordion.Item
@@ -67,7 +40,12 @@ export const QuestionaryItem = ({ questionaryItem, id, colNum }) => {
         {questionaryItem.title}
       </Accordion.Header>
       <Accordion.Body className={`${s.accordion_body}`}>
-        <MultiColumnTable data={filteredData} columns={colNum} download={download} qi={questionaryItem}/>
+        <MultiColumnTable
+          data={filteredData}
+          columns={colNum}
+          download={download}
+          qi={questionaryItem}
+        />
       </Accordion.Body>
     </Accordion.Item>
   )
