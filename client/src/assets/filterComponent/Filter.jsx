@@ -5,10 +5,14 @@ import PipeRolling from '../../components/filterForms/PipeRolling'
 import s from '../../css/Filter.module.css'
 import Header from '../header/Header'
 import { companiesDataApi } from '../../api/api'
+import { useSelector } from 'react-redux'
 
 export default function Filter({ content, searchedParam, companiesCount, isBackBtnNeeded }) {
 
   const [equipData, setEquipData] = useState({})
+  const [filteredInns, setFilteredInns] = useState([])
+  const [clicked, setClicked] = useState(false)
+
 
   const setHeader = () => {
     return (
@@ -23,14 +27,16 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
 
   const sendEquipmentData = (e) => {
     setEquipData(e)
-    console.log(`DATA::: `, e);
+    // console.log(`DATA::: `, e);
   }
 
   const handleClickSearch = () => {
     (async () => {
       try {
-        console.log(`CLICK`);
         const result = await companiesDataApi.getFilterData(equipData)
+        setFilteredInns(result)
+        // console.log(result);
+        setClicked(true)
       } catch (err) {
         console.log(`Ошибка поиска по фильтру: `, err);
       }
@@ -42,16 +48,16 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
     <Container className={s.wrapper}>
       {setHeader()}
 
-      {content === 'Сосуды и аппараты работающие под давлением' && <EquipmentUnderPressure sendEquipmentData={sendEquipmentData} />}
+      {content === 'Сосуды и аппараты работающие под давлением' && <EquipmentUnderPressure sendEquipmentData={sendEquipmentData} clicked={clicked} searchedParam={content} filteredInns={filteredInns}/>}
 
       {content === 'Трубный прокат' && <PipeRolling />}
 
       <Row> &nbsp;</Row>
-      <Button
+      {!clicked ? <Button
         onClick={handleClickSearch}
       >
         Поиск
-      </Button>
+      </Button> : ''}
     </Container>
   )
 }

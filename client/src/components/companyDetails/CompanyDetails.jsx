@@ -76,7 +76,6 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
     setUnderPressureEquip(underPressure)
 
     // processEquipmentUnderPress(underPressureEquip)
-
   }, [allFormsData, setInfoData])
 
   const processEquipmentUnderPress = (dataArray) => {
@@ -100,16 +99,13 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
     setProcessedEquip(dataArray)
   }
 
-  useEffect(()=> {
-    if(underPressureEquip.length > 0){
+  useEffect(() => {
+    if (underPressureEquip.length > 0) {
       processEquipmentUnderPress(underPressureEquip)
     }
+  }, [underPressureEquip, processedEquip])
 
-  }, [underPressureEquip,
-    processedEquip])
-
-
-    //  console.log(processedEquip)
+  // console.log(processedEquip)
 
   return (
     <Container className={s.fs_20}>
@@ -120,6 +116,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
           <QuestionaryItem
+            key={el._id}
             questionaryItem={el}
             idx={`${idx}_${idx}`}
             id='info'
@@ -130,14 +127,15 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
           <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
           <Accordion.Body>
             <Accordion defaultActiveKey='0' flush>
-              {processedEquip.length > 0 && processedEquip.map((el, idx) => (
-                  <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} colNum={1} />
+              {processedEquip.length > 0 &&
+                processedEquip.map((el, idx) => (
+                  <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} colNum={1} key={el._id} />
                 ))}
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' colNum={1} />
+          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' colNum={1} key={el._id}/>
         ))}
       </Accordion>
     </Container>
