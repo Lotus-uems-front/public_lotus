@@ -5,14 +5,11 @@ import s from '../../css/EquipmentUnderPressure.module.css'
 import CompaniesList from '../CompaniesList/CompaniesList'
 import { useSelector } from 'react-redux'
 
-export default function EquipmentUnderPressure({ sendEquipmentData, clicked, searchedParam, filteredInns }) {
+export default function EquipmentUnderPressure({ sendEquipmentData }) {
   const [showSubContainer, setShowSubContainer] = useState(new Array(equipmentUnderPressure.length).fill(false))
   const [equipmentData, setEquipmentData] = useState([])
   const production = 'Сосуды и аппараты работающие под давлением'
 
-  const searchByOccupationData = useSelector((state) => state.search.searchByOccupationData)
-  const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
-  const filterOccupationPath = `/filter/filter=${searchedParam}`
 
   const handleContainerClick = (index) => {
     const newArray = [...showSubContainer]
@@ -77,34 +74,21 @@ export default function EquipmentUnderPressure({ sendEquipmentData, clicked, sea
   sendEquipmentData(equipmentData)
 
 
-let filteredCompanies = []
-companyOccupation.map(el => {
-    el.data.map(item => {
-      if(item.information === 'ИНН' && filteredInns.inn && filteredInns.inn.length > 0){
-        filteredInns.inn.forEach(inn => {
-          if(item.value === inn){
-            filteredCompanies.push(el)
-            return el
-          }
-        })
-      }
-    })
-  })
-  // console.log('filteredInns', filteredInns)
-  // console.log('companyOccupation', companyOccupation);
-  // console.log('test', filteredCompanies);
+// let filteredCompanies = []
+// companyOccupation.map(el => {
+//     el.data.map(item => {
+//       if(item.information === 'ИНН' && filteredInns.inn && filteredInns.inn.length > 0){
+//         filteredInns.inn.forEach(inn => {
+//           if(item.value === inn){
+//             filteredCompanies.push(el)
+//             return el
+//           }
+//         })
+//       }
+//     })
+//   })
 
   return (
-    <>{clicked ? 
-    <CompaniesList
-      searchedParam={searchedParam}
-      companies={filteredCompanies?.length ? filteredCompanies : ''}
-      companiesCount={lengthArrOcc}
-      filterPath={filterOccupationPath}
-      isFilterNeeded={true}
-      clicked={clicked}
-    /> 
-    : 
     <Form>
       {equipmentUnderPressure.map((element, index) => (
         <Form.Group key={element.container}>
@@ -128,6 +112,6 @@ companyOccupation.map(el => {
           )}
         </Form.Group>
       ))}
-    </Form>}</>
+    </Form>
   )
 }

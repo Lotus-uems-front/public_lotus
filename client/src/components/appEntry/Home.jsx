@@ -19,12 +19,11 @@ export default function Home() {
   const dispatch = useDispatch()
 
   const loc = useLocation()
-
-  // const companyName = useSelector((state) => state.questionary.companyName)
   const inn = useSelector((state) => state.questionary.inn)
 
   const searchByNameData = useSelector((state) => state.search.searchByNameData)
   const searchByOccupationData = useSelector((state) => state.search.searchByOccupationData)
+  const filteredCompanies = useSelector((state) => state.filter.filteredCompanies)
 
   const link = window.location.href
   const url = new URL(link)
@@ -50,7 +49,6 @@ export default function Home() {
 
   // отслеживаем URL
   useEffect(() => {
-
     //* При наличии поиска по вдиу деятельности
     if (searchParamOccupation && urlSearchByOccupation === url.pathname) {
       const searchCompanyOccupationArray = async () => {
@@ -96,6 +94,8 @@ export default function Home() {
 
   const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
 
+  console.log(filteredCompanies)
+
   const setHeader = () => {
     if (searchedName) {
       return (
@@ -116,16 +116,10 @@ export default function Home() {
           isSearched={true}
         />
       )
-    }
-    else {
-      return <Header
-        isBackBtnNeeded={false}
-        isSearched={false}
-      />
+    } else {
+      return <Header isBackBtnNeeded={false} isSearched={false} />
     }
   }
-
-  console.log(searchParamOccupation);
 
   return (
     <div className={s.wrapper}>
@@ -172,7 +166,21 @@ export default function Home() {
               searchedParam={searchParamOccupation}
               companiesCount={lengthArrOcc}
               isBackBtnNeeded={true}
-            />}
+            />
+          }
+        />
+
+        <Route
+          exact
+          path='/filtered-companies'
+          element={
+            <CompaniesList
+              companies={filteredCompanies?.length ? filteredCompanies : ''}
+              searchedParam={null} // Or any relevant prop value you want to pass
+              companiesCount={filteredCompanies?.length}
+              isFilterNeeded={false} // Or true, depending on your requirements
+            />
+          }
         />
       </Routes>
     </div>
