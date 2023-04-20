@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { VscDesktopDownload } from 'react-icons/vsc'
 import { MdOutlineOpenInNew } from 'react-icons/md'
-import { Table, Form, Badge, Accordion } from 'react-bootstrap'
+import { Table, Form, Badge, Accordion, ListGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import s from '../../css/MultyColumnTable.module.css'
 import { domens, fileFormats } from '../lists/formatsLists'
@@ -19,21 +19,21 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
       data.some((el) => el.fid.includes('Zero') || equip.forEach((item) => item === el.description))
     ) {
       const grouped = data.reduce((result, item) => {
-        const key = item.description;
-        const value = { information: item.information, value: item.value };
-      
+        const key = item.description
+        const value = { information: item.information, value: item.value }
+
         if (!result[key]) {
-          result[key] = [];
+          result[key] = []
         }
-        
-        result[key].push(value);
-        return result;
-      }, {});
-      
+
+        result[key].push(value)
+        return result
+      }, {})
+
       const newArray = Object.entries(grouped).map(([name, sizes]) => {
-        return { name, sizes };
-      });
-      
+        return { name, sizes }
+      })
+
       setSizes(newArray)
     }
 
@@ -117,19 +117,30 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
         return (
           <Accordion defaultActiveKey='0'>
             <Accordion.Item eventKey={item.id}>
-              <Accordion.Header style={{ fontSize: '20px' }}>{item.description}</Accordion.Header>
-              <Accordion.Body style={{ fontSize: '16px' }}>{sizes.map(s=> {
-                if(s.name === item.description){
-                  return s.sizes.map(el => {
-                    return !isNaN(el.value) && <span><b>{el.information} : {el.value}</b>;{' '}</span>
-                  })
-                }
-              })}</Accordion.Body>
-              {item.objectsArray.map((el) => {
+              <Accordion.Header className={s.acc_header}>{item.description}</Accordion.Header>
+              <Accordion.Body className={s.acc_body_sizes}>
+                <span className={s.size}>Размеры:</span>
+                {sizes.map((sz) => {
+                  if (sz.name === item.description) {
+                    return sz.sizes.map((el, idx) => {
+                      return !isNaN(el.value) ? (
+                        <span
+                          key={`${el.information}_${el.value}_${idx}`}
+                          className={s.sizes_item}
+                        >
+                          {el.information}: <Badge>{el.value}</Badge>
+                        </span>
+                      ) : null
+                    })
+                  }
+                })}
+              </Accordion.Body>
+
+              {item.objectsArray.map((el, idx) => {
                 return (
                   el.value && (
-                    <Accordion.Body style={{ fontSize: '16px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Accordion.Body className={s.acc_body_equipment} key={`${el.information}_${el.value}_${idx}`} >
+                      <div className={s.list_item}>
                         {el.information}
                         <Form.Check type='checkbox' checked readOnly />
                       </div>
@@ -156,10 +167,6 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
   useEffect(() => {
     processData()
   }, [])
-
-  useEffect(() => {
-    console.log(sizes)
-  }, [sizes])
 
   return (
     <Table bordered>

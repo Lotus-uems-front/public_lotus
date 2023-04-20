@@ -125,6 +125,8 @@ export default function Home() {
     }
   }
 
+  console.log(searchParamOccupation);
+
   return (
     <div className={s.wrapper}>
       <Routes>
