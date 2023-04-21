@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Form } from 'react-bootstrap'
 import { equipmentUnderPressure } from '../../assets/lists/equipmentUnderPressureList'
 import s from '../../css/EquipmentUnderPressure.module.css'
-import CompaniesList from '../CompaniesList/CompaniesList'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setEquipmentData } from '../../redux/filter/slice'
 
-export default function EquipmentUnderPressure({ sendEquipmentData }) {
+export default function EquipmentUnderPressure() {
   const [showSubContainer, setShowSubContainer] = useState(new Array(equipmentUnderPressure.length).fill(false))
-  const [equipmentData, setEquipmentData] = useState([])
+  const [localEquipmentData, setLocalEquipmentData] = useState([])
   const production = 'Сосуды и аппараты работающие под давлением'
 
+  const dispatch = useDispatch()
 
   const handleContainerClick = (index) => {
     const newArray = [...showSubContainer]
@@ -18,17 +19,17 @@ export default function EquipmentUnderPressure({ sendEquipmentData }) {
   }
 
   const handleEquipmentChange = (e, mainIndex, subIndex, idx) => {
-    handleContainerClick(idx)
-    const { name, value, type, checked } = e.target
-    const isCheckbox = type === 'checkbox'
-
+    handleContainerClick(idx);
+    const { name, value, type, checked } = e.target;
+    const isCheckbox = type === 'checkbox';
+  
     // Check if the clicked element is a main container
-    const isMainContainer = equipmentUnderPressure.some((element) => element.container === value)
-
-    setEquipmentData((prevData) => {
-      const updatedData = [...prevData]
-      const mainEquipment = updatedData.find((item) => item.equipment === name)
-
+    const isMainContainer = equipmentUnderPressure.some((element) => element.container === value);
+  
+    setLocalEquipmentData((prevData) => {
+      const updatedData = JSON.parse(JSON.stringify(prevData));
+      const mainEquipment = updatedData.find((item) => item.equipment === name);
+  
       if (isCheckbox && !isMainContainer) {
         if (checked) {
           if (!mainEquipment) {
@@ -36,14 +37,14 @@ export default function EquipmentUnderPressure({ sendEquipmentData }) {
               production,
               equipment: name,
               information: [],
-              subequipment: [value]
-            })
+              subequipment: [value],
+            });
           } else {
-            mainEquipment.subequipment.push(value)
+            mainEquipment.subequipment.push(value);
           }
         } else {
           if (mainEquipment) {
-            mainEquipment.subequipment = mainEquipment.subequipment.filter((sub) => sub !== value)
+            mainEquipment.subequipment = mainEquipment.subequipment.filter((sub) => sub !== value);
           }
         }
       } else if (!isCheckbox) {
@@ -52,41 +53,28 @@ export default function EquipmentUnderPressure({ sendEquipmentData }) {
             production,
             equipment: name,
             information: [{ information: equipmentUnderPressure[mainIndex].dimentions[subIndex], value }],
-            subequipment: []
-          })
+            subequipment: [],
+          });
         } else {
-          const infoIndex = mainEquipment.information.findIndex((info) => info.information === equipmentUnderPressure[mainIndex].dimentions[subIndex])
+          const infoIndex = mainEquipment.information.findIndex((info) => info.information === equipmentUnderPressure[mainIndex].dimentions[subIndex]);
           if (infoIndex === -1) {
             mainEquipment.information.push({
               information: equipmentUnderPressure[mainIndex].dimentions[subIndex],
-              value
-            })
+              value,
+            });
           } else {
-            mainEquipment.information[infoIndex].value = value
+            mainEquipment.information[infoIndex].value = value;
           }
         }
       }
+  
+      return updatedData;
+    });
+  };
 
-      return updatedData
-    })
-  }
-
-  sendEquipmentData(equipmentData)
-
-
-// let filteredCompanies = []
-// companyOccupation.map(el => {
-//     el.data.map(item => {
-//       if(item.information === 'ИНН' && filteredInns.inn && filteredInns.inn.length > 0){
-//         filteredInns.inn.forEach(inn => {
-//           if(item.value === inn){
-//             filteredCompanies.push(el)
-//             return el
-//           }
-//         })
-//       }
-//     })
-//   })
+  useEffect(() => {
+    dispatch(setEquipmentData(localEquipmentData))
+  }, [localEquipmentData, dispatch])
 
   return (
     <Form>

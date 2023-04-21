@@ -10,7 +10,7 @@ import { setCurrentPage } from '../../redux/searchResult/slice'
 import PaginationO from '../../assets/Pagination'
 import Header from '../../assets/header/Header'
 
-export default function CompaniesList({ companies, searchedParam, companiesCount,  filterPath, clicked }) {
+export default function CompaniesList({ companies, searchedParam, companiesCount,  filterPath, isBackBtnNeeded }) {
   useEffect(() => {
     setObjectWithIcons()
   }, [companies.length])
@@ -51,15 +51,11 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   }
   const location = useLocation()
 
-  const setHeader = () => {
-    return !clicked && <Header searchedParam={searchedParam} companiesCount={companiesCount}  filterPath={filterPath} isSearched={true}/>
-  }
-
   if (fullCompaniesArray.length)
     return (
       <div className={s.wrapper}>
         <Container>
-          {setHeader()}
+        <Header searchedParam={searchedParam} companiesCount={companiesCount} filterPath={filterPath} isSearched={true} isBackBtnNeeded={isBackBtnNeeded}/>
           <Table className={s.table}>
             <thead className={s.table_head}>
               <tr>

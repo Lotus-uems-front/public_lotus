@@ -14,19 +14,25 @@ export const fetchFilteredInns = createAsyncThunk('filter/fetchFilteredInns', as
 
 const initialState = {
     filteredInns: [],
-    filteredCompanies: []
+    filteredCompanies: [],
+    equipmentData: {},
+    filterParams: []
 }
 
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-   setFilteredInns: (state, action) => {
-    state.filteredInns = action.payload
-   },
-
    setFilteredCompanies: (state, action) => {
     state.filteredCompanies = action.payload
+   },
+
+   setEquipmentData: (state, action) => {
+    state.equipmentData = action.payload
+   },
+
+   setFilterParams: (state, action) => {
+    state.filterParams = action.payload
    }
   },
 
@@ -47,6 +53,6 @@ export const filterSlice = createSlice({
 
 })
 
-export const { setFilteredInns, setFilteredCompanies } = filterSlice.actions
+export const { setFilteredCompanies, setEquipmentData, setFilterParams } = filterSlice.actions
 
 export default filterSlice.reducer
