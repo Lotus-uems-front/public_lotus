@@ -118,7 +118,7 @@ export const companiesDataApi = {
 
             const response = await axios.post(filterURL, { filterData })
             const data = await response.data
-            console.log(`DATA::: `, response.data); // test
+            // console.log(`DATA::: `, response.data); // test
             return data
         } catch (err) {
             console.log(`Ошибка в api.ts, поиск по фильтру: `, err);

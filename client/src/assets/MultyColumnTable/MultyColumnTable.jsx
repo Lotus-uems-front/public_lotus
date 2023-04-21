@@ -1,16 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { VscDesktopDownload } from 'react-icons/vsc'
 import { MdOutlineOpenInNew } from 'react-icons/md'
-import { Table, Form, Badge } from 'react-bootstrap'
+import { Table, Form, Badge, Accordion, ListGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import s from '../../css/MultyColumnTable.module.css'
 import { domens, fileFormats } from '../lists/formatsLists'
+import { equip } from '../lists/occupationTypesLists'
 
 const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
- 
   const inn = useSelector((state) => state.questionary.inn)
 
+  const [sizes, setSizes] = useState([])
+
   // console.log(data);
+
+  const processData = () => {
+    if (
+      data.some((el) => el.fid.includes('Zero') || equip.forEach((item) => item === el.description))
+    ) {
+      const grouped = data.reduce((result, item) => {
+        const key = item.description
+        const value = { information: item.information, value: item.value }
+
+        if (!result[key]) {
+          result[key] = []
+        }
+
+        result[key].push(value)
+        return result
+      }, {})
+
+      const newArray = Object.entries(grouped).map(([name, sizes]) => {
+        return { name, sizes }
+      })
+
+      setSizes(newArray)
+    }
+
+    // console.log(sizes)
+  }
 
   const formatString = (string, id) => {
     if (
@@ -48,8 +76,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
   }
 
   const rows = Math.ceil(data.length / columns)
-  
-  const processedDescriptions = new Set();
+
   const renderCellContent = (item) => {
     // console.log(item);
     if (
@@ -61,7 +88,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     ) {
       return (
         <>
-          <td style={{ textTransform: 'capitalize' }}>{item.information}</td>
+          <td>{item.information}</td>
           <td>
             <Form.Check type='checkbox' checked readOnly />
           </td>
@@ -70,7 +97,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     } else if (item.information === 'ФИО руководителя') {
       return (
         <>
-          <td style={{ textTransform: 'capitalize' }}>{item.information}</td>
+          <td>{item.information}</td>
           <td>
             <Badge>{`${item.value[0]} ${item.value[1]} ${item.value[2]}`}</Badge>
           </td>
@@ -79,48 +106,53 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     } else if (typeof item.value === 'string' && !item.fid.includes('Zero_')) {
       return (
         <>
-          <td style={{ textTransform: 'capitalize' }}>
-            {item.fid && item.fid.includes('Fifteen') ? item.description : item.information}
-          </td>
+          <td>{item.fid && item.fid.includes('Fifteen') ? item.description : item.information}</td>
           <td>{formatString(item.value, item.information, item.id)}</td>
         </>
       )
-    } 
+    }
 
-    if (item.fid.includes("Zero_")) {
-      if (!processedDescriptions.has(item.description)) {
-        processedDescriptions.add(item.description);
-        let content = [];
-  
-        if (Array.isArray(item.information) && Array.isArray(item.value)) {
-          item.information.forEach((info, index) => {
-            if (item.value[index] === true) {
-              content.push(<li key={index}>{info}</li>);
-            }
-          });
-        } else if (
-          typeof item.information === "string" &&
-          typeof item.value === "string"
-        ) {
-          content.push(
-            <div key="infoValue">
-              {item.information}: {item.value}
-            </div>
-          );
-        }
-  
+    if (item.fid.includes('Zero_')) {
+      if (item.objectsArray && item.objectsArray.some((el) => el.value)) {
         return (
-          <>
-            <td>
-              <h3>{item.description}</h3>
-              <ul>{content}</ul>
-            </td>
-          </>
-        );
+          <Accordion defaultActiveKey='0'>
+            <Accordion.Item eventKey={item.id}>
+              <Accordion.Header className={s.acc_header}>{item.description}</Accordion.Header>
+              <Accordion.Body className={s.acc_body_sizes}>
+                <span className={s.size}>Размеры:</span>
+                {sizes.map((sz) => {
+                  if (sz.name === item.description) {
+                    return sz.sizes.map((el, idx) => {
+                      return !isNaN(el.value) ? (
+                        <span
+                          key={`${el.information}_${el.value}_${idx}`}
+                          className={s.sizes_item}
+                        >
+                          {el.information}: <Badge>{el.value}</Badge>
+                        </span>
+                      ) : null
+                    })
+                  }
+                })}
+              </Accordion.Body>
+
+              {item.objectsArray.map((el, idx) => {
+                return (
+                  el.value && (
+                    <Accordion.Body className={s.acc_body_equipment} key={`${el.information}_${el.value}_${idx}`} >
+                      <div className={s.list_item}>
+                        {el.information}
+                        <Form.Check type='checkbox' checked readOnly />
+                      </div>
+                    </Accordion.Body>
+                  )
+                )
+              })}
+            </Accordion.Item>
+          </Accordion>
+        )
       }
-    } 
-    
-    else {
+    } else {
       return null
     }
   }
@@ -131,6 +163,10 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
 
     return renderCellContent(data[index])
   }
+
+  useEffect(() => {
+    processData()
+  }, [])
 
   return (
     <Table bordered>

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Accordion, Card, Container } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { chemicalEquipmentManufacturing, fullInfo, individualForms } from '../../assets/lists/occupationTypesLists'
+import {
+  chemicalEquipmentManufacturing,
+  fullInfo,
+  individualForms
+} from '../../assets/lists/occupationTypesLists'
 import s from '../../css/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
+import MultiColumnTable from '../../assets/MultyColumnTable/MultyColumnTable'
 
 export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()
@@ -15,6 +20,8 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
   const [underPressureEquip, setUnderPressureEquip] = useState([]) //данные форм по оборуд-ю под давл
+
+  const [processedEquip, setProcessedEquip] = useState([])
 
   //делаем единый объект в котором есть название форм по русски
   useEffect(() => {
@@ -52,6 +59,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
             underPressure.push(el)
           }
         })
+
         individualForms.forEach((form) => {
           if (el._id === form) {
             restForms.push(el)
@@ -66,32 +74,68 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
     setInfoData(info)
     setFormsData(restForms)
     setUnderPressureEquip(underPressure)
+
+    // processEquipmentUnderPress(underPressureEquip)
   }, [allFormsData, setInfoData])
+
+  const processEquipmentUnderPress = (dataArray) => {
+    dataArray.forEach((dataItem) => {
+      dataItem.data = dataItem.data.map((item) => {
+        if (Array.isArray(item.information) && Array.isArray(item.value)) {
+          const objectsArray = item.information.map((info, index) => ({
+            information: info,
+            value: item.value[index]
+          }))
+
+          return {
+            ...item,
+            objectsArray
+          }
+        } else {
+          return item
+        }
+      })
+    })
+    setProcessedEquip(dataArray)
+  }
+
+  useEffect(() => {
+    if (underPressureEquip.length > 0) {
+      processEquipmentUnderPress(underPressureEquip)
+    }
+  }, [underPressureEquip, processedEquip])
+
+  // console.log(processedEquip)
 
   return (
     <Container className={s.fs_20}>
       {setHeader()}
       <Card className={s.card}>
-        <Card.Header>
-          {companyName}
-        </Card.Header>
+        <Card.Header>{companyName}</Card.Header>
       </Card>
       <Accordion defaultActiveKey='0' flush>
         {infoData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={`${idx}_${idx}`} id='info' colNum={el._id==='Main' ? 2 : 1}/>
+          <QuestionaryItem
+            key={el._id}
+            questionaryItem={el}
+            idx={`${idx}_${idx}`}
+            id='info'
+            colNum={el._id === 'Main' ? 2 : 1}
+          />
         ))}
         <Accordion.Item>
           <Accordion.Header id={'rest'}>Оборудование под давлением</Accordion.Header>
           <Accordion.Body>
             <Accordion defaultActiveKey='0' flush>
-              {underPressureEquip.map((el, idx) => (
-                <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} colNum={1}/>
-              ))}
+              {processedEquip.length > 0 &&
+                processedEquip.map((el, idx) => (
+                  <QuestionaryItem questionaryItem={el} idx={idx} id={'pressure'} colNum={1} key={el._id} />
+                ))}
             </Accordion>
           </Accordion.Body>
         </Accordion.Item>
         {formsData.map((el, idx) => (
-          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' colNum={1}/>
+          <QuestionaryItem questionaryItem={el} idx={idx} id='rest' colNum={1} key={el._id}/>
         ))}
       </Accordion>
     </Container>
