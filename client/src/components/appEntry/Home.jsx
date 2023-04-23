@@ -94,7 +94,7 @@ export default function Home() {
 
   const filterOccupationPath = `/filter/filter=${searchParamOccupation}`
 
-  console.log(filteredCompanies)
+  // console.log(filteredCompanies)
 
   const setHeader = () => {
     if (searchedName) {
@@ -176,9 +176,10 @@ export default function Home() {
           element={
             <CompaniesList
               companies={filteredCompanies?.length ? filteredCompanies : ''}
-              searchedParam={null} // Or any relevant prop value you want to pass
+              searchedParam={searchParamOccupation} 
               companiesCount={filteredCompanies?.length}
-              isFilterNeeded={false} // Or true, depending on your requirements
+              isFilterNeeded={false} 
+              isBackBtnNeeded={true}
             />
           }
         />
