@@ -7,7 +7,8 @@
         "db:mongo": "sudo systemctl start mongod",
         "start": "node index.js",
         "dev": "cross-env npm run db:mongo && nodemon index.js",
-        "win": "cross-env nodemon index.js"
+        "win": "cross-env nodemon index.js",
+        "test": "jest"
     },
     "keywords": [],
     "author": "",
