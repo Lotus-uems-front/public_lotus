@@ -47,7 +47,7 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
     filterCompanies()
   }, [buttonClicked, companyOccupation, filteredInns])
 
-  console.log(equipmentData)
+  // console.log(equipmentData)
 
   return (
     <Container className={s.wrapper}>
