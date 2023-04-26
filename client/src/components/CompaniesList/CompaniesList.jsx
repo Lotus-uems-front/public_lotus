@@ -51,12 +51,14 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   }
   const location = useLocation()
 
-  if (fullCompaniesArray.length)
+  // if (fullCompaniesArray.length)
     return (
       <div className={s.wrapper}>
         <Container>
         <Header searchedParam={searchedParam} companiesCount={companiesCount} filterPath={filterPath} isSearched={true} isBackBtnNeeded={isBackBtnNeeded}/>
-          <Table className={s.table}>
+
+         {fullCompaniesArray.length ? 
+         <><Table className={s.table}>
             <thead className={s.table_head}>
               <tr>
                 {/* <th>#</th> */}
@@ -113,7 +115,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
           </Table>
           <div className={s.paginationButtonGroup}>
             <PaginationO pagesCount={pagesCount} paginate={paginate} currentPage={currentPage} />
-          </div>
+          </div> </> : '' }
         </Container>
       </div>
     )

@@ -18,13 +18,13 @@ export default function EquipmentUnderPressure() {
 
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   // Set the initial state of checkedContainers based on localEquipmentData
-  //   const initialCheckedContainers = equipmentUnderPressure.map((element) =>
-  //     localEquipmentData.some((el) => el.equipment === element.container)
-  //   )
-  //   setCheckedContainers(initialCheckedContainers)
-  // }, [localEquipmentData, equipmentUnderPressure])
+  useEffect(() => {
+    // Set the initial state of checkedContainers based on localEquipmentData
+    const initialCheckedContainers = equipmentUnderPressure.map((element) =>
+      localEquipmentData.some((el) => el.equipment === element.container)
+    )
+    setCheckedContainers(initialCheckedContainers)
+  }, [])
 
   const handleContainerClick = (index) => {
     const newArray = [...checkedContainers]
@@ -33,33 +33,31 @@ export default function EquipmentUnderPressure() {
   }
 
   const handleEquipmentChange = (e, mainIndex, subIndex, idx) => {
-
     handleContainerClick(idx)
     const { name, value, type, checked } = e.target
     const isCheckbox = type === 'checkbox'
 
-    // Check if the clicked element is a main container
     const isMainContainer = equipmentUnderPressure.some((element) => element.container === value)
-
-    // if (isCheckbox && isMainContainer) {
-    //   const updatedCheckedContainers = [...checkedContainers];
-    //   updatedCheckedContainers[mainIndex] = checked;
-    //   setCheckedContainers(updatedCheckedContainers);
-    // }
 
     setLocalEquipmentData((prevData) => {
       const updatedData = JSON.parse(JSON.stringify(prevData))
       const mainEquipment = updatedData.find((item) => item.equipment === name)
-
+      const mainEquipmentIndex = updatedData.findIndex((item) => item.equipment === name)
       if (isCheckbox) {
         if (isMainContainer) {
-          if (!mainEquipment) {
-            updatedData.push({
-              production,
-              equipment: name,
-              information: [],
-              subequipment: []
-            })
+          if (checked) {
+            if (mainEquipmentIndex === -1) {
+              updatedData.push({
+                production,
+                equipment: name,
+                information: [],
+                subequipment: []
+              })
+            }
+          } else {
+            if (mainEquipmentIndex !== -1) {
+              updatedData.splice(mainEquipmentIndex, 1)
+            }
           }
         } else {
           if (checked) {
@@ -111,7 +109,7 @@ export default function EquipmentUnderPressure() {
     dispatch(setEquipmentData(localEquipmentData))
   }, [localEquipmentData, dispatch])
 
-  console.log(localEquipmentData)
+  // console.log(localEquipmentData)
 
   return (
     <Form>
