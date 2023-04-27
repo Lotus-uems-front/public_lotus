@@ -24,30 +24,55 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
     navigate('/filtered-companies')
   }
 
+
+  const filteredCompanies = useSelector((state) => state.filter.filteredCompanies)
+
+
   useEffect(() => {
     const filterCompanies = async () => {
-      let filteredCompaniesArr = []
       if (filteredInns && filteredInns.length > 0) {
-        companyOccupation.map((el) => {
-          el.data.map((item) => {
-            if (item.information === 'ИНН') {
-              filteredInns.forEach((inn) => {
-                if (item.value === inn) {
-                  filteredCompaniesArr.push(el)
-                  return el
-                }
-              })
-            }
+        const filteredCompaniesArr = companyOccupation.filter((el) => {
+          return el.data.some((item) => {
+            return item.information === 'ИНН' && filteredInns.includes(item.value)
           })
         })
-
+  
         await dispatch(setFilteredCompanies(filteredCompaniesArr))
+      } else {
+        await dispatch(setFilteredCompanies([]))
       }
-    }
-    filterCompanies()
-  }, [buttonClicked, companyOccupation, filteredInns])
+    };
+  
+    filterCompanies();
+  }, [buttonClicked, filteredInns, companyOccupation, dispatch])
 
-  // console.log(equipmentData)
+
+  // useEffect(() => {
+  //   const filterCompanies = async () => {
+  //     let filteredCompaniesArr = []
+  //     if (filteredInns && filteredInns.length > 0) {
+  //       companyOccupation.map((el) => {
+  //         el.data.map((item) => {
+  //           if (item.information === 'ИНН') {
+  //             filteredInns.forEach((inn) => {
+  //               if (item.value === inn) {
+  //                 filteredCompaniesArr.push(el)
+  //                 return el
+  //               }
+  //             })
+  //           }
+  //         })
+  //       })
+  //       await dispatch(setFilteredCompanies(filteredCompaniesArr))
+  //     }
+  //   }
+
+  //   filterCompanies()
+  // }, [buttonClicked, companyOccupation, filteredInns, dispatch])
+
+  console.log('companies', filteredCompanies)
+  console.log('inns', filteredInns);
+  // console.log(companyOccupation);
 
   return (
     <Container className={s.wrapper}>
