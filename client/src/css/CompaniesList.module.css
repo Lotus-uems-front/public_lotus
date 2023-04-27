@@ -67,7 +67,7 @@
 
 .wrapper .table .table_body .table_row .logoSection .inn {
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 12px;
   color: gray;
   font-weight: bolder;
 }
@@ -75,7 +75,7 @@
 .wrapper .table .table_body .table_row td {
   border: solid 1px #F9FDFE;
   border-style: solid none;
-  padding: 15px;
+  padding: 10px;
   position: relative;
 }
 

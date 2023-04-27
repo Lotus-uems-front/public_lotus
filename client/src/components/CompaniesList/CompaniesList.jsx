@@ -54,7 +54,7 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   // if (fullCompaniesArray.length)
     return (
       <div className={s.wrapper}>
-        <Container>
+        <Container >
         <Header searchedParam={searchedParam} companiesCount={companiesCount} filterPath={filterPath} isSearched={true} isBackBtnNeeded={isBackBtnNeeded}/>
 
          {fullCompaniesArray.length ? 
