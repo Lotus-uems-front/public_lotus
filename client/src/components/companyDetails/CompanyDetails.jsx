@@ -9,7 +9,6 @@ import {
 import s from '../../css/Questionary.module.css'
 import { QuestionaryItem } from './CompanyDetailItem/QuestionaryItem'
 import { setCompanyName } from '../../redux/questionary/slice'
-import MultiColumnTable from '../../assets/MultyColumnTable/MultyColumnTable'
 
 export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()

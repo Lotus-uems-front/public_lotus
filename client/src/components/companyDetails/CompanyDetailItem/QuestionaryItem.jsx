@@ -44,7 +44,7 @@ export const QuestionaryItem = ({ questionaryItem, id, colNum }) => {
           data={filteredData}
           columns={colNum}
           download={download}
-          qi={questionaryItem}
+          adjustColumnWidth={colNum === 1 ? false : true}
         />
       </Accordion.Body>
     </Accordion.Item>

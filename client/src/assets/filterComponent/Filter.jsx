@@ -70,9 +70,9 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
   //   filterCompanies()
   // }, [buttonClicked, companyOccupation, filteredInns, dispatch])
 
-  console.log('companies', filteredCompanies)
-  console.log('inns', filteredInns);
-  // console.log(companyOccupation);
+  // console.log('companies', filteredCompanies)
+  // console.log('inns', filteredInns);
+  console.log(companyOccupation);
 
   return (
     <Container className={s.wrapper}>
