@@ -15,6 +15,11 @@ module.exports = async (db, arr) => {
                     const main = await db.collection(inn)
                         .findOne({ _id: 'Main' })
 
+                    const capacity = await db.collection(inn).findOne({ _id: 'capacityDate' })
+                    const required = await db.collection(inn).firnOne({ _id: 'requiredWeight' })
+
+                    let capacityDate = 'Не указано';
+                    let requiredWeight = 'Не указано';
                     let city = 'Не указан';
                     let ownForm = 'Не указана';
                     let name = 'Не указано'
@@ -31,7 +36,22 @@ module.exports = async (db, arr) => {
                         ownForm = main.data[100].value
                     }
 
-                    return { companyName: name, inn: main.data[6].value, city: city, ownForm: ownForm }
+                    if (capacity.data.dateValue) {
+                        capacityDate = capacity.data.dateValue
+                    }
+
+                    if (required.data.weightValue) {
+                        requiredWeight = required.data.weightValue
+                    }
+
+                    return {
+                        companyName: name,
+                        inn: main.data[6].value,
+                        city: city,
+                        ownForm: ownForm,
+                        capacityDate: capacityDate,
+                        requiredWeight: requiredWeight,
+                    }
                 })()
             )
         })
