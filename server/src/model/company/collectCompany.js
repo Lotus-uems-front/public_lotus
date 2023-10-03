@@ -9,49 +9,53 @@ const foldCompanyArr = require("./foldCompanyArr")
  */
 module.exports = async (db, arr) => {
     try {
+        console.log(`Формируем массив объектов`); // test
         const PromiseCompany = arr.map(inn => {
             return (
                 (async () => {
-                    const main = await db.collection(inn)
-                        .findOne({ _id: 'Main' })
+                    try {
+                        const main = await db.collection(inn).findOne({ _id: 'Main' })
+                        const capacity = await db.collection(inn).findOne({ _id: 'capacityDate' })
+                        const required = await db.collection(inn).findOne({ _id: 'requiredWeight' })
 
-                    const capacity = await db.collection(inn).findOne({ _id: 'capacityDate' })
-                    const required = await db.collection(inn).firnOne({ _id: 'requiredWeight' })
+                        let capacityDate = 'Не указано';
+                        let requiredWeight = 'Не указано';
+                        let city = 'Не указан';
+                        let ownForm = 'Не указана';
+                        let name = 'Не указано'
 
-                    let capacityDate = 'Не указано';
-                    let requiredWeight = 'Не указано';
-                    let city = 'Не указан';
-                    let ownForm = 'Не указана';
-                    let name = 'Не указано'
+                        if (main.data[1].value) {
+                            name = main.data[1].value
+                        }
 
-                    if (main.data[1].value) {
-                        name = main.data[1].value
+                        if (main.data[15].value) {
+                            city = main.data[15].value
+                        }
+
+                        if (main.data[100].value) {
+                            ownForm = main.data[100].value
+                        }
+
+                        if (capacity?.data?.dateValue) {
+                            capacityDate = capacity.data.dateValue
+                        }
+
+                        if (required?.data?.weightValue) {
+                            requiredWeight = required.data.weightValue
+                        }
+
+                        return {
+                            companyName: name,
+                            inn: main.data[6].value,
+                            city: city,
+                            ownForm: ownForm,
+                            capacityDate: capacityDate,
+                            requiredWeight: requiredWeight,
+                        }
+                    } catch (err) {
+                        console.log(`Ошибка при формировании массив в MAP: `, err);
                     }
 
-                    if (main.data[15].value) {
-                        city = main.data[15].value
-                    }
-
-                    if (main.data[100].value) {
-                        ownForm = main.data[100].value
-                    }
-
-                    if (capacity.data.dateValue) {
-                        capacityDate = capacity.data.dateValue
-                    }
-
-                    if (required.data.weightValue) {
-                        requiredWeight = required.data.weightValue
-                    }
-
-                    return {
-                        companyName: name,
-                        inn: main.data[6].value,
-                        city: city,
-                        ownForm: ownForm,
-                        capacityDate: capacityDate,
-                        requiredWeight: requiredWeight,
-                    }
                 })()
             )
         })

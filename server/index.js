@@ -17,12 +17,13 @@ app.use(express.urlencoded());
 
 // подключение к базе MongoDB
 const dbName = process.env.DB_NAME || 'usersdb'; // название DB
-const url = process.env.DB_URL || 'mongodb://localhost:27017'; // URL DB
+const url = process.env.DB_URL || 'mongodb://0.0.0.0:27017'; // URL DB
 const clientPromise = new MongoClient(url, { useUnifiedTopology: true, maxPoolSize: 10 });
 app.use(async (req, res, next) => {
     try {
         const client = await clientPromise.connect();
         req.db = client.db(dbName);
+        console.log(`подключение к MongoDB`);
         next();
     } catch (err) {
         console.log(`Ошибка подключения базы MongoDB: `, err);

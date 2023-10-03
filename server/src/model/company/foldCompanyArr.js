@@ -34,6 +34,8 @@ module.exports = async (arrObj) => {
                     {
                         "inn": elem.inn,
                         "name": `${own} '${notQuotes}'`,
+                        "capacityDate": elem.capacityDate,
+                        "requiredWeight": elem.requiredWeight,
                     }
                 )
             }
@@ -51,6 +53,8 @@ module.exports = async (arrObj) => {
                                 {
                                     "inn": elem.inn,
                                     "name": `${own} '${notQuotes}'`,
+                                    "capacityDate": elem.capacityDate,
+                                    "requiredWeight": elem.requiredWeight,
                                 }
                             ],
                         }
