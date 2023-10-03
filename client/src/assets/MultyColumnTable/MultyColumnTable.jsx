@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { VscDesktopDownload } from 'react-icons/vsc'
 import { MdOutlineOpenInNew } from 'react-icons/md'
-import { Table, Form, Badge, Accordion, ListGroup } from 'react-bootstrap'
+import { Table, Form, Badge, Accordion } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import s from '../../css/MultyColumnTable.module.css'
 import { domens, fileFormats } from '../lists/formatsLists'
 import { equip } from '../lists/occupationTypesLists'
 
-const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
+const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) => {
   const inn = useSelector((state) => state.questionary.inn)
-
   const [sizes, setSizes] = useState([])
+
+  const rightColumnStyle = adjustColumnWidth ? { width: '300px' } : {}
 
   // console.log(data);
 
@@ -88,7 +89,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     ) {
       return (
         <>
-          <td>{item.information}</td>
+          <td style={rightColumnStyle}>{item.information}</td>
           <td>
             <Form.Check type='checkbox' checked readOnly />
           </td>
@@ -97,7 +98,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     } else if (item.information === 'ФИО руководителя') {
       return (
         <>
-          <td>{item.information}</td>
+          <td style={rightColumnStyle}>{item.information}</td>
           <td>
             <Badge>{`${item.value[0]} ${item.value[1]} ${item.value[2]}`}</Badge>
           </td>
@@ -106,7 +107,9 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
     } else if (typeof item.value === 'string' && !item.fid.includes('Zero_')) {
       return (
         <>
-          <td>{item.fid && item.fid.includes('Fifteen') ? item.description : item.information}</td>
+          <td style={rightColumnStyle}>
+            {item.fid && item.fid.includes('Fifteen') ? item.description : item.information}
+          </td>
           <td>{formatString(item.value, item.information, item.id)}</td>
         </>
       )
@@ -124,10 +127,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
                   if (sz.name === item.description) {
                     return sz.sizes.map((el, idx) => {
                       return !isNaN(el.value) ? (
-                        <span
-                          key={`${el.information}_${el.value}_${idx}`}
-                          className={s.sizes_item}
-                        >
+                        <span key={`${el.information}_${el.value}_${idx}`} className={s.sizes_item}>
                           {el.information}: <Badge>{el.value}</Badge>
                         </span>
                       ) : null
@@ -136,7 +136,7 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
                 })}
               </Accordion.Body>
 
-              {item.objectsArray.map((el, idx) => {
+              {/* {item.objectsArray.map((el, idx) => {
                 return (
                   el.value && (
                     <Accordion.Body className={s.acc_body_equipment} key={`${el.information}_${el.value}_${idx}`} >
@@ -147,7 +147,26 @@ const MultiColumnTable = ({ data, columns = 2, download, qi }) => {
                     </Accordion.Body>
                   )
                 )
-              })}
+              })} */}
+
+              <Accordion.Body className={s.acc_body_equipment}>
+                <Table bordered className={s.equipment_table}>
+                  <tbody>
+                    {item.objectsArray.map((el, idx) => {
+                      return (
+                        el.value && (
+                          <tr key={`${el.information}_${el.value}_${idx}`}>
+                            <td className={s.list_item}>{el.information}</td>
+                            <td style={{width: '100px'}}>
+                              <Form.Check type='checkbox' checked readOnly />
+                            </td>
+                          </tr>
+                        )
+                      )
+                    })}
+                  </tbody>
+                </Table>
+              </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         )
