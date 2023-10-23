@@ -2,8 +2,8 @@ import axios from 'axios'
 
 const port = '5000'
 
-// export const URL: string = `http://localhost:${port}` // для домашнего использования
-export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
 // export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
 
 
@@ -14,6 +14,7 @@ const getIconURL = `${URL}/api/file/get-icon` // получение иконки
 // const fileUrl = `${URL}/home/leo/uems-uploads/`
 const fileUrl = `${URL}/api/file/get-icon`
 const filterURL = `${URL}/api/search/filter` // глубокий поиск по фильтру
+// const allCities = ''
 
 
 export const companiesDataApi = {
@@ -33,6 +34,15 @@ export const companiesDataApi = {
             return []
         }
 
+    },
+
+    async getCitiesData() {
+        try {
+            const response = await axios.get('https://public.lotus-uems.ru/api/company/get_all_company')
+            return response.data
+        } catch (err) {
+            throw err
+        }
     },
 
     async searchByCompanyName(dataSearch: Object) {

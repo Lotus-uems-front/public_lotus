@@ -8,3 +8,11 @@
   cursor: pointer;
   z-index: 1;
 }
+
+.map {
+  margin: 0 auto;
+  width: 900px;
+  height: 700px;
+  background: url(https://sthe.lotus1.org/wp-content/uploads/2023/01/map.png) center center no-repeat;
+  background-size: contain;
+}

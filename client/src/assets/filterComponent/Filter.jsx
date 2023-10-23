@@ -46,32 +46,6 @@ export default function Filter({ content, searchedParam, companiesCount, isBackB
     filterCompanies();
   }, [buttonClicked, filteredInns, companyOccupation, dispatch])
 
-
-  // useEffect(() => {
-  //   const filterCompanies = async () => {
-  //     let filteredCompaniesArr = []
-  //     if (filteredInns && filteredInns.length > 0) {
-  //       companyOccupation.map((el) => {
-  //         el.data.map((item) => {
-  //           if (item.information === 'ИНН') {
-  //             filteredInns.forEach((inn) => {
-  //               if (item.value === inn) {
-  //                 filteredCompaniesArr.push(el)
-  //                 return el
-  //               }
-  //             })
-  //           }
-  //         })
-  //       })
-  //       await dispatch(setFilteredCompanies(filteredCompaniesArr))
-  //     }
-  //   }
-
-  //   filterCompanies()
-  // }, [buttonClicked, companyOccupation, filteredInns, dispatch])
-
-  // console.log('companies', filteredCompanies)
-  // console.log('inns', filteredInns);
   console.log(companyOccupation);
 
   return (

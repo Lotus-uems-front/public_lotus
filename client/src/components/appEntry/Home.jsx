@@ -14,6 +14,7 @@ import {
 import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
 import Header from '../../assets/header/Header'
+import { fetchAllCompanies } from '../../redux/map/slice'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -37,11 +38,37 @@ export default function Home() {
   const { namesCompanies, lengthArr: lengthArrName } = searchByNameData
   const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
 
-  useEffect(() => {
-    if (url.pathname === urlDataCompany) {
-      setFirstEnterPath(true)
-    }
+  const cities = useSelector(state => state.map.cities);
+
+
+  // useEffect(() => {
+  //   fetch('https://public.lotus-uems.ru/api/company/get_all_company')
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok')
+  //       }
+  //       const res = response.json()
+
+  //       console.log(res);
+  //       return response.json()
+  //     })
+  //     .then((data) => {
+  //       setCompanies(data)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+
+
+  //     fetchCities()
+  // }, [])
+
+  useEffect(()=> {
+    dispatch(fetchAllCompanies());
   }, [])
+
+  console.log(cities);
+
 
   const innLink = url.searchParams.get('inn')
   const [searchedName] = useState(url.searchParams.get('name'))
@@ -123,6 +150,7 @@ export default function Home() {
 
   return (
     <div className={s.wrapper}>
+      <div className={s.map}></div>
       <Routes>
         <Route
           exact
@@ -176,9 +204,9 @@ export default function Home() {
           element={
             <CompaniesList
               companies={filteredCompanies?.length ? filteredCompanies : ''}
-              searchedParam={searchParamOccupation} 
+              searchedParam={searchParamOccupation}
               companiesCount={filteredCompanies?.length}
-              isFilterNeeded={false} 
+              isFilterNeeded={false}
               isBackBtnNeeded={true}
             />
           }

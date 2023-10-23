@@ -10,8 +10,6 @@ export const fetchFilteredInns = createAsyncThunk('filter/fetchFilteredInns', as
   }
 })
 
-
-
 const initialState = {
     filteredInns: [],
     filteredCompanies: [],
