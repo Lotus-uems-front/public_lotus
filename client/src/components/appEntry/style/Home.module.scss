@@ -1,4 +1,5 @@
 @import '../../../style/mixins.scss';
+@import '../../../style/colors';
 
 .grey_color{
     color: grey
@@ -10,9 +11,18 @@
 }
 
 .map{
+    position: relative;
     margin: 0 auto;
     width: 900px;
     height: 700px;
     background: url(https://sthe.lotus1.org/wp-content/uploads/2023/01/map.png) center center no-repeat;
 	background-size: contain;
+
+}
+
+.pin{
+    color: $danger-color
+}
+.cityName{
+    color: #000
 }

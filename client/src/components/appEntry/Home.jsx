@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { fetchPosts, getCompanyData, setInn } from '../../redux/questionary/slice'
@@ -15,6 +15,13 @@ import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
 import Header from '../../assets/header/Header'
 import { fetchAllCompanies } from '../../redux/map/slice'
+import { geoToPixel } from '../../assets/geoCallculationsForCities/geoCalculations'
+import map from '../../assets/images/map.png'
+import { FaMapPin } from 'react-icons/fa';
+
+// FaMapPin
+// GoDot
+// GoDotFill
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -38,37 +45,30 @@ export default function Home() {
   const { namesCompanies, lengthArr: lengthArrName } = searchByNameData
   const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
 
-  const cities = useSelector(state => state.map.cities);
+  const cities = useSelector((state) => state.map.cities)
+  // const mapRect = document.querySelector('.map').getBoundingClientRect();
 
+  const mapRef = useRef(null)
+  const [mapRect, setMapRect] = useState(null)
+  const [divOffsetX, setDivOffsetX] = useState(null)  
+  const [divOffsetY, setDivOffsetY] = useState(null)
 
-  // useEffect(() => {
-  //   fetch('https://public.lotus-uems.ru/api/company/get_all_company')
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok')
-  //       }
-  //       const res = response.json()
+  // const divOffsetX = mapRect.left;
+  // const divOffsetY = mapRect.top;
 
-  //       console.log(res);
-  //       return response.json()
-  //     })
-  //     .then((data) => {
-  //       setCompanies(data)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-
-
-  //     fetchCities()
-  // }, [])
-
-  useEffect(()=> {
-    dispatch(fetchAllCompanies());
+  //подгружаем города для карты
+  useEffect(() => {
+    dispatch(fetchAllCompanies())
   }, [])
 
-  console.log(cities);
 
+  useEffect(() => {
+    if (mapRef.current) {
+        setMapRect(mapRef.current.getBoundingClientRect());
+    }
+}, []);
+
+  console.log(cities)
 
   const innLink = url.searchParams.get('inn')
   const [searchedName] = useState(url.searchParams.get('name'))
@@ -148,9 +148,29 @@ export default function Home() {
     }
   }
 
+  const coordinates = (e) => {
+console.log(e);
+console.log(mapRect);
+  }
+
   return (
     <div className={s.wrapper}>
-      <div className={s.map}></div>
+      <div className={s.map} onClick={coordinates} ref={mapRef}>
+        {/* <img src={map} className={s.mapImg}/> */}
+        {cities &&
+          Object.values(cities).map((cityData, index) => {
+            const actualCityData = cityData[Object.keys(cityData)[0]] // this gets the inner nested object
+            const { x, y } = geoToPixel(actualCityData.geo[0], actualCityData.geo[1], mapRect)
+            return (
+              <div key={index}>
+                <span className={s.pin} style={{ position: 'absolute', left: `${x}px`, top: `${y}px` }}>
+                <FaMapPin/>
+                  <span className={s.cityName}>{Object.keys(cityData)[0]} </span>
+                </span>
+              </div>
+            )
+          })}
+      </div>
       <Routes>
         <Route
           exact
