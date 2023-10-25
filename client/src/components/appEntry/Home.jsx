@@ -17,7 +17,8 @@ import Header from '../../assets/header/Header'
 import { fetchAllCompanies } from '../../redux/map/slice'
 import { geoToPixel } from '../../assets/geoCallculationsForCities/geoCalculations'
 import map from '../../assets/images/map.png'
-import { FaMapPin } from 'react-icons/fa';
+import { FaMapPin } from 'react-icons/fa'
+import Map from '../map/Map'
 
 // FaMapPin
 // GoDot
@@ -50,7 +51,7 @@ export default function Home() {
 
   const mapRef = useRef(null)
   const [mapRect, setMapRect] = useState(null)
-  const [divOffsetX, setDivOffsetX] = useState(null)  
+  const [divOffsetX, setDivOffsetX] = useState(null)
   const [divOffsetY, setDivOffsetY] = useState(null)
 
   // const divOffsetX = mapRect.left;
@@ -61,12 +62,11 @@ export default function Home() {
     dispatch(fetchAllCompanies())
   }, [])
 
-
   useEffect(() => {
     if (mapRef.current) {
-        setMapRect(mapRef.current.getBoundingClientRect());
+      setMapRect(mapRef.current.getBoundingClientRect())
     }
-}, []);
+  }, [])
 
   console.log(cities)
 
@@ -149,28 +149,41 @@ export default function Home() {
   }
 
   const coordinates = (e) => {
-console.log(e);
-console.log(mapRect);
+    const rect = mapRef.current.getBoundingClientRect()
+    const offsetX = rect.left
+    const offsetY = rect.top
+
+    const mapX = e.clientX - offsetX
+    const mapY = e.clientY - offsetY
+
+    console.log(`x - ${mapX}; y - ${mapY}`);
   }
 
   return (
     <div className={s.wrapper}>
-      <div className={s.map} onClick={coordinates} ref={mapRef}>
-        {/* <img src={map} className={s.mapImg}/> */}
-        {cities &&
+      {/* <div className={s.map} onClick={coordinates} ref={mapRef}> */}
+        {/* {cities &&
           Object.values(cities).map((cityData, index) => {
             const actualCityData = cityData[Object.keys(cityData)[0]] // this gets the inner nested object
             const { x, y } = geoToPixel(actualCityData.geo[0], actualCityData.geo[1], mapRect)
             return (
               <div key={index}>
-                <span className={s.pin} style={{ position: 'absolute', left: `${x}px`, top: `${y}px` }}>
-                <FaMapPin/>
+                <span
+                  className={s.pin}
+                  style={{ position: 'absolute', left: `${x}px`, top: `${y}px` }}
+                >
+                  <FaMapPin />
                   <span className={s.cityName}>{Object.keys(cityData)[0]} </span>
                 </span>
               </div>
             )
-          })}
+          })} */}
+      {/* </div> */}
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+           <Map cities={cities} />
       </div>
+
+   
       <Routes>
         <Route
           exact
