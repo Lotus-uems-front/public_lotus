@@ -12,7 +12,7 @@
 .map {
   position: relative;
   margin: 0 auto;
-  width: 1200px;
+  width: 100%;
   height: 1000px;
   background: url(https://sthe.lotus1.org/wp-content/uploads/2023/01/map.png) center center no-repeat;
   background-size: contain;
@@ -22,6 +22,15 @@
   color: #BB2D3B;
 }
 
-.cityName {
+.city_name {
   color: #000;
+}
+
+.map_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }

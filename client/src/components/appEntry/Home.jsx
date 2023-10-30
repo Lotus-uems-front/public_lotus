@@ -173,13 +173,13 @@ export default function Home() {
                   style={{ position: 'absolute', left: `${x}px`, top: `${y}px` }}
                 >
                   <FaMapPin />
-                  <span className={s.cityName}>{Object.keys(cityData)[0]} </span>
+                  <span className={s.city_name}>{Object.keys(cityData)[0]} </span>
                 </span>
               </div>
             )
           })} */}
       {/* </div> */}
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div className={s.map_container} >
            <Map cities={cities} />
       </div>
 

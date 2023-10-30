@@ -2,11 +2,9 @@
   background-color: #F9FDFE;
   font-size: 20px;
 }
-
 .wrapper .filterIcon {
   cursor: pointer;
 }
-
 .wrapper .paginationButtonGroup {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -16,35 +14,28 @@
           justify-content: end;
   gap: 5px;
 }
-
 .wrapper .table {
   border-collapse: separate;
   border-spacing: 0 8px;
   cursor: auto;
 }
-
 .wrapper .table .table_body .link {
   display: block;
 }
-
 .wrapper .table .table_body .table_row {
   background-color: #fff;
   -webkit-box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
           box-shadow: 2px 2px 5px rgba(11, 11, 1, 0.2);
 }
-
 .wrapper .table .table_body .table_row .city {
   width: 250px;
 }
-
 .wrapper .table .table_body .table_row .tel {
   white-space: nowrap;
 }
-
 .wrapper .table .table_body .table_row .email {
   display: block;
 }
-
 .wrapper .table .table_body .table_row .logoSection {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -58,31 +49,26 @@
   gap: 15px;
   font-size: 18px;
 }
-
 .wrapper .table .table_body .table_row .logoSection .companyLogo {
   width: 60px;
   height: 60px;
   border-radius: 50%;
 }
-
 .wrapper .table .table_body .table_row .logoSection .inn {
   margin-top: 5px;
   font-size: 12px;
   color: gray;
   font-weight: bolder;
 }
-
 .wrapper .table .table_body .table_row td {
   border: solid 1px #F9FDFE;
   border-style: solid none;
   padding: 10px;
   position: relative;
 }
-
 .wrapper .table .table_body .table_row td a {
   text-decoration: none;
 }
-
 .wrapper .table .table_body .table_row td a button {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -90,11 +76,9 @@
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
 }
-
 .wrapper .table .table_body .table_row td .detailsIcon {
   margin-left: 5px;
 }
-
 .wrapper .table .table_body .table_row td .highlight {
   background-color: #8cc3ff;
 }

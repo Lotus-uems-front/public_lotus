@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { FaMapPin } from 'react-icons/fa'
 import L from 'leaflet'
+// import s from './style/Map.module.scss'
 
 const Map = ({ cities }) => {
   const mapRef = useRef()
@@ -11,11 +12,19 @@ const Map = ({ cities }) => {
     const bounds = [
       //   [40, 20],   // Southwest coordinates
       //   [80, 190]  // Northeast coordinates
-      [50, 20],   // Southwest coordinates (increase the latitude to show less from the bottom)
-      [70, 190]  
+      [55, 20], // Southwest coordinates (increase the latitude to show less from the bottom)
+      [75, 190]
     ]
     map.setMaxBounds(bounds)
   }
+
+  const markersRef = useRef([])
+
+  useEffect(() => {
+    markersRef.current.forEach((marker) => {
+      marker.openPopup()
+    })
+  }, [cities])
 
   const customIcon = new L.Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -27,12 +36,20 @@ const Map = ({ cities }) => {
     popupAnchor: [0, -41] // point from which the popup should open relative to the iconAnchor
   })
 
+  const handleMarkerClick = (cityInfo) => {
+    // Function to display a list of companies for the clicked city
+    console.log(cityInfo)
+  }
+
   return (
     <MapContainer
       center={[61.524, 105.3188]}
-      zoom={3.496}
-      style={{ height: '500px', width: '1300px' }}
+      // zoom={3.496}
+      zoom={4.5}
+      style={{ height: '700px', width: '1300px' }}
+      // className={s.map}
       ref={mapRef}
+      // onClick={() => console.log('Map clicked!')}
     >
       <TileLayer
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -41,8 +58,7 @@ const Map = ({ cities }) => {
       />
       {cities &&
         Object.entries(cities).map(([cityName, cityInfo], index) => {
-          console.log(Object.keys(cityInfo)[0])
-          const location = Object.values(cityInfo)[0]?.geo || [0, 0] // Simplified extraction
+          const location = Object.values(cityInfo)[0]?.geo || [0, 0]
           if (
             !location ||
             location.length !== 2 ||
@@ -53,12 +69,35 @@ const Map = ({ cities }) => {
             return null // skip rendering this city
           }
           return (
-            <Marker key={index} position={location} icon={customIcon}>
-              {/* {Object.keys(cityInfo)[0]} */}
-              <Tooltip permanent>
-                {Object.keys(cityInfo)[0] || 'CITY NAME'}
-                {/* <FaMapPin /> */}
-              </Tooltip>
+            <Marker
+              key={index}
+              ref={(marker) => {
+                markersRef.current[index] = marker
+              }}
+              icon={customIcon}
+              // icon={''}
+              position={location}
+              // eventHandlers={{
+              //   click: () => handleMarkerClick(cityInfo)
+              // }}
+            >
+              <Popup
+                // permanent
+                open={true}
+                closeButton={false}
+                autoClose={false}
+                closeOnClick={false}
+                closeOnEscapeKey={false}
+                onMouseOver={(e) => e.target.openPopup()}
+                onMouseOut={(e) => e.target.closePopup()}
+              >
+                <div
+                  onClick={() => handleMarkerClick(cityInfo)}
+                  style={{ cursor: 'pointer', fontSize: '10px' }}
+                >
+                  {Object.keys(cityInfo)[0] || 'CITY NAME'}
+                </div>
+              </Popup>
             </Marker>
           )
         })}
