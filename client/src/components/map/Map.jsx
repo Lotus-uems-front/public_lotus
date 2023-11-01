@@ -10,8 +10,6 @@ const Map = ({ cities }) => {
   const setBoundsForMap = (map) => {
     // Set a bounding box around Russia's approximate borders
     const bounds = [
-      //   [40, 20],   // Southwest coordinates
-      //   [80, 190]  // Northeast coordinates
       [55, 20], // Southwest coordinates (increase the latitude to show less from the bottom)
       [75, 190]
     ]
@@ -19,13 +17,22 @@ const Map = ({ cities }) => {
   }
 
   const markersRef = useRef([])
+  const initialMount = useRef(true)
+  // useEffect(() => {
+  //   // markersRef.current.forEach((marker) => {
+  //   //   console.log(marker);
+  //   //   marker.openPopup()
+  //   // })
+  //   if (initialMount.current) {
+  //     initialMount.current = false;
+  //     return;
+  // }
 
-  useEffect(() => {
-    markersRef.current.forEach((marker) => {
-      marker.openPopup()
-    })
-  }, [cities])
-
+  // markersRef.current.forEach((marker) => {
+  //     marker.openPopup();
+  // });
+  // }, [cities])
+ 
   const customIcon = new L.Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
@@ -43,7 +50,7 @@ const Map = ({ cities }) => {
 
   return (
     <MapContainer
-      center={[61.524, 105.3188]}
+      center={[55.524, 45.3188]}
       // zoom={3.496}
       zoom={4.5}
       style={{ height: '700px', width: '1300px' }}
@@ -58,6 +65,7 @@ const Map = ({ cities }) => {
       />
       {cities &&
         Object.entries(cities).map(([cityName, cityInfo], index) => {
+          console.log(Object.values(cityInfo)[0]?.companies)
           const location = Object.values(cityInfo)[0]?.geo || [0, 0]
           if (
             !location ||
@@ -69,6 +77,7 @@ const Map = ({ cities }) => {
             return null // skip rendering this city
           }
           return (
+          // <div onClick={() => handleMarkerClick(cityInfo)}>
             <Marker
               key={index}
               ref={(marker) => {
@@ -77,28 +86,32 @@ const Map = ({ cities }) => {
               icon={customIcon}
               // icon={''}
               position={location}
-              // eventHandlers={{
-              //   click: () => handleMarkerClick(cityInfo)
-              // }}
+              eventHandlers={{
+                click: () => handleMarkerClick(cityInfo)
+              }}
             >
-              <Popup
-                // permanent
-                open={true}
-                closeButton={false}
-                autoClose={false}
-                closeOnClick={false}
-                closeOnEscapeKey={false}
-                onMouseOver={(e) => e.target.openPopup()}
-                onMouseOut={(e) => e.target.closePopup()}
+              <Tooltip
+                permanent
               >
-                <div
-                  onClick={() => handleMarkerClick(cityInfo)}
-                  style={{ cursor: 'pointer', fontSize: '10px' }}
+                {Object.keys(cityInfo)[0] || 'CITY NAME'}
+              </Tooltip>
+              <Popup  
+              open={false}
                 >
-                  {Object.keys(cityInfo)[0] || 'CITY NAME'}
+                <div style={{ cursor: 'pointer', textAlign: 'center' }}>
+                  <strong>{Object.keys(cityInfo)[0]}</strong>
+                  <div style={{textAlign: 'start'}}>
+                    {Object.values(cityInfo)[0]?.companies.map((company, companyIndex) => (
+                      <div style={{borderRadius: '3px', padding: '5px 15px', marginBottom: '5px', backgroundColor: '#f1ecec', fontWeight: '400'}} key={companyIndex} onClick={() => {console.log('click')}}>
+                        {company.name}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </Popup>
             </Marker>
+          // </div>
+            
           )
         })}
     </MapContainer>
@@ -106,3 +119,38 @@ const Map = ({ cities }) => {
 }
 
 export default Map
+
+// {Object.values(cityInfo)[0]?.companies.map(city => city.name)}
+{
+  /* <Marker
+key={index}
+ref={(marker) => {
+  markersRef.current[index] = marker
+}}
+icon={customIcon}
+// icon={''}
+position={location}
+// eventHandlers={{
+//   click: () => handleMarkerClick(cityInfo)
+// }}
+>
+<Popup
+  // permanent
+  open={true}
+  closeButton={false}
+  autoClose={false}
+  closeOnClick={false}
+  closeOnEscapeKey={false}
+  onMouseOver={(e) => e.target.openPopup()}
+  onMouseOut={(e) => e.target.closePopup()}
+>
+  <div
+    onClick={() => handleMarkerClick(cityInfo)}
+    style={{ cursor: 'pointer', fontSize: '10px' }}
+  >
+    {Object.keys(cityInfo)[0] || 'CITY NAME'}
+  </div>
+</Popup>
+<div permanent>{Object.values(cityInfo)[0]?.companies.map(city => city.name)}</div>
+</Marker> */
+}
