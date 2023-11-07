@@ -1,4 +1,19 @@
+@import '../../../style/colors';
+
 .map{
-    height: 500px;
+    height: 700px;
     width: 1300px
 }
+
+.company_item{
+    border-radius: 3px; 
+    padding: 5px 15px; 
+    margin-bottom: 5px;
+    background-color: lighten($secondary-color, 55%);
+    font-weight: 400;
+
+    &:hover{
+        background-color: lighten($secondary-color, 45%);
+    }
+}
+

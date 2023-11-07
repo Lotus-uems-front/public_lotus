@@ -51,11 +51,6 @@ export default function Home() {
 
   const mapRef = useRef(null)
   const [mapRect, setMapRect] = useState(null)
-  const [divOffsetX, setDivOffsetX] = useState(null)
-  const [divOffsetY, setDivOffsetY] = useState(null)
-
-  // const divOffsetX = mapRect.left;
-  // const divOffsetY = mapRect.top;
 
   //подгружаем города для карты
   useEffect(() => {
@@ -68,7 +63,7 @@ export default function Home() {
     }
   }, [])
 
-  console.log(cities)
+  // console.log(cities)
 
   const innLink = url.searchParams.get('inn')
   const [searchedName] = useState(url.searchParams.get('name'))
@@ -156,34 +151,15 @@ export default function Home() {
     const mapX = e.clientX - offsetX
     const mapY = e.clientY - offsetY
 
-    console.log(`x - ${mapX}; y - ${mapY}`);
+    console.log(`x - ${mapX}; y - ${mapY}`)
   }
 
   return (
     <div className={s.wrapper}>
-      {/* <div className={s.map} onClick={coordinates} ref={mapRef}> */}
-        {/* {cities &&
-          Object.values(cities).map((cityData, index) => {
-            const actualCityData = cityData[Object.keys(cityData)[0]] // this gets the inner nested object
-            const { x, y } = geoToPixel(actualCityData.geo[0], actualCityData.geo[1], mapRect)
-            return (
-              <div key={index}>
-                <span
-                  className={s.pin}
-                  style={{ position: 'absolute', left: `${x}px`, top: `${y}px` }}
-                >
-                  <FaMapPin />
-                  <span className={s.city_name}>{Object.keys(cityData)[0]} </span>
-                </span>
-              </div>
-            )
-          })} */}
-      {/* </div> */}
-      <div className={s.map_container} >
-           <Map cities={cities} />
+      <div className={s.map_container}>
+        <Map cities={cities} />
       </div>
 
-   
       <Routes>
         <Route
           exact
