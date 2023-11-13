@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const port = '5000'
 
-export const URL: string = `http://localhost:${port}` // для домашнего использования
+// export const URL: string = `http://localhost:${port}` // для домашнего использования
 // export const URL: string = `https://test.public.lotus-uems.ru` // для тестового сервера
-// export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
+export const URL: string = `https://public.lotus-uems.ru` // для тестового сервера
 
 
 const baseURL = `${URL}/api/company/get_all_data`
@@ -14,7 +14,6 @@ const getIconURL = `${URL}/api/file/get-icon` // получение иконки
 // const fileUrl = `${URL}/home/leo/uems-uploads/`
 const fileUrl = `${URL}/api/file/get-icon`
 const filterURL = `${URL}/api/search/filter` // глубокий поиск по фильтру
-// const allCities = ''
 
 
 export const companiesDataApi = {

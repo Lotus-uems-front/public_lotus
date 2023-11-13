@@ -39,5 +39,6 @@
     .list_item{
         display: flex; 
         justify-content: space-between;
+        word-wrap: break-word;
     }
 }

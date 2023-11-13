@@ -1,19 +1,34 @@
 @import '../../../style/colors';
 
 .map{
-    height: 700px;
+    height: 550px;
     width: 1300px
 }
-
-.company_item{
+a{
+    text-decoration: none;
+   
+   .company_item{
+    color: #000;
     border-radius: 3px; 
-    padding: 5px 15px; 
+    padding: 10px 5px 10px 10px; 
     margin-bottom: 5px;
     background-color: lighten($secondary-color, 55%);
-    font-weight: 400;
+    font-weight: bolder;
 
     &:hover{
         background-color: lighten($secondary-color, 45%);
+    }
+} 
+}
+
+.popup_wrap{
+    cursor: pointer; 
+    text-align: center;
+
+    .popup_city_name{
+        margin-bottom: 5px;
+        font-weight: bold;
+        // font-size: 1.1rem;
     }
 }
 
