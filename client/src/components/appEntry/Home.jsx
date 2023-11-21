@@ -88,7 +88,7 @@ export default function Home() {
       dispatch(setInn(innLink))
     }
 
-    if (urlMap === url.pathname) {
+    if (urlMap === url.pathname || '/map' === url.pathname) {
       setShowMap(true)
     }
 

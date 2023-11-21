@@ -37,7 +37,7 @@ export const companiesDataApi = {
 
     async getCitiesData() {
         try {
-            const response = await axios.get('https://public.lotus-uems.ru/api/company/get_all_company')
+            const response = await axios.get(`${URL}/api/company/get_all_company`) // https://public.lotus-uems.ru/api/company/get_all_company
             return response.data
         } catch (err) {
             throw err
