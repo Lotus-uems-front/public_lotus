@@ -34,6 +34,7 @@ export default function Home() {
   const urlDataCompany = '/data-company/'
   const urlSearchByName = '/search-name/'
   const urlSearchByOccupation = '/occupation/'
+  const urlMap = '/map/' // url для включения карты
   const currentPage = useSelector((state) => state.search.currentPage)
 
   const [firstEnterPath, setFirstEnterPath] = useState(false)
@@ -52,6 +53,7 @@ export default function Home() {
   const innLink = url.searchParams.get('inn')
   const [searchedName] = useState(url.searchParams.get('name'))
   const [searchParamOccupation] = useState(url.searchParams.get('occupation'))
+  const [showMap, setShowMap] = useState(false)
 
   // отслеживаем URL
   useEffect(() => {
@@ -85,6 +87,11 @@ export default function Home() {
     if (innLink && urlDataCompany === url.pathname) {
       dispatch(setInn(innLink))
     }
+
+    if (urlMap === url.pathname) {
+      setShowMap(true)
+    }
+
   }, [link, loc.pathname, currentPage, url.pathname])
 
   //сетаем в сейт ВСЕ данные с сервера по компании
@@ -131,9 +138,9 @@ export default function Home() {
 
   return (
     <Container className={s.wrapper}>
-      <div className={s.map_container}>
-        <Map cities={cities} urlDataCompany={urlDataCompany}  firstEnterPath={firstEnterPath}/>
-      </div>
+      {showMap && <div className={s.map_container}>
+        <Map cities={cities} urlDataCompany={urlDataCompany} firstEnterPath={firstEnterPath} />
+      </div>}
 
       {setHeader()}
 
@@ -141,7 +148,7 @@ export default function Home() {
         <Route
           exact
           path={urlDataCompany}
-          element={<CompanyDetails firstEnterPath={firstEnterPath}  />}
+          element={<CompanyDetails firstEnterPath={firstEnterPath} />}
         />
 
         <Route
