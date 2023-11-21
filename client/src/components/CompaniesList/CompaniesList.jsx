@@ -51,11 +51,13 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
   }
   const location = useLocation()
 
+  console.log(fullCompaniesArray);
+
   // if (fullCompaniesArray.length)
     return (
       <div className={s.wrapper}>
         <Container >
-        <Header searchedParam={searchedParam} companiesCount={companiesCount} filterPath={filterPath} isSearched={true} isBackBtnNeeded={isBackBtnNeeded}/>
+        {/* <Header searchedParam={searchedParam} companiesCount={companiesCount} filterPath={filterPath} isSearched={true} isBackBtnNeeded={isBackBtnNeeded}/> */}
 
          {fullCompaniesArray.length ? 
          <><Table className={s.table}>
@@ -73,7 +75,6 @@ export default function CompaniesList({ companies, searchedParam, companiesCount
               return (
                 <tbody className={s.table_body} key={inn}>
                   <tr className={s.table_row}>
-                    {/* <td>{idx + 1}</td> */}
                     <td className={s.logoSection}>
                       <img src={url} alt='logo' className={s.companyLogo} />{' '}
                       <div>

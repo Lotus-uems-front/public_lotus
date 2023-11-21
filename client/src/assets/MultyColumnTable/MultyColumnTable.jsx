@@ -17,7 +17,9 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
 
   const processData = () => {
     if (
-      data.some((el) => el.fid.includes('Zero') || equip.forEach((item) => item === el.description))
+      data.some(
+        (el) => el.fid?.includes('Zero') || equip.forEach((item) => item === el.description)
+      )
     ) {
       const grouped = data.reduce((result, item) => {
         const key = item.description
@@ -50,7 +52,7 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
       fileFormats.every((el) => !string.includes(el)) &&
       domens.every((el) => !string.includes(el))
     ) {
-      return <Badge>{string}</Badge>
+      return <Badge style={{wordWrap: 'break-word', whiteSpace: 'pre-wrap'}}>{string}</Badge>
     } else if (string === 'Да') {
       return <Form.Check type='checkbox' checked readOnly />
     } else if (string === 'Нет') {
@@ -85,7 +87,7 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
       item.value === true &&
       item.information !== 'Емкости для хранения' &&
       item.information !== '[object Object]' &&
-      !item.fid.includes('Zero_')
+      !item.fid?.includes('Zero_')
     ) {
       return (
         <>
@@ -99,23 +101,27 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
       return (
         <>
           <td style={rightColumnStyle}>{item.information}</td>
-          <td>
-            <Badge>{`${item.value[0]} ${item.value[1]} ${item.value[2]}`}</Badge>
+          <td style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+            <Badge>
+              {item.value[0]} <br />
+              {item.value[1]}{` `}
+              {item.value[2]}
+            </Badge>
           </td>
         </>
       )
-    } else if (typeof item.value === 'string' && !item.fid.includes('Zero_')) {
+    } else if (typeof item.value === 'string' && !item.fid?.includes('Zero_')) {
       return (
         <>
           <td style={rightColumnStyle}>
-            {item.fid && item.fid.includes('Fifteen') ? item.description : item.information}
+            {item.fid && item.fid?.includes('Fifteen') ? item.description : item.information}
           </td>
           <td>{formatString(item.value, item.information, item.id)}</td>
         </>
       )
     }
 
-    if (item.fid.includes('Zero_')) {
+    if (item.fid?.includes('Zero_')) {
       if (item.objectsArray && item.objectsArray.some((el) => el.value)) {
         return (
           <Accordion defaultActiveKey='0'>
@@ -150,14 +156,14 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
               })} */}
 
               <Accordion.Body className={s.acc_body_equipment}>
-                <Table bordered className={s.equipment_table}>
+                <Table bordered className={s.equipment_table} style={{ tableLayout: 'fixed' }}>
                   <tbody>
                     {item.objectsArray.map((el, idx) => {
                       return (
                         el.value && (
                           <tr key={`${el.information}_${el.value}_${idx}`}>
                             <td className={s.list_item}>{el.information}</td>
-                            <td style={{width: '100px'}}>
+                            <td style={{ width: '100px' }}>
                               <Form.Check type='checkbox' checked readOnly />
                             </td>
                           </tr>
@@ -188,7 +194,7 @@ const MultiColumnTable = ({ data, columns = 2, download, adjustColumnWidth }) =>
   }, [])
 
   return (
-    <Table bordered>
+    <Table bordered style={{ tableLayout: 'fixed' }}>
       <tbody>
         {Array.from({ length: rows }).map((_, rowIndex) => (
           <tr key={rowIndex}>

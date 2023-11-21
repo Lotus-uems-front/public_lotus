@@ -10,8 +10,6 @@
   --danger-color: #BB2D3B;
 }
 
-
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -23,28 +21,55 @@ body {
   font-size: 20px;
 }
 
+/* в закрытом аккоридионе убираем ненужные паддинги*/
+.collapsed{
+  margin-top: 0px !important
+}
+
+/* убираем паддинг внутри открытых створок аккордиона */
+.accordion-body{
+padding: 0 !important;
+}
+
+/* убираем лишние марджины в закрытом аккордионе */
+.accordion-button{
+  margin: 0 !important;
+}
+
+.accordion-flush{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* контейнер карты */
 .leaflet-container {
-  height: 500px; /* or any desired height */
+  height: 500px; 
   width: 100%;
 }
 
+/* делаем невидимыми иконки пина по умолчанию на карте  */
 .leaflet-control-attribution .leaflet-control-attribution-icon {
   background: none !important;
   display: none !important
 }
+
+/* убираем флаг страны разработчика */
 body .leaflet-container .leaflet-attribution-flag{
   background: none !important;
   display: none !important
 }
 
+/* устанавливаем курсор для пина карты */
 .leaflet-marker-icon {
   cursor: pointer !important;
 }
 
+/* устанавливаем курсор для названия города на карте */
 .body .leaflet-container .leaflet-tooltip{
   cursor: pointer !important;
 }
 
+/* кастомный стиль для popup-элемента карты */
 .leaflet-popup-content-wrapper {
   border-radius: 5px !important;
   padding: 0.5px !important;

@@ -1,11 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { FaMapPin } from 'react-icons/fa'
 import L from 'leaflet'
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import s from './style/Map.module.scss'
+import CompanyDetails from '../companyDetails/CompanyDetails'
+import { Link, useLocation } from 'react-router-dom'
+import { ModalWindow } from '../../assets/ModalWindows/ModalWindow'
 
-const Map = ({ cities }) => {
+const Map = ({ cities, firstEnterPath }) => {
   const mapRef = useRef()
   const [activePopup, setActivePopup] = useState(null)
   const setBoundsForMap = (map) => {
@@ -14,6 +17,12 @@ const Map = ({ cities }) => {
       [75, 190]
     ]
     map.setMaxBounds(bounds)
+  }
+
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+
+  const toggleModal = () => {
+    setIsDetailsModalOpen(!isDetailsModalOpen);
   }
 
   const customIcon = new L.Icon({
@@ -38,37 +47,41 @@ const Map = ({ cities }) => {
     }
   }, [activePopup])
 
+  const loc = useLocation()
+  console.log(cities);
+
   return (
-    <MapContainer center={[55.524, 45.3188]} zoom={4.5} className={s.map} ref={mapRef}>
-      <TileLayer
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        whenCreated={setBoundsForMap}
-      />
-      {cities &&
-        Object.entries(cities).map(([cityIndex, cityInfo], index) => {
-          console.log(Object.keys(cityInfo)[0])
-          const cityName = Object.keys(cityInfo)[0]
-          const cityData = Object.values(cityInfo)[0]
-          const location = Object.values(cityInfo)[0]?.geo || [0, 0]
-          if (
-            !location ||
-            location.length !== 2 ||
-            typeof location[0] !== 'number' ||
-            typeof location[1] !== 'number'
-          ) {
-            console.error(`Invalid coordinates for ${cityName}:`, location)
-            return null
-          }
-          return (
-            <Marker
-              key={index}
-              icon={customIcon}
-              position={location}
-              eventHandlers={{
-                click: () => handleMarkerClick(cityInfo)
-              }}
-            >
+    <div style={{position: 'relative'}}>
+      <MapContainer center={[55.524, 45.3188]} zoom={4.5} className={s.map} ref={mapRef}>
+        <TileLayer
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          whenCreated={setBoundsForMap}
+        />
+        {cities &&
+          Object.entries(cities).map(([_, cityInfo], index) => {
+            // console.log(Object.keys(cityInfo)[0])
+            const cityName = Object.keys(cityInfo)[0]
+            const cityData = Object.values(cityInfo)[0]
+            const location = cityData?.geo || [0, 0]
+            if (
+              !location ||
+              location.length !== 2 ||
+              typeof location[0] !== 'number' ||
+              typeof location[1] !== 'number'
+            ) {
+              console.error(`Invalid coordinates for ${cityName}:`, location)
+              return null
+            }
+            return (
+              <Marker
+                key={index}
+                icon={customIcon}
+                position={location}
+                eventHandlers={{
+                  click: () => handleMarkerClick(cityInfo)
+                }}
+              >
                 <Tooltip
                   permanent
                   eventHandlers={{
@@ -80,38 +93,42 @@ const Map = ({ cities }) => {
                   {`${cityName || 'CITY NAME'} (${cityData?.companies.length})`}
                 </Tooltip>
 
-              <Popup
-                // open={false}
-                // isOpen={activePopup === cityName}
-                // open={activePopup === cityName} // use open prop, not isOpen
-                // onClose={() => {
-                //   setActivePopup(null) // reset activePopup state when popup is closed
-                // }}
-                // ref={(ref) => {
-                //   popupsRef.current[cityName] = ref
-                // }}
-              >
-                <div style={{ cursor: 'pointer', textAlign: 'center' }}>
-                  <strong>{cityName}</strong>
-                  <div style={{ textAlign: 'start' }}>
-                    {cityData?.companies.map((company, companyIndex) => (
-                      <div
-                        className={s.company_item}
-                        key={companyIndex}
-                        onClick={() => {
-                          console.log(company.inn)
-                        }}
-                      >
-                        {company.name}
-                      </div>
-                    ))}
+                <Popup>
+                  <div className={s.popup_wrap} >
+                   <h5 className={s.popup_city_name}><RoomOutlinedIcon color='action' style={{padding: '0', marginBottom: '5px'}}/>{cityName}</h5>
+                    <div style={{ textAlign: 'start' }}>
+                      {cityData?.companies.map((company, companyIndex) => (
+                        <Link
+                          to={{
+                            pathname: '/data-company/',
+                            search: `?inn=${company.inn}`,
+                            state: loc.pathname,
+                            prevRoute: loc.pathname
+                          }}
+                        >
+                          <div
+                            className={s.company_item}
+                            key={companyIndex}
+                            onClick={() => {
+                              console.log(company.inn)
+                              toggleModal()
+                            }}
+                          >
+                            {company.name}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Popup>
-            </Marker>
-          )
-        })}
-    </MapContainer>
+                </Popup>
+              </Marker>
+            )
+          })}
+      </MapContainer>
+      <ModalWindow isOpen={isDetailsModalOpen} onClose={toggleModal}>
+        <CompanyDetails firstEnterPath={firstEnterPath}  />
+      </ModalWindow>
+    </div>
   )
 }
 

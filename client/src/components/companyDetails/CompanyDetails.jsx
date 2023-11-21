@@ -14,7 +14,7 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
   const dispatch = useDispatch()
   const companyData = useSelector((state) => state.questionary.companyData)
   const companyName = useSelector((state) => state.questionary.companyName)
-
+ 
   const [allFormsData, setAllFormsData] = useState([])
   const [infoData, setInfoData] = useState([]) //данные только по контактам и экономике
   const [formsData, setFormsData] = useState([]) //данные по остальным формам
@@ -104,11 +104,11 @@ export default function CompanyDetails({ firstEnterPath, setHeader }) {
     }
   }, [underPressureEquip, processedEquip])
 
-  // console.log(processedEquip)
+  console.log(companyData)
 
   return (
     <Container className={s.fs_20}>
-      {setHeader()}
+      {/* {setHeader()} */}
       <Card className={s.card}>
         <Card.Header>{companyName}</Card.Header>
       </Card>

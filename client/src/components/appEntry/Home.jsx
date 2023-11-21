@@ -15,14 +15,9 @@ import s from '../../css/Home.module.css'
 import Filter from '../../assets/filterComponent/Filter'
 import Header from '../../assets/header/Header'
 import { fetchAllCompanies } from '../../redux/map/slice'
-import { geoToPixel } from '../../assets/geoCallculationsForCities/geoCalculations'
-import map from '../../assets/images/map.png'
-import { FaMapPin } from 'react-icons/fa'
 import Map from '../map/Map'
+import { Container } from 'react-bootstrap'
 
-// FaMapPin
-// GoDot
-// GoDotFill
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -47,23 +42,12 @@ export default function Home() {
   const { companyOccupation, lengthArr: lengthArrOcc } = searchByOccupationData
 
   const cities = useSelector((state) => state.map.cities)
-  // const mapRect = document.querySelector('.map').getBoundingClientRect();
-
-  const mapRef = useRef(null)
-  const [mapRect, setMapRect] = useState(null)
 
   //подгружаем города для карты
   useEffect(() => {
     dispatch(fetchAllCompanies())
   }, [])
 
-  useEffect(() => {
-    if (mapRef.current) {
-      setMapRect(mapRef.current.getBoundingClientRect())
-    }
-  }, [])
-
-  // console.log(cities)
 
   const innLink = url.searchParams.get('inn')
   const [searchedName] = useState(url.searchParams.get('name'))
@@ -143,28 +127,21 @@ export default function Home() {
     }
   }
 
-  const coordinates = (e) => {
-    const rect = mapRef.current.getBoundingClientRect()
-    const offsetX = rect.left
-    const offsetY = rect.top
-
-    const mapX = e.clientX - offsetX
-    const mapY = e.clientY - offsetY
-
-    console.log(`x - ${mapX}; y - ${mapY}`)
-  }
+  // console.log(urlDataCompany);
 
   return (
-    <div className={s.wrapper}>
+    <Container className={s.wrapper}>
       <div className={s.map_container}>
-        <Map cities={cities} />
+        <Map cities={cities} urlDataCompany={urlDataCompany}  firstEnterPath={firstEnterPath}/>
       </div>
+
+      {setHeader()}
 
       <Routes>
         <Route
           exact
           path={urlDataCompany}
-          element={<CompanyDetails firstEnterPath={firstEnterPath} setHeader={setHeader} />}
+          element={<CompanyDetails firstEnterPath={firstEnterPath}  />}
         />
 
         <Route
@@ -221,6 +198,6 @@ export default function Home() {
           }
         />
       </Routes>
-    </div>
+    </Container>
   )
 }

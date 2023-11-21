@@ -1,0 +1,94 @@
+@import '../../../style/colors';
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    z-index: 1000;
+  }
+  
+  // .modal {
+  //   position: relative;
+  //   background: white;
+  //   padding: 80px 40px; 
+  //   border-radius: 5px;
+  //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  //   width: 1250px;
+  //   max-width: 1250px; 
+  //   height: auto; 
+  //   min-height: 300px;
+  //   max-height: 60%; 
+  //   overflow-y: auto; 
+  //   z-index: 1001;
+  //   margin-top: 150px
+  // }
+
+  .modal {
+    position: relative;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 1250px;
+    max-width: 100%; 
+    height: auto; 
+    max-height: 60%; 
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #000;
+    z-index: 1002
+  }
+  
+  .modal button,
+  .modal a {
+    display: block;
+    margin-top: 10px;
+    
+  }
+
+  .spinner_container{
+     display: flex; 
+     justify-content: center; 
+  }
+
+  // .modal_header{
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   background-color: lighten($secondary-color, 50%) ;
+  //   height: 50px;
+  //   padding: 10px
+  // }
+  
+  .modal_header {
+    position: sticky;
+    top: 0;
+    background-color: lighten($secondary-color, 50%);
+    height: 50px;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    z-index: 1002;
+  }
+  
+  .modal_content {
+    padding: 40px; 
+    overflow-y: auto; 
+    flex-grow: 1; 
+  }
